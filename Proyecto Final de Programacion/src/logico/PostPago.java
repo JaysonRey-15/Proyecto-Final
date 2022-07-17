@@ -2,7 +2,7 @@ package logico;
 
 import java.util.Date;
 
-public class PostPago extends Planes {
+public class PostPago extends Plan {
 	
 	private float rentaMensual;
 	private Date tiempo;

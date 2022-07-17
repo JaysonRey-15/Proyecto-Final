@@ -2,13 +2,13 @@ package logico;
 
 import java.util.Date;
 
-public abstract class Planes {
+public abstract class Plan {
 
 	protected String nombre;
 	protected String tipo;
 	protected Date fecha;
 	
-	public Planes(String nombre, String tipo, Date fecha) {
+	public Plan(String nombre, String tipo, Date fecha) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;

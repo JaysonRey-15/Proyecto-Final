@@ -2,7 +2,7 @@ package logico;
 
 import java.util.Date;
 
-public class PrePago extends Planes{
+public class PrePago extends Plan{
 	
 	private String recarga;
 	private String paqueticos;
