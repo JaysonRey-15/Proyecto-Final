@@ -6,9 +6,9 @@ public class PrePago extends Planes{
 	
 	private String recarga;
 	private String paqueticos;
-	private Float pago;
+	private float pago;
 	
-	public PrePago(String nombre, String tipo, Date fecha, String recarga, String paqueticos, Float pago) {
+	public PrePago(String nombre, String tipo, Date fecha, String recarga, String paqueticos, float pago) {
 		super(nombre, tipo, fecha);
 		this.recarga = recarga;
 		this.paqueticos = paqueticos;
@@ -31,11 +31,11 @@ public class PrePago extends Planes{
 		this.paqueticos = paqueticos;
 	}
 
-	public Float getPago() {
+	public float getPago() {
 		return pago;
 	}
 
-	public void setPago(Float pago) {
+	public void setPago(float pago) {
 		this.pago = pago;
 	}
 	
