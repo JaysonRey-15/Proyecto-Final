@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Cliente extends Persona {
 	//arrayList tipo Plan
 	//arrayList tipo Servicio
-	private ArrayList<String> misPlanes;
+	private ArrayList<Planes> misPlanes;
 	private ArrayList<String> misServicios;
 	
 
@@ -14,11 +14,11 @@ public class Cliente extends Persona {
 		super(identificacion, nombre, apellido, genero, nacionalidad, correE, direccion, telefono);
 	
 		this.misServicios = new ArrayList<String>();
-		this.misPlanes = new ArrayList<String>();
+		this.misPlanes = new ArrayList<Planes>();
 		
 	}
 
-	public ArrayList<String> getMisPlanes() {
+	public ArrayList<Planes> getMisPlanes() {
 		return misPlanes;
 	}
 

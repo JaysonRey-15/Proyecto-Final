@@ -38,7 +38,4 @@ public class PrePago extends Planes{
 	public void setPago(float pago) {
 		this.pago = pago;
 	}
-	
-	
-
 }

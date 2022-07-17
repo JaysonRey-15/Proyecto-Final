@@ -38,5 +38,4 @@ public abstract class Planes {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
 }
