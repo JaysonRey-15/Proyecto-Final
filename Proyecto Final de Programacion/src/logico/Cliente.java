@@ -10,8 +10,8 @@ public class Cliente extends Persona {
 	
 
 	public Cliente(String identificacion, String nombre, String apellido, String genero, String nacionalidad,
-			String correE, String direccion, String telefono) {
-		super(identificacion, nombre, apellido, genero, nacionalidad, correE, direccion, telefono);
+			String correE, String direccion, String telefono,String passwrd) {
+		super(identificacion, nombre, apellido, genero, nacionalidad, correE, direccion, telefono,passwrd);
 	
 		this.misServicios = new ArrayList<String>();
 		this.misPlanes = new ArrayList<Plan>();

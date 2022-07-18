@@ -9,9 +9,10 @@ public class Persona {
 	protected String correE;
 	protected String direccion;
 	protected String telefono;
+	protected String password;
 	
 	public Persona(String identificacion, String nombre, String apellido, String genero, String nacionalidad,
-			String correE, String direccion,String telefono) {
+			String correE, String direccion,String telefono,String passwrd) {
 		super();
 		this.identificacion = identificacion;
 		this.nombre = nombre;
@@ -21,6 +22,7 @@ public class Persona {
 		this.correE = correE;
 		this.direccion = direccion;
 		this.telefono = telefono;
+		this.password = passwrd;
 	}
 
 	public String getNombre() {
@@ -82,6 +84,11 @@ public class Persona {
 	public String getIdentificacion() {
 		return identificacion;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+	
 	
 	
 
