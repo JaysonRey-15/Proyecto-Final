@@ -7,17 +7,18 @@ public class P_Administrador extends Persona {
 	private float salario;
 	private int cantHorasTXmes;
 	private ArrayList<String> actividades;
+	private Cuenta cuenta;
 	private int puntosGanados;
 	private int gradoPermiso; // 1 o 2
 
-	public P_Administrador(String identificacion, String nombre, String apellido, String genero, String nacionalidad,
-			String correE, String direccion, String telefono,String passwrd) {
-		super(identificacion, nombre, apellido, genero, nacionalidad, correE, direccion, telefono,passwrd);
+	public P_Administrador(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion, String telefono) {
+		super(identificacion, nombre, apellido, genero, nacionalidad,direccion, telefono);
 		
 		this.actividades = new ArrayList<String>();
 		this.puntosGanados=0;
 		this.gradoPermiso = 1;
 		this.cantHorasTXmes=0;
+		this.cuenta = null;
 	}
 	
 	public float getSueldoBruto() {
@@ -31,10 +32,7 @@ public class P_Administrador extends Persona {
 	public int getPuntosGanados() {
 		return puntosGanados;
 	}
-	
-	public String getPassword() {
-		return password;
-	}
+
 
 	public float calSalario() {
 		return (salario*cantHorasTXmes)+puntosGanados;
@@ -44,4 +42,11 @@ public class P_Administrador extends Persona {
 		return gradoPermiso;
 	}
 
+	public Cuenta getCuenta() {
+		return cuenta;
+	}
+
+	public void addCuenta(Cuenta cuentaAsignada) {
+		cuenta = cuentaAsignada;
+	}
 }

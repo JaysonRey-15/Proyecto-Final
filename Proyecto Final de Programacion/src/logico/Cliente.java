@@ -9,9 +9,8 @@ public class Cliente extends Persona {
 	private ArrayList<String> misServicios;
 	
 
-	public Cliente(String identificacion, String nombre, String apellido, String genero, String nacionalidad,
-			String correE, String direccion, String telefono,String passwrd) {
-		super(identificacion, nombre, apellido, genero, nacionalidad, correE, direccion, telefono,passwrd);
+	public Cliente(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion, String telefono) {
+		super(identificacion, nombre, apellido, genero, nacionalidad, direccion, telefono);
 	
 		this.misServicios = new ArrayList<String>();
 		this.misPlanes = new ArrayList<Plan>();
@@ -25,6 +24,8 @@ public class Cliente extends Persona {
 	public ArrayList<String> getMisServicios() {
 		return misServicios;
 	}
+
+	
 	
 	
 	

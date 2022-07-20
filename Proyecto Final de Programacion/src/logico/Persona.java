@@ -6,23 +6,18 @@ public class Persona {
 	protected String apellido;
 	protected String genero;
 	protected String nacionalidad;
-	protected String correE;
 	protected String direccion;
 	protected String telefono;
-	protected String password;
 	
-	public Persona(String identificacion, String nombre, String apellido, String genero, String nacionalidad,
-			String correE, String direccion,String telefono,String passwrd) {
+	public Persona(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion,String telefono) {
 		super();
 		this.identificacion = identificacion;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.genero = genero;
 		this.nacionalidad = nacionalidad;
-		this.correE = correE;
 		this.direccion = direccion;
 		this.telefono = telefono;
-		this.password = passwrd;
 	}
 
 	public String getNombre() {
@@ -57,14 +52,6 @@ public class Persona {
 		this.nacionalidad = nacionalidad;
 	}
 
-	public String getCorreE() {
-		return correE;
-	}
-
-	public void setCorreE(String correE) {
-		this.correE = correE;
-	}
-
 	public String getDireccion() {
 		return direccion;
 	}
@@ -85,13 +72,5 @@ public class Persona {
 		return identificacion;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-	
-	
-	
-
-	
 
 }
