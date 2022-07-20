@@ -5,17 +5,17 @@ public class Fecha {
 
   private int dia;
   private int mes;
-  private int año;
+  private int anio;
 
   //Constructor por defecto
   public Fecha() {
   }
 
   //Constructor con parámetros
-  public Fecha(int dia, int mes, int año) {
+  public Fecha(int dia, int mes, int anio) {
       this.dia = dia;
       this.mes = mes;
-      this.año = año;
+      this.anio = anio;
   }
 
   //setters y getters
@@ -25,8 +25,8 @@ public class Fecha {
   public void setMes(int m) {
       mes = m;
   }
-  public void setAño(int a) {
-      año = a;
+  public void setanio(int a) {
+      anio = a;
   }
   public int getDia() {
       return dia;
@@ -34,14 +34,14 @@ public class Fecha {
   public int getMes() {
       return mes;
   }
-  public int getAño() {
-      return año;
+  public int getanio() {
+      return anio;
   }
 
   //Método para comprobar si la fecha es correcta
   public boolean fechaCorrecta() {
-      boolean diaCorrecto, mesCorrecto, añoCorrecto;
-      añoCorrecto = año > 0;
+      boolean diaCorrecto, mesCorrecto, anioCorrecto;
+      anioCorrecto = anio > 0;
       mesCorrecto = mes >= 1 && mes <= 12;
       switch (mes) {
           case 2:
@@ -60,13 +60,13 @@ public class Fecha {
           default:
               diaCorrecto = dia >= 1 && dia <= 31;
       }
-      return diaCorrecto && mesCorrecto && añoCorrecto;
+      return diaCorrecto && mesCorrecto && anioCorrecto;
   }
 
-  //Método privado para comprobar si el año es bisiesto
+  //Método privado para comprobar si el anio es bisiesto
   //Este método lo utiliza el método fechaCorrecta
   private boolean esBisiesto() {
-      return (año % 4 == 0 && año % 100 != 0 || año % 400 == 0);
+      return (anio % 4 == 0 && anio % 100 != 0 || anio % 400 == 0);
   }
 
   //Método que modifica la fecha cambiándola por la del día siguiente                                           
@@ -77,7 +77,7 @@ public class Fecha {
           mes++;
           if (!fechaCorrecta()) {
               mes = 1;
-              año++;
+              anio++;
           }
 
       }
