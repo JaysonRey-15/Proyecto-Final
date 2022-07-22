@@ -5,26 +5,44 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class AlticeSystem {
+	
 	private ArrayList<Persona>persona;
-	//private ArrayList<Plan> plan;
-	//private ArrayList<Servicio> servicio;
-	//private ArrayList<Factura> factura;
+	private ArrayList<Plan> misPlanes;
+	private ArrayList<Servicio> misServicios;
+	private ArrayList<Factura> misFacturas;
+	private ArrayList<Cuenta> misCuentas;
 	private Persona PersonaConectada;
-	private ArrayList<Cuenta> cuentas;
 
-	//Recuerden agregarle los demas datos al constructor
 	public AlticeSystem() {
 		super();
 		this.persona = new ArrayList<Persona>();
 		this.PersonaConectada=null;
-		this.cuentas = new ArrayList<Cuenta>();
+		this.misCuentas = new ArrayList<Cuenta>();
+		this.misPlanes = new ArrayList<Plan>();
+		this.misServicios = new ArrayList<Servicio>();
+		this.misFacturas = new ArrayList<Factura>();
+		
 	}
 
 	public ArrayList<Persona> getPersona() {
 		return persona;
 	}
 
+	public ArrayList<Plan> getMisPlanes() {
+		return misPlanes;
+	}
 
+	public ArrayList<Servicio> getMisServicios() {
+		return misServicios;
+	}
+
+	public ArrayList<Factura> getMisFacturas() {
+		return misFacturas;
+	}
+
+	public ArrayList<Cuenta> getMisCuentas() {
+		return misCuentas;
+	}
 
 	//Crud Personas
 
@@ -96,12 +114,12 @@ public class AlticeSystem {
 		if(aux!=null && cuenta!=null) {
 			if(aux instanceof P_Administrador) {
 				P_Administrador admi = (P_Administrador)aux;
-				cuentas.add(cuenta);
+				misCuentas.add(cuenta);
 				admi.addCuenta(cuenta);
 			}else 
 				if(aux instanceof P_Trabajador) {
 					P_Administrador tra = (P_Administrador)aux;
-					cuentas.add(cuenta);
+					misCuentas.add(cuenta);
 					tra.addCuenta(cuenta);
 				}
 

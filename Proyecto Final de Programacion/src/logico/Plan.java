@@ -1,18 +1,21 @@
 package logico;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public abstract class Plan {
 
-	protected String nombre;
-	protected String tipo;
-	protected Date fecha;
+	private String nombre;
+	private String tipo;
+	private Date fecha;
+	private ArrayList <Servicio> misServicios;
 	
-	public Plan(String nombre, String tipo, Date fecha) {
+	public Plan(String nombre, String tipo, Date fecha, ArrayList<Servicio> misServicios) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.fecha = fecha;
+		this.misServicios = misServicios;
 	}
 
 	public String getNombre() {
@@ -37,5 +40,13 @@ public abstract class Plan {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public ArrayList<Servicio> getMisServicios() {
+		return misServicios;
+	}
+
+	public void setMisServicios(ArrayList<Servicio> misServicios) {
+		this.misServicios = misServicios;
 	}
 }

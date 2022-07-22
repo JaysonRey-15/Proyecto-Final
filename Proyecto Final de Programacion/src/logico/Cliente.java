@@ -3,16 +3,14 @@ package logico;
 import java.util.ArrayList;
 
 public class Cliente extends Persona {
-	//arrayList tipo Plan
-	//arrayList tipo Servicio
-	private ArrayList<Plan> misPlanes;
-	private ArrayList<String> misServicios;
 	
+	private ArrayList<Plan> misPlanes;
+	private ArrayList<Servicio> misServicios;
 
 	public Cliente(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion, String telefono) {
 		super(identificacion, nombre, apellido, genero, nacionalidad, direccion, telefono);
 	
-		this.misServicios = new ArrayList<String>();
+		this.misServicios = new ArrayList<Servicio>();
 		this.misPlanes = new ArrayList<Plan>();
 		
 	}
@@ -21,7 +19,7 @@ public class Cliente extends Persona {
 		return misPlanes;
 	}
 
-	public ArrayList<String> getMisServicios() {
+	public ArrayList<Servicio> getMisServicios() {
 		return misServicios;
 	}
 
