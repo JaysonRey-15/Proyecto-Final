@@ -11,6 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -35,7 +36,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 
 
-public class VistaUsuario extends JInternalFrame {
+public class VistaUsuario extends JDialog {
 	
 	private Dimension dim;
 	private JPanel contentPane;
@@ -45,16 +46,14 @@ public class VistaUsuario extends JInternalFrame {
 	private JButton btnNewButton_1;
 	private JPanel panelNav;
 	private JPanel panelHead;
-	private JTextField txtMostrarUsuario;
 	
-	  ImageIcon iconobtn = new ImageIcon(Principal.class.getResource("/imagenes/icon.png"));
+	 // ImageIcon iconobtn = new ImageIcon(Principal.class.getResource("/imagenes/icon.png"));
 	  private JTextField textBuscar;
 	  private JButton btnEnviar;
 	  private JPanel panelInfo;
 	  private DefaultTableModel model;
 	  private Object[] row;
 	  private JScrollPane scrollPane;
-	  private JButton btnNewButton_2;
 	  private JPanel panel;
 	  private JTextField textField;
 	  private JTextField textField_1;
@@ -68,6 +67,8 @@ public class VistaUsuario extends JInternalFrame {
 	  private JTextField textField_4;
 	  private JLabel lblCargo;
 	  private JTable tableInfo;
+	  private JTable tableHPagos;
+	  private JTable tableAdcional;
 	/**
 	 * Launch the application.
 	 */
@@ -88,46 +89,22 @@ public class VistaUsuario extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public VistaUsuario() {
-		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		setClosable(true);
-		try {
-			setClosed(true);
-		} catch (PropertyVetoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		setOpaque(true);
-		//setMaximum(true);
-		setMaximizable(true);
-		setNormalBounds(new Rectangle(0, 0, 1300, 0));
-		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		setTitle("Herramienta Usuario");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setModal(true);
+		setTitle("Control usuario");
 		setBounds(100, 100, 1039, 562);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		dim = getToolkit().getScreenSize();
-		setIconifiable(true);
 		setSize(dim.width-200, dim.height-100);
-
-		
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnArchivo = new JMenu("Archivo");
-		menuBar.add(mnArchivo);
-		
-		JMenu mnNewMenu = new JMenu("Ayuda\r\n");
-		menuBar.add(mnNewMenu);
 		setContentPane(contentPane);
+		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
 		
 		panelSystem = new JPanel();
 		panelSystem.setOpaque(false);
 		panelSystem.setRequestFocusEnabled(false);
 		panelSystem.setBackground(SystemColor.control);
-		panelSystem.setBounds(0, 0,getWidth(),getHeight());
+		panelSystem.setBounds(0, 0,1166,606);
 		contentPane.add(panelSystem);
 		//panelSystem.setBounds(138, 219, 247, 31);
 		panelSystem.setLayout(null);
@@ -138,7 +115,7 @@ public class VistaUsuario extends JInternalFrame {
 		panelSystem.add(panelNav);
 		panelNav.setLayout(null);
 		
-		btnRegistrar = new JButton("Registrar");
+		btnRegistrar = new JButton("Modificar");
 		btnRegistrar.setForeground(Color.WHITE);
 		btnRegistrar.setBackground(new Color(0, 0, 255));
 		btnRegistrar.setFont(new Font("Sitka Small", Font.BOLD, 14));
@@ -153,40 +130,26 @@ public class VistaUsuario extends JInternalFrame {
 		btnEliminar.setBounds(537, 11, 112, 37);
 		panelNav.add(btnEliminar);
 		
-		btnNewButton_1 = new JButton("Inicio");
+		btnNewButton_1 = new JButton("Nuevo");
+		btnNewButton_1.setToolTipText("Agregar Personal");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				RegistrarPersona addPersona = new RegistrarPersona();
+				addPersona.setVisible(true);
+				addPersona.setModal(true);
 			}
 		});
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setBackground(new Color(0, 0, 255));
 		btnNewButton_1.setFont(new Font("Sitka Small", Font.BOLD, 14));
-		btnNewButton_1.setBounds(659, 11, 112, 37);
+		btnNewButton_1.setBounds(659, 11, 125, 37);
 		panelNav.add(btnNewButton_1);
 		
 		panelHead = new JPanel();
-		panelHead.setBackground(new Color(0, 0, 128));
-		panelHead.setBounds(0, 0, 1356, 53);
+		panelHead.setBackground(Color.LIGHT_GRAY);
+		panelHead.setBounds(0, 0, 1156, 53);
 		panelSystem.add(panelHead);
 		panelHead.setLayout(null);
-		
-		txtMostrarUsuario = new JTextField();
-		txtMostrarUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		txtMostrarUsuario.setFont(new Font("Sitka Text", Font.PLAIN, 15));
-		txtMostrarUsuario.setForeground(Color.WHITE);
-		txtMostrarUsuario.setBackground(new Color(255, 140, 0));
-		txtMostrarUsuario.setEditable(false);
-		txtMostrarUsuario.setBounds(839, 10, 170, 31);
-		panelHead.add(txtMostrarUsuario);
-		txtMostrarUsuario.setColumns(10);
-		
-		btnNewButton_2 = new JButton("Cerrar Sessi\u00F3n");
-		btnNewButton_2.setForeground(new Color(192, 192, 192));
-		btnNewButton_2.setBackground(new Color(255, 0, 0));
-		btnNewButton_2.setFont(new Font("Sitka Small", Font.BOLD, 12));
-		btnNewButton_2.setBounds(1019, 10, 134, 32);
-		panelHead.add(btnNewButton_2);
 		
 		textBuscar = new JTextField();
 		textBuscar.setBounds(10, 12, 153, 27);
@@ -201,12 +164,12 @@ public class VistaUsuario extends JInternalFrame {
 		panelHead.add(btnEnviar);
 		
 		panelInfo = new JPanel();
-		panelInfo.setBounds(675, 64, 481, 285);
+		panelInfo.setBounds(675, 64, 470, 285);
 		panelSystem.add(panelInfo);
 		panelInfo.setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 0, 481, 285);
+		scrollPane_1.setBounds(0, 0, 471, 285);
 		panelInfo.add(scrollPane_1);
 		
 		tableInfo = new JTable();
@@ -293,13 +256,9 @@ public class VistaUsuario extends JInternalFrame {
 		lblNewLabel_8.setBounds(30, 211, 83, 14);
 		panel.add(lblNewLabel_8);
 		
-		JRadioButton radioButton = new JRadioButton("New radio button");
-		radioButton.setBounds(507, 144, 109, 23);
-		panel.add(radioButton);
-		
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setEditable(true);
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"<Selecciona>", "Trabajador", "Administrador", "Cliente"}));
+		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Trabajador", "Administrador"}));
 		comboBox_1.setBounds(340, 64, 132, 20);
 		panel.add(comboBox_1);
 		
@@ -313,13 +272,29 @@ public class VistaUsuario extends JInternalFrame {
 		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setBounds(10, 360, 291, 176);
 		panelSystem.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(10, 22, 271, 143);
+		panel_1.add(scrollPane_3);
+		
+		tableAdcional = new JTable();
+		scrollPane_3.setViewportView(tableAdcional);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		panel_2.setBorder(new TitledBorder(null, "Historial De Pagos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(311, 360, 845, 176);
+		panel_2.setBounds(311, 360, 834, 176);
 		panelSystem.add(panel_2);
-		panelSystem.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelNav, btnRegistrar, btnEliminar, btnNewButton_1, panelHead, txtMostrarUsuario, btnNewButton_2, textBuscar, btnEnviar, panelInfo, scrollPane_1, tableInfo, panel, textField, textField_1, textField_2, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5, textField_3, lblNewLabel_6, lblNewLabel_7, comboBox, textField_4, lblNewLabel_8, radioButton, comboBox_1, lblCargo, panel_1, panel_2}));
+		panel_2.setLayout(null);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 22, 814, 143);
+		panel_2.add(scrollPane_2);
+		
+		tableHPagos = new JTable();
+		scrollPane_2.setViewportView(tableHPagos);
+		panelSystem.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelNav, btnRegistrar, btnEliminar, btnNewButton_1, panelHead, textBuscar, btnEnviar, panelInfo, scrollPane_1, tableInfo, panel, textField, textField_1, textField_2, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5, textField_3, lblNewLabel_6, lblNewLabel_7, comboBox, textField_4, lblNewLabel_8, comboBox_1, lblCargo, panel_1, panel_2}));
 		
 	}
 }
