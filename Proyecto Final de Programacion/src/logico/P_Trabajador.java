@@ -10,8 +10,7 @@ public class P_Trabajador extends Persona{
 	private int cantHorasTXmes;
 	
 	
-	public P_Trabajador(String identificacion, String nombre, String apellido, String genero, String nacionalidad,
-			String correE, String direccion, String telefono) {
+	public P_Trabajador(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion, String telefono) {
 		super(identificacion, nombre, apellido, genero, nacionalidad,direccion, telefono);
 		this.actividades = new ArrayList<String>();
 		this.puntosGanados = 0;

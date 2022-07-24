@@ -33,6 +33,10 @@ import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
+import logico.AlticeSystem;
+import logico.Persona;
+
 import java.awt.Component;
 
 
@@ -41,7 +45,7 @@ public class VistaUsuario extends JDialog {
 	private Dimension dim;
 	private JPanel contentPane;
 	private JPanel panelSystem;
-	private JButton btnRegistrar;
+	private JButton btnVer;
 	private JButton btnEliminar;
 	private JButton btnNewButton_1;
 	private JPanel panelNav;
@@ -55,20 +59,23 @@ public class VistaUsuario extends JDialog {
 	  private Object[] row;
 	  private JScrollPane scrollPane;
 	  private JPanel panel;
-	  private JTextField textField;
-	  private JTextField textField_1;
-	  private JTextField textField_2;
+	  private JTextField mID;
+	  private JTextField mNombre;
+	  private JTextField mTel;
 	  private JLabel lblNewLabel_3;
 	  private JLabel lblNewLabel_4;
 	  private JLabel lblNewLabel_5;
-	  private JTextField textField_3;
+	  private JTextField mDir;
 	  private JLabel lblNewLabel_6;
 	  private JLabel lblNewLabel_7;
-	  private JTextField textField_4;
+	  private JTextField mNacionalidad;
 	  private JLabel lblCargo;
 	  private JTable tableInfo;
 	  private JTable tableHPagos;
 	  private JTable tableAdcional;
+	  private JComboBox cmbCargo;
+	  private JComboBox cmbGenero;
+	  private JButton btnModi;
 	/**
 	 * Launch the application.
 	 */
@@ -90,6 +97,7 @@ public class VistaUsuario extends JDialog {
 	 */
 	public VistaUsuario() {
 		setModal(true);
+		
 		setTitle("Control usuario");
 		setBounds(100, 100, 1039, 562);
 		contentPane = new JPanel();
@@ -99,7 +107,6 @@ public class VistaUsuario extends JDialog {
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
-		
 		panelSystem = new JPanel();
 		panelSystem.setOpaque(false);
 		panelSystem.setRequestFocusEnabled(false);
@@ -115,15 +122,46 @@ public class VistaUsuario extends JDialog {
 		panelSystem.add(panelNav);
 		panelNav.setLayout(null);
 		
-		btnRegistrar = new JButton("Modificar");
-		btnRegistrar.setForeground(Color.WHITE);
-		btnRegistrar.setBackground(new Color(0, 0, 255));
-		btnRegistrar.setFont(new Font("Sitka Small", Font.BOLD, 14));
+		btnVer = new JButton("Ver");
+		btnVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String codigo=null;
+				Persona perso = null;
+				if (tableInfo.getSelectedRow() != -1) {
+					codigo = (String) tableInfo.getValueAt(tableInfo.getSelectedRow(),0);
+					perso = AlticeSystem.getInstance().buscarPersona(codigo);
+				}
+				
+				mID.setText(perso.getIdentificacion());
+				mNombre.setText(perso.getNombre());
+				mDir.setText(perso.getDireccion());
+				mNacionalidad.setText(perso.getNacionalidad());
+				mTel.setText(perso.getTelefono());
+				cmbGenero.setSelectedItem(perso.getGenero());
+				
+			}
+		});
+		btnVer.setForeground(Color.WHITE);
+		btnVer.setBackground(new Color(0, 0, 255));
+		btnVer.setFont(new Font("Sitka Small", Font.BOLD, 14));
 
-		btnRegistrar.setBounds(415, 11, 112, 37);
-		panelNav.add(btnRegistrar);
+		btnVer.setBounds(293, 11, 112, 37);
+		panelNav.add(btnVer);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Persona perso = null;
+				String codigo=null;
+				if (tableInfo.getSelectedRow() != -1) {
+					codigo = (String) tableInfo.getValueAt(tableInfo.getSelectedRow(),0);
+					perso = AlticeSystem.getInstance().buscarPersona(codigo);
+				}
+				
+				AlticeSystem.getInstance().eliminarPersona(perso);
+				cargarCarrito();
+			}
+		});
 		btnEliminar.setForeground(Color.WHITE);
 		btnEliminar.setBackground(new Color(0, 0, 255));
 		btnEliminar.setFont(new Font("Sitka Small", Font.BOLD, 14));
@@ -137,6 +175,7 @@ public class VistaUsuario extends JDialog {
 				RegistrarPersona addPersona = new RegistrarPersona();
 				addPersona.setVisible(true);
 				addPersona.setModal(true);
+				cargarCarrito();
 			}
 		});
 		btnNewButton_1.setForeground(Color.WHITE);
@@ -144,6 +183,13 @@ public class VistaUsuario extends JDialog {
 		btnNewButton_1.setFont(new Font("Sitka Small", Font.BOLD, 14));
 		btnNewButton_1.setBounds(659, 11, 125, 37);
 		panelNav.add(btnNewButton_1);
+		
+		btnModi = new JButton("Modificar");
+		btnModi.setForeground(Color.WHITE);
+		btnModi.setFont(new Font("Sitka Small", Font.BOLD, 14));
+		btnModi.setBackground(Color.BLUE);
+		btnModi.setBounds(415, 11, 112, 37);
+		panelNav.add(btnModi);
 		
 		panelHead = new JPanel();
 		panelHead.setBackground(Color.LIGHT_GRAY);
@@ -157,6 +203,19 @@ public class VistaUsuario extends JDialog {
 		textBuscar.setColumns(10);
 		
 		btnEnviar = new JButton("Buscar");
+		btnEnviar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Persona perso = null;
+				perso =AlticeSystem.getInstance().filtroG(textBuscar.getText());
+				
+				mID.setText(perso.getIdentificacion());
+				mNombre.setText(perso.getNombre());
+				mDir.setText(perso.getDireccion());
+				mNacionalidad.setText(perso.getNacionalidad());
+				mTel.setText(perso.getTelefono());
+				cmbGenero.setSelectedItem(perso.getGenero());
+			}
+		});
 		btnEnviar.setBackground(new Color(0, 255, 0));
 		btnEnviar.setForeground(new Color(255, 228, 181));
 		btnEnviar.setFont(new Font("Sitka Small", Font.BOLD, 16));
@@ -182,6 +241,7 @@ public class VistaUsuario extends JDialog {
 		
 		tableInfo.setModel(model);
 		
+		
 		panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n Personal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBackground(Color.LIGHT_GRAY);
@@ -189,23 +249,23 @@ public class VistaUsuario extends JDialog {
 		panelSystem.add(panel);
 		panel.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBounds(30, 64, 259, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		mID = new JTextField();
+		mID.setEditable(false);
+		mID.setBounds(30, 64, 259, 20);
+		panel.add(mID);
+		mID.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setBounds(30, 120, 259, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		mNombre = new JTextField();
+		mNombre.setEditable(false);
+		mNombre.setBounds(30, 120, 259, 20);
+		panel.add(mNombre);
+		mNombre.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		textField_2.setBounds(30, 176, 259, 20);
-		panel.add(textField_2);
-		textField_2.setColumns(10);
+		mTel = new JTextField();
+		mTel.setEditable(false);
+		mTel.setBounds(30, 176, 259, 20);
+		panel.add(mTel);
+		mTel.setColumns(10);
 		
 		lblNewLabel_3 = new JLabel("Tel\u00E9fono");
 		lblNewLabel_3.setFont(new Font("Sitka Small", Font.BOLD, 11));
@@ -223,11 +283,11 @@ public class VistaUsuario extends JDialog {
 		panel.add(lblNewLabel_5);
 		
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		textField_3.setBounds(340, 222, 305, 20);
-		panel.add(textField_3);
-		textField_3.setColumns(10);
+		mDir = new JTextField();
+		mDir.setEditable(false);
+		mDir.setBounds(340, 222, 305, 20);
+		panel.add(mDir);
+		mDir.setColumns(10);
 		
 		lblNewLabel_6 = new JLabel("Direcci\u00F3n");
 		lblNewLabel_6.setFont(new Font("Sitka Small", Font.BOLD, 11));
@@ -239,28 +299,28 @@ public class VistaUsuario extends JDialog {
 		lblNewLabel_7.setBounds(340, 119, 46, 14);
 		panel.add(lblNewLabel_7);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setEditable(true);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Selecciona>", "Hombre", "Mujer"}));
-		comboBox.setBounds(340, 145, 132, 20);
-		panel.add(comboBox);
+		cmbGenero = new JComboBox();
+		cmbGenero.setEnabled(false);
+		cmbGenero.setModel(new DefaultComboBoxModel(new String[] {"<Selecciona>", "Hombre", "Mujer"}));
+		cmbGenero.setBounds(340, 145, 132, 20);
+		panel.add(cmbGenero);
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setBounds(30, 236, 159, 20);
-		panel.add(textField_4);
-		textField_4.setColumns(10);
+		mNacionalidad = new JTextField();
+		mNacionalidad.setEditable(false);
+		mNacionalidad.setBounds(30, 236, 159, 20);
+		panel.add(mNacionalidad);
+		mNacionalidad.setColumns(10);
 		
 		JLabel lblNewLabel_8 = new JLabel("Nacionalidad");
 		lblNewLabel_8.setFont(new Font("Sitka Small", Font.BOLD, 11));
 		lblNewLabel_8.setBounds(30, 211, 83, 14);
 		panel.add(lblNewLabel_8);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setEditable(true);
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Trabajador", "Administrador"}));
-		comboBox_1.setBounds(340, 64, 132, 20);
-		panel.add(comboBox_1);
+		cmbCargo = new JComboBox();
+		cmbCargo.setEnabled(false);
+		cmbCargo.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Trabajador", "Administrador"}));
+		cmbCargo.setBounds(340, 64, 132, 20);
+		panel.add(cmbCargo);
 		
 		lblCargo = new JLabel("Cargo");
 		lblCargo.setFont(new Font("Sitka Small", Font.BOLD, 11));
@@ -268,7 +328,7 @@ public class VistaUsuario extends JDialog {
 		panel.add(lblCargo);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Datos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setBounds(10, 360, 291, 176);
 		panelSystem.add(panel_1);
@@ -294,7 +354,21 @@ public class VistaUsuario extends JDialog {
 		
 		tableHPagos = new JTable();
 		scrollPane_2.setViewportView(tableHPagos);
-		panelSystem.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelNav, btnRegistrar, btnEliminar, btnNewButton_1, panelHead, textBuscar, btnEnviar, panelInfo, scrollPane_1, tableInfo, panel, textField, textField_1, textField_2, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5, textField_3, lblNewLabel_6, lblNewLabel_7, comboBox, textField_4, lblNewLabel_8, comboBox_1, lblCargo, panel_1, panel_2}));
+		panelSystem.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelNav, btnVer, btnEliminar, btnNewButton_1, panelHead, textBuscar, btnEnviar, panelInfo, scrollPane_1, tableInfo, panel, mID, mNombre, mTel, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5, mDir, lblNewLabel_6, lblNewLabel_7, cmbGenero, mNacionalidad, lblNewLabel_8, cmbCargo, lblCargo, panel_1, panel_2}));
 		
+		cargarCarrito();
+		
+	}
+	
+	private void cargarCarrito() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		for(Persona person: AlticeSystem.getInstance().getPersona()) {
+			row[0]= person.getIdentificacion();
+			row[1]= person.getNombre();
+			row[2]= person.getApellido();
+			row[3] = person.getTelefono();
+			model.addRow(row);
+		}
 	}
 }

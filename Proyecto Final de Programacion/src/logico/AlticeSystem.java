@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class AlticeSystem {
-	
 	private ArrayList<Persona>persona;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Servicio> misServicios;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Cuenta> misCuentas;
 	private Persona PersonaConectada;
-
+	public static AlticeSystem ALS= null;
+	
 	public AlticeSystem() {
 		super();
 		this.persona = new ArrayList<Persona>();
@@ -24,6 +24,13 @@ public class AlticeSystem {
 		
 	}
 
+	public static AlticeSystem getInstance(){
+		if(ALS==null){
+			ALS= new AlticeSystem();	
+		}
+		return ALS;
+	}
+	
 	public ArrayList<Persona> getPersona() {
 		return persona;
 	}
@@ -54,8 +61,8 @@ public class AlticeSystem {
 		if(person!=null) {
 			if(!existe(person.getIdentificacion())) {
 				persona.add(person);
+				JOptionPane.showMessageDialog(null,"Exito");
 			}
-
 		}
 	}
 
@@ -108,7 +115,7 @@ public class AlticeSystem {
 		return conectado;
 	}
 
-	public void addCuenta(String cedula,Cuenta cuenta) {
+	public void addUser(String cedula,Cuenta cuenta) {
 		Persona aux =buscarPersona(cedula);
 		
 		if(aux!=null && cuenta!=null) {
@@ -125,5 +132,18 @@ public class AlticeSystem {
 
 			JOptionPane.showMessageDialog(null, "Cuenta creada exitosamente");
 		}
+	}
+	
+	public Persona filtroG(String filtro) {
+		Persona aux = null;
+		
+		for(Persona per: persona) {
+			if(per.getIdentificacion().equalsIgnoreCase(filtro) || per.getNombre().equalsIgnoreCase(filtro) || per.getTelefono().equalsIgnoreCase(filtro)) {
+				aux=per;
+			}else
+				JOptionPane.showMessageDialog(null,"Usuario no encontrado");
+		}
+		
+		return aux;
 	}
 }
