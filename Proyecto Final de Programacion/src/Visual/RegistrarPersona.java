@@ -5,11 +5,13 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import logico.AlticeSystem;
 import logico.Cliente;
@@ -26,7 +28,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JPasswordField;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 public class RegistrarPersona extends JDialog {
 
@@ -40,11 +44,10 @@ public class RegistrarPersona extends JDialog {
 	private JTextField textFieldDirec;
 	private JTextField textFieldaNacionalidad;
 	private JRadioButton rbtCrear;
-	private JTextField txtUsuario;
-	private JPasswordField txtContrasenia;
-	private JPanel panelCrear;
 	private JComboBox<String> comboBoxCargo;
 	private JButton okButton;
+	private JTextField txtUsuario;
+	private JTextField txtContrasenia;
 
 	/**
 	 * Launch the application.
@@ -63,9 +66,11 @@ public class RegistrarPersona extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegistrarPersona() {
+		setTitle("Registrar Persona");
 		setModal(true);
-		setBounds(100, 100, 670,452);
+		setBounds(100, 100, 604,386);
 		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBackground(SystemColor.menu);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -74,39 +79,46 @@ public class RegistrarPersona extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n Personal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(0, 0, 655, 378);
+		panel.setBackground(SystemColor.menu);
+		panel.setBounds(0, 0, 580, 213);
 		contentPanel.add(panel);
 
 		textFieldCedula = new JTextField();
 		textFieldCedula.setColumns(10);
-		textFieldCedula.setBounds(30, 64, 259, 20);
+		textFieldCedula.setBounds(12, 49, 191, 22);
 		panel.add(textFieldCedula);
 
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(30, 120, 259, 20);
+		txtNombre.setBounds(12, 109, 191, 22);
 		panel.add(txtNombre);
-
-		txtTelefono = new JTextField();
+		
+		MaskFormatter telefono = null;
+		try {
+			telefono = new MaskFormatter("###-###-####");
+			telefono.setPlaceholderCharacter('_');
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		txtTelefono = new JFormattedTextField(telefono);
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(30, 176, 259, 20);
+		txtTelefono.setBounds(225, 49, 191, 22);
 		panel.add(txtTelefono);
 
-		JLabel label = new JLabel("Tel\u00E9fono");
-		label.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label.setBounds(30, 151, 109, 14);
-		panel.add(label);
+		JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
+		lblTelfono.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblTelfono.setBounds(225, 22, 109, 14);
+		panel.add(lblTelfono);
 
-		JLabel label_1 = new JLabel("Nombres");
-		label_1.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label_1.setBounds(30, 95, 72, 14);
-		panel.add(label_1);
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblNombre.setBounds(12, 82, 72, 14);
+		panel.add(lblNombre);
 
-		JLabel label_2 = new JLabel("C\u00E9dula");
-		label_2.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label_2.setBounds(30, 39, 46, 14);
-		panel.add(label_2);
+		JLabel lblCdula = new JLabel("C\u00E9dula:");
+		lblCdula.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblCdula.setBounds(12, 26, 46, 14);
+		panel.add(lblCdula);
 
 		textFieldDirec = new JTextField();
 		textFieldDirec.addActionListener(new ActionListener() {
@@ -117,36 +129,37 @@ public class RegistrarPersona extends JDialog {
 			}
 		});
 		textFieldDirec.setColumns(10);
-		textFieldDirec.setBounds(340, 222, 275, 20);
+		textFieldDirec.setBounds(12, 161, 403, 22);
 		panel.add(textFieldDirec);
 
-		JLabel label_3 = new JLabel("Direcci\u00F3n");
-		label_3.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label_3.setBounds(340, 197, 83, 14);
-		panel.add(label_3);
+		JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
+		lblDireccin.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblDireccin.setBounds(12, 142, 83, 14);
+		panel.add(lblDireccin);
 
-		JLabel label_4 = new JLabel("G\u00E9nero");
-		label_4.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label_4.setBounds(340, 119, 46, 14);
-		panel.add(label_4);
+		JLabel lblGnero = new JLabel("G\u00E9nero:");
+		lblGnero.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblGnero.setBounds(429, 22, 46, 14);
+		panel.add(lblGnero);
 
 		JComboBox<String> comboBoxGen = new JComboBox<String>();
 		comboBoxGen.setModel(new DefaultComboBoxModel<String>(new String[] {"<Selecciona>", "Hombre", "Mujer"}));
-		comboBoxGen.setBounds(340, 145, 132, 20);
+		comboBoxGen.setBounds(429, 49, 132, 22);
 		panel.add(comboBoxGen);
 
 		textFieldaNacionalidad = new JTextField();
 		textFieldaNacionalidad.setColumns(10);
-		textFieldaNacionalidad.setBounds(30, 236, 159, 20);
+		textFieldaNacionalidad.setBounds(225, 109, 191, 22);
 		panel.add(textFieldaNacionalidad);
 
-		JLabel label_5 = new JLabel("Nacionalidad");
-		label_5.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label_5.setBounds(30, 211, 83, 14);
-		panel.add(label_5);
+		JLabel lblNacionalidad = new JLabel("Nacionalidad:");
+		lblNacionalidad.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblNacionalidad.setBounds(225, 82, 83, 14);
+		panel.add(lblNacionalidad);
 
 		rbtCrear = new JRadioButton("Crear usuario");
-		rbtCrear.setVisible(false);
+		rbtCrear.setBackground(SystemColor.control);
+		rbtCrear.setForeground(SystemColor.activeCaptionText);
 		rbtCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rbtCrear.isSelected()) {
@@ -156,58 +169,59 @@ public class RegistrarPersona extends JDialog {
 			}
 
 		});
-		rbtCrear.setBounds(506, 146, 109, 23);
+		rbtCrear.setBounds(430, 161, 109, 22);
 		panel.add(rbtCrear);
 
 
 
 		comboBoxCargo = new JComboBox<String>();
-		comboBoxCargo.setEnabled(false);
-		comboBoxCargo.setForeground(Color.RED);
+		comboBoxCargo.setForeground(SystemColor.textText);
 		comboBoxCargo.setFont(new Font("Sitka Small", Font.BOLD, 13));
 		comboBoxCargo.setModel(new DefaultComboBoxModel<String>(new String[] {"Cliente", "Administrador", "Trabajador"}));
 		comboBoxCargo.setSelectedIndex(0);
-		comboBoxCargo.setBounds(340, 64, 132, 20);
+		comboBoxCargo.setBounds(429, 109, 132, 22);
 		panel.add(comboBoxCargo);
 		if((AlticeSystem.getInstance().getPersonaConectada() instanceof P_Administrador)) {
 			comboBoxCargo.setEnabled(true);
 			rbtCrear.setVisible(true);
 		}
 
-		JLabel label_6 = new JLabel("Cargo");
-		label_6.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		label_6.setBounds(340, 38, 46, 14);
-		panel.add(label_6);
-
-		panelCrear = new JPanel();
-		panelCrear.setBackground(Color.LIGHT_GRAY);
-		panelCrear.setBorder(new TitledBorder(null, "Crear usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelCrear.setBounds(10, 278, 624, 89);
-		panel.add(panelCrear);
-		panelCrear.setLayout(null);
-
-		JLabel lblNewLabel = new JLabel("Nombre usuario");
-		lblNewLabel.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel.setBounds(22, 22, 98, 14);
-		panelCrear.add(lblNewLabel);
-
+		JLabel lblTipo = new JLabel("Tipo:");
+		lblTipo.setFont(new Font("Sitka Small", Font.BOLD, 11));
+		lblTipo.setBounds(430, 82, 46, 14);
+		panel.add(lblTipo);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Crear Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBackground(SystemColor.menu);
+		panel_1.setBounds(0, 212, 580, 85);
+		contentPanel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Usuario:");
+		lblNewLabel.setBounds(12, 28, 56, 16);
+		panel_1.add(lblNewLabel);
+		
 		txtUsuario = new JTextField();
 		txtUsuario.setEditable(false);
-		txtUsuario.setBounds(22, 47, 155, 20);
-		panelCrear.add(txtUsuario);
+		txtUsuario.setBounds(12, 50, 187, 22);
+		panel_1.add(txtUsuario);
 		txtUsuario.setColumns(10);
-
-		JLabel lblNewLabel_1 = new JLabel("Contrase\u00F1a");
-		lblNewLabel_1.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_1.setBounds(332, 22, 98, 14);
-		panelCrear.add(lblNewLabel_1);
-
-		txtContrasenia = new JPasswordField();
+		
+		JLabel lblNewLabel2 = new JLabel("Contrase\u00F1a:");
+		lblNewLabel2.setBounds(236, 28, 70, 16);
+		panel_1.add(lblNewLabel2);
+		
+		txtContrasenia = new JTextField();
 		txtContrasenia.setEditable(false);
-		txtContrasenia.setBounds(332, 47, 165, 20);
-		panelCrear.add(txtContrasenia);
+		txtContrasenia.setBounds(236, 50, 187, 22);
+		panel_1.add(txtContrasenia);
+		txtContrasenia.setColumns(10);
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(UIManager.getColor("Button.background"));
+			buttonPane.setForeground(Color.WHITE);
+			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
@@ -227,10 +241,7 @@ public class RegistrarPersona extends JDialog {
 							persona = new P_Trabajador(textFieldCedula.getText(),txtNombre.getText(),txtNombre.getText(),comboBoxGen.getSelectedItem().toString(),textFieldaNacionalidad.getText(), textFieldDirec.getText(),txtTelefono.getText());
 							
 						}
-						
 						AlticeSystem.getInstance().ingresarPersona(persona);
-
-
 					}
 				});
 				okButton.setForeground(Color.WHITE);
@@ -243,6 +254,11 @@ public class RegistrarPersona extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setForeground(Color.WHITE);
 				cancelButton.setBackground(Color.RED);
 				cancelButton.setActionCommand("Cancel");

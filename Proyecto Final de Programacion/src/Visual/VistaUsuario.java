@@ -103,7 +103,7 @@ public class VistaUsuario extends JDialog {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		dim = getToolkit().getScreenSize();
-		setSize(dim.width-200, dim.height-100);
+		setSize(1184, 657);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		contentPane.setLayout(null);
@@ -118,7 +118,7 @@ public class VistaUsuario extends JDialog {
 		
 		panelNav = new JPanel();
 		panelNav.setBackground(new Color(0, 0, 51));
-		panelNav.setBounds(0, 547, 1166, 59);
+		panelNav.setBounds(0, 547, 1154, 59);
 		panelSystem.add(panelNav);
 		panelNav.setLayout(null);
 		
@@ -223,12 +223,12 @@ public class VistaUsuario extends JDialog {
 		panelHead.add(btnEnviar);
 		
 		panelInfo = new JPanel();
-		panelInfo.setBounds(675, 64, 470, 285);
+		panelInfo.setBounds(675, 64, 481, 285);
 		panelSystem.add(panelInfo);
 		panelInfo.setLayout(null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(0, 0, 471, 285);
+		scrollPane_1.setBounds(0, 0, 481, 285);
 		panelInfo.add(scrollPane_1);
 		
 		tableInfo = new JTable();
@@ -344,7 +344,7 @@ public class VistaUsuario extends JDialog {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		panel_2.setBorder(new TitledBorder(null, "Historial De Pagos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(311, 360, 834, 176);
+		panel_2.setBounds(311, 360, 843, 176);
 		panelSystem.add(panel_2);
 		panel_2.setLayout(null);
 		
