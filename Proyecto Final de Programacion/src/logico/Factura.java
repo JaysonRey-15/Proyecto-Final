@@ -1,20 +1,26 @@
 package logico;
 
+import java.util.ArrayList;
+
 public class Factura {
 
 	private String cedulaCliente;
-	private Plan miPlan;
+	private ArrayList<Plan> misPlanes;
 	private String fecha;
 	private String codigo;
-	private float precio;
+	private float pago;
 	
-	public Factura(String cedulaCliente, Plan miPlan, String fecha, String codigo, float precio) {
+	public Factura(String cedulaCliente, String fecha, String codigo, float pago) {
 		super();
 		this.cedulaCliente = cedulaCliente;
-		this.miPlan = miPlan;
 		this.fecha = fecha;
 		this.codigo = codigo;
-		this.precio = precio;
+		this.pago = pago;
+		misPlanes = new ArrayList<Plan>();
+	}
+
+	public ArrayList<Plan> getMisPlanes() {
+		return misPlanes;
 	}
 
 	public String getCedulaCliente() {
@@ -23,14 +29,6 @@ public class Factura {
 
 	public void setCedulaCliente(String cedulaCliente) {
 		this.cedulaCliente = cedulaCliente;
-	}
-
-	public Plan getMiPlan() {
-		return miPlan;
-	}
-
-	public void setMiPlan(Plan miPlan) {
-		this.miPlan = miPlan;
 	}
 
 	public String getFecha() {
@@ -49,11 +47,15 @@ public class Factura {
 		this.codigo = codigo;
 	}
 
-	public float getPrecio() {
-		return precio;
+	public float getPago() {
+		return pago;
 	}
 
-	public void setPrecio(float precio) {
-		this.precio = precio;
+	public void setPago(float pago) {
+		this.pago = pago;
+	}
+	
+	public void insertarPlan(Plan auxPlan) {
+		misPlanes.add(auxPlan);
 	}
 }

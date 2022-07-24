@@ -9,12 +9,12 @@ public abstract class Plan {
 	private String fecha;
 	private ArrayList <Servicio> misServicios;
 	
-	public Plan(String nombre, String tipo, String fecha, ArrayList<Servicio> misServicios) {
+	public Plan(String nombre, String tipo, String fecha) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.fecha = fecha;
-		this.misServicios = misServicios;
+		misServicios = new ArrayList<Servicio>();
 	}
 
 	public String getNombre() {
@@ -48,4 +48,9 @@ public abstract class Plan {
 	public void setMisServicios(ArrayList<Servicio> misServicios) {
 		this.misServicios = misServicios;
 	}
+	
+	public void insertarServicio(Servicio auxServicio) {
+		misServicios.add(auxServicio);
+	}
+	
 }
