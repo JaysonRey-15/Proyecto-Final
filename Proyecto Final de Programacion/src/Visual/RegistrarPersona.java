@@ -82,8 +82,12 @@ public class RegistrarPersona extends JDialog {
 		panel.setBackground(SystemColor.menu);
 		panel.setBounds(0, 0, 580, 213);
 		contentPanel.add(panel);
-
-		textFieldCedula = new JTextField();
+		MaskFormatter cedula = null;
+		try {
+			cedula = new MaskFormatter("###-#######-#");
+			cedula.setPlaceholderCharacter('_');
+		} catch (ParseException e) {}
+		textFieldCedula = new JFormattedTextField(cedula);
 		textFieldCedula.setColumns(10);
 		textFieldCedula.setBounds(12, 49, 191, 22);
 		panel.add(textFieldCedula);

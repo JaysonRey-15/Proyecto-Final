@@ -1,6 +1,7 @@
 package logico;
 
 public class Persona {
+	
 	protected String identificacion;
 	protected String nombre;
 	protected String apellido;
@@ -71,6 +72,4 @@ public class Persona {
 	public String getIdentificacion() {
 		return identificacion;
 	}
-
-
 }

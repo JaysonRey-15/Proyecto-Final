@@ -3,6 +3,7 @@ package logico;
 import java.util.ArrayList;
 
 public class P_Administrador extends Persona {
+	
 	private float sueldoBruto;
 	private float salario;
 	private int cantHorasTXmes;

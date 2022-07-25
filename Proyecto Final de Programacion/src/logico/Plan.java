@@ -1,28 +1,16 @@
 package logico;
 
-import java.util.ArrayList;
-
 public abstract class Plan {
 
-	private String nombre;
-	private String tipo;
-	private String fecha;
-	private ArrayList <Servicio> misServicios;
+	protected String tipo;
+	protected float precioInicial;
+	protected float precioMensual;
 	
-	public Plan(String nombre, String tipo, String fecha) {
+	public Plan(String tipo , float precioInicial, float precioMensual) {
 		super();
-		this.nombre = nombre;
 		this.tipo = tipo;
-		this.fecha = fecha;
-		misServicios = new ArrayList<Servicio>();
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.precioInicial = precioInicial;
+		this.precioMensual = precioMensual;
 	}
 
 	public String getTipo() {
@@ -33,24 +21,19 @@ public abstract class Plan {
 		this.tipo = tipo;
 	}
 
-	public String getFecha() {
-		return fecha;
+	public float getPrecioInicial() {
+		return precioInicial;
 	}
 
-	public void setFecha(String fecha) {
-		this.fecha = fecha;
+	public void setPrecioInicial(float precioInicial) {
+		this.precioInicial = precioInicial;
 	}
 
-	public ArrayList<Servicio> getMisServicios() {
-		return misServicios;
+	public float getPrecioMensual() {
+		return precioMensual;
 	}
 
-	public void setMisServicios(ArrayList<Servicio> misServicios) {
-		this.misServicios = misServicios;
+	public void setPrecioMensual(float precioMensual) {
+		this.precioMensual = precioMensual;
 	}
-	
-	public void insertarServicio(Servicio auxServicio) {
-		misServicios.add(auxServicio);
-	}
-	
 }

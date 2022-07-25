@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class AlticeSystem {
+	
 	private ArrayList<Persona>persona;
 	private ArrayList<Plan> misPlanes;
-	private ArrayList<Servicio> misServicios;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Cuenta> misCuentas;
 	private Persona PersonaConectada;
@@ -19,7 +19,6 @@ public class AlticeSystem {
 		this.PersonaConectada=null;
 		this.misCuentas = new ArrayList<Cuenta>();
 		this.misPlanes = new ArrayList<Plan>();
-		this.misServicios = new ArrayList<Servicio>();
 		this.misFacturas = new ArrayList<Factura>();
 		
 	}
@@ -37,10 +36,6 @@ public class AlticeSystem {
 
 	public ArrayList<Plan> getMisPlanes() {
 		return misPlanes;
-	}
-
-	public ArrayList<Servicio> getMisServicios() {
-		return misServicios;
 	}
 
 	public ArrayList<Factura> getMisFacturas() {
