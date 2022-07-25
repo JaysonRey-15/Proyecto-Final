@@ -10,6 +10,7 @@ public class AlticeSystem {
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Cuenta> misCuentas;
+	private int generadorCodigoPlan;
 	private Persona PersonaConectada;
 	public static AlticeSystem ALS= null;
 	
@@ -20,7 +21,7 @@ public class AlticeSystem {
 		this.misCuentas = new ArrayList<Cuenta>();
 		this.misPlanes = new ArrayList<Plan>();
 		this.misFacturas = new ArrayList<Factura>();
-		
+		generadorCodigoPlan = 1;
 	}
 
 	public static AlticeSystem getInstance(){
@@ -30,6 +31,14 @@ public class AlticeSystem {
 		return ALS;
 	}
 	
+	public int getGeneradorCodigoPlan() {
+		return generadorCodigoPlan;
+	}
+
+	public void setGeneradorCodigoPlan(int generadorCodigoPlan) {
+		this.generadorCodigoPlan = generadorCodigoPlan;
+	}
+
 	public ArrayList<Persona> getPersona() {
 		return persona;
 	}
@@ -45,13 +54,48 @@ public class AlticeSystem {
 	public ArrayList<Cuenta> getMisCuentas() {
 		return misCuentas;
 	}
+	
+	public void insertarPlan(Plan auxPlan) {
+		misPlanes.add(auxPlan);
+		generadorCodigoPlan++;
+	}
+	
+	public void modificarPlan(Plan auxPlan) {
+		int ind = buscarIndexByCode(auxPlan.getCodigo());
+		if(ind != -1) {
+			misPlanes.get(ind).setPrecioInicial(auxPlan.getPrecioInicial());
+			misPlanes.get(ind).setPrecioMensual(auxPlan.getPrecioMensual());
+			if(misPlanes.get(ind) instanceof Internet) {
+				((Internet) misPlanes.get(ind)).setCantInternet(((Internet) auxPlan).getCantInternet());
+			}
+			if(misPlanes.get(ind) instanceof Telefono) {
+				((Telefono) misPlanes.get(ind)).setCantMinutos(((Telefono) auxPlan).getCantMinutos());
+			
+			}
+			if(misPlanes.get(ind) instanceof Cable) {
+				((Cable) misPlanes.get(ind)).setCantCanales(((Cable) auxPlan).getCantCanales());
+			}
+		}
+	}
 
+	private int buscarIndexByCode(String codigo) {
+		int ind = -1;
+		int i = 0;
+		boolean encontrado = false;
+		while (i < misPlanes.size() && !encontrado) {
+			if (misPlanes.get(i).getCodigo().equalsIgnoreCase(codigo)) {
+				encontrado = true;
+				ind = i;
+			}
+			i++;
+		}
+		return ind;
+	}
 	//Crud Personas
 
 	public Persona getPersonaConectada() {
 		return PersonaConectada;
 	}
-
 	public void ingresarPersona(Persona person) {
 		if(person!=null) {
 			if(!existe(person.getIdentificacion())) {

@@ -105,12 +105,6 @@ public class Principal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		JMenu mnArchivo = new JMenu("Archivo");
-		menuBar.add(mnArchivo);
-
-		JMenu mnNewMenu = new JMenu("Ayuda\r\n");
-		menuBar.add(mnNewMenu);
-
 		JMenu mnNewMenu_1 = new JMenu("Usuarios");
 		menuBar.add(mnNewMenu_1);
 
@@ -134,6 +128,18 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JMenu mnNewMenu = new JMenu("Plan");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Registrar Plan");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegistrarPlan plan = new RegistrarPlan(null);
+				plan.setVisible(true);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_2);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 

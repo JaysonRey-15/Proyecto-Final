@@ -2,15 +2,25 @@ package logico;
 
 public abstract class Plan {
 
+	protected String codigo;
 	protected String tipo;
 	protected float precioInicial;
 	protected float precioMensual;
 	
-	public Plan(String tipo , float precioInicial, float precioMensual) {
+	public Plan(String codigo,String tipo , float precioInicial, float precioMensual) {
 		super();
+		this.codigo = codigo;
 		this.tipo = tipo;
 		this.precioInicial = precioInicial;
 		this.precioMensual = precioMensual;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getTipo() {

@@ -4,8 +4,8 @@ public class Telefono extends Plan {
 
 	private String cantMinutos;
 
-	public Telefono(String tipo, float precioInicial, float precioMensual, String cantMinutos) {
-		super(tipo, precioInicial, precioMensual);
+	public Telefono(String codigo, String tipo, float precioInicial, float precioMensual, String cantMinutos) {
+		super(codigo, tipo, precioInicial, precioMensual);
 		this.cantMinutos = cantMinutos;
 	}
 
