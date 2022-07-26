@@ -337,24 +337,29 @@ public class RegistrarPersona extends JDialog {
 							}
 						}
 						else {
-							auxPersona.setNombre(txtNombre.getText());
-							auxPersona.setDireccion(txtDireccion.getText());
-							auxPersona.setNacionalidad(txtNacionalidad.getText());
-							auxPersona.setTelefono(txtTelefono.getText());
-							if(auxPersona instanceof P_Administrador) {
-								((P_Administrador) auxPersona).setMiCuenta(cuenta);
+							if(validarCampos()) {
+								JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
 							}
-							if(auxPersona instanceof P_Trabajador) {
-								((P_Trabajador) auxPersona).setMiCuenta(cuenta);
+							else {
+								auxPersona.setNombre(txtNombre.getText());
+								auxPersona.setDireccion(txtDireccion.getText());
+								auxPersona.setNacionalidad(txtNacionalidad.getText());
+								auxPersona.setTelefono(txtTelefono.getText());
+								if(auxPersona instanceof P_Administrador) {
+									((P_Administrador) auxPersona).setMiCuenta(cuenta);
+								}
+								if(auxPersona instanceof P_Trabajador) {
+									((P_Trabajador) auxPersona).setMiCuenta(cuenta);
+								}
+								if(cbxCargo.getSelectedIndex() == 0) {
+									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
+								}
+								if(cbxCargo.getSelectedIndex() == 1) {
+									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
+								}
+								AlticeSystem.getInstance().modificarPersona(auxPersona, cuenta);
+								dispose();
 							}
-							if(cbxCargo.getSelectedIndex() == 0) {
-								auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
-							}
-							if(cbxCargo.getSelectedIndex() == 1) {
-								auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
-							}
-							AlticeSystem.getInstance().modificarPersona(auxPersona, cuenta);
-							dispose();
 						}
 					}
 					else if(Persona) {

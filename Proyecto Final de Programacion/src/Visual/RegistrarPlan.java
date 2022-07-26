@@ -299,14 +299,19 @@ public class RegistrarPlan extends JDialog {
 							}
 						}
 						else {
-						   auxPlan.setNombre(txtNombre.getText());
-						   auxPlan.setPrecioInicial(Float.valueOf(txtPrecioInicial.getText()));
-						   auxPlan.setPrecioMensual(Float.valueOf(txtPrecioMensual.getText()));
-					       auxPlan.setCantInternet(txtVelocidad.getText());
-						   auxPlan.setCantMinutos(txtMinutos.getText());
-						   auxPlan.setCantCanales(txtCanales.getText());
-						   AlticeSystem.getInstance().modificarPlan(auxPlan);
-						   dispose();
+							if(validarCampos()) {
+								JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+							}
+							else {
+							   auxPlan.setNombre(txtNombre.getText());
+							   auxPlan.setPrecioInicial(Float.valueOf(txtPrecioInicial.getText()));
+							   auxPlan.setPrecioMensual(Float.valueOf(txtPrecioMensual.getText()));
+						       auxPlan.setCantInternet(txtVelocidad.getText());
+							   auxPlan.setCantMinutos(txtMinutos.getText());
+							   auxPlan.setCantCanales(txtCanales.getText());
+							   AlticeSystem.getInstance().modificarPlan(auxPlan);
+							   dispose();
+							}
 					    }
 					}
 				});

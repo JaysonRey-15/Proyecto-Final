@@ -73,7 +73,7 @@ public class ControlUsuario extends JDialog {
 	  private JTextField txtCodigo;
 	  private JTextField txtGenero;
 	  private JTextField txtCargo;
-	  private JLabel persona;
+	  private JLabel Usuario;
 	  private JTextField txtpersona;
 	  private JButton btnCerrar;
 	  private JButton btnModificar;
@@ -300,10 +300,10 @@ public class ControlUsuario extends JDialog {
 		panel.add(txtCargo);
 		txtCargo.setColumns(10);
 		
-		persona = new JLabel("persona:");
-		persona.setFont(new Font("Dialog", Font.BOLD, 11));
-		persona.setBounds(350, 133, 56, 16);
-		panel.add(persona);
+		Usuario = new JLabel("Usuario:");
+		Usuario.setFont(new Font("Dialog", Font.BOLD, 11));
+		Usuario.setBounds(350, 133, 56, 16);
+		panel.add(Usuario);
 		
 		txtpersona = new JTextField();
 		txtpersona.setEditable(false);
