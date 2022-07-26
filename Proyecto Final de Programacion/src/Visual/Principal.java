@@ -111,7 +111,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Control usuario");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VistaUsuario vistaU = new VistaUsuario();
+				ControlUsuario vistaU = new ControlUsuario();
 				vistaU.setVisible(true);
 
 				//	txtMostrarUsuario.setText(txtCedula.getText());
@@ -123,7 +123,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Registrar usuario");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrarPersona regis = new RegistrarPersona();
+				RegistrarPersona regis = new RegistrarPersona(null);
 				regis.setVisible(true);
 			}
 		});

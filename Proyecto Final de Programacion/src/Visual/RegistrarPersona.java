@@ -10,51 +10,58 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
+
 import javax.swing.text.MaskFormatter;
 
-import logico.AlticeSystem;
-import logico.Cliente;
 import logico.P_Administrador;
+import logico.AlticeSystem;
+import logico.Cuenta;
 import logico.P_Trabajador;
 import logico.Persona;
 
 import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
-import javax.swing.JPasswordField;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
+import javax.swing.JPasswordField;
 
 public class RegistrarPersona extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
-	private DefaultTableModel model;
-	private Object[] row;
-	private JTextField textFieldCedula;
+	private JFormattedTextField txtCedula;
+	private JFormattedTextField txtTelefono;
 	private JTextField txtNombre;
-	private JTextField txtTelefono;
-	private JTextField textFieldDirec;
-	private JTextField textFieldaNacionalidad;
-	private JRadioButton rbtCrear;
-	private JComboBox<String> comboBoxCargo;
-	private JButton okButton;
-	private JTextField txtUsuario;
-	private JTextField txtContrasenia;
-
+	private JTextField txtDireccion;
+	private JTextField txtNacionalidad;
+	private JComboBox<String> cbxCargo;
+	private JTextField txtPersona;
+	private JLabel labelCedula;
+	private JLabel labelTelefono;
+	private JLabel labelNombre;
+	private JLabel labelNacionalidad;
+	private JLabel labelDireccion;
+	private JLabel labelPersona;
+	private JLabel labelPassword;
+	private JPasswordField txtPassword = new JPasswordField();
+	private Persona auxPersona = null;
+	private JLabel lblNewLabel_1;
+	private JTextField txtCodigo;
+	private JComboBox<String> cbxGenero;
+    private Cuenta cuenta = null;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegistrarPersona dialog = new RegistrarPersona();
+			RegistrarPersona dialog = new RegistrarPersona(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -65,10 +72,15 @@ public class RegistrarPersona extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarPersona() {
-		setTitle("Registrar Persona");
+	public RegistrarPersona(Persona Persona) {
+		auxPersona = Persona;
+		setTitle("Registrar Usuario");
+		if(auxPersona != null) {
+			setTitle("Modificar Usuario");
+		}
+		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 604,386);
+		setBounds(100, 100, 585,417);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(SystemColor.menu);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -80,21 +92,28 @@ public class RegistrarPersona extends JDialog {
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n Personal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBackground(SystemColor.menu);
-		panel.setBounds(0, 0, 580, 213);
+		panel.setBounds(0, 0, 565, 238);
 		contentPanel.add(panel);
 		MaskFormatter cedula = null;
 		try {
 			cedula = new MaskFormatter("###-#######-#");
 			cedula.setPlaceholderCharacter('_');
 		} catch (ParseException e) {}
-		textFieldCedula = new JFormattedTextField(cedula);
-		textFieldCedula.setColumns(10);
-		textFieldCedula.setBounds(12, 49, 191, 22);
-		panel.add(textFieldCedula);
+		txtCedula = new JFormattedTextField(cedula);
+		txtCedula.setColumns(10);
+		txtCedula.setBounds(202, 40, 171, 22);
+		if(auxPersona != null) {
+			txtCedula.setEditable(false);
+			txtCedula.setText(auxPersona.getCedula());
+		}
+		panel.add(txtCedula);
 
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(12, 109, 191, 22);
+		txtNombre.setBounds(12, 91, 361, 22);
+		if(auxPersona != null) {
+			txtNombre.setText(auxPersona.getNombre());
+		}
 		panel.add(txtNombre);
 		
 		MaskFormatter telefono = null;
@@ -106,99 +125,143 @@ public class RegistrarPersona extends JDialog {
 		}
 		txtTelefono = new JFormattedTextField(telefono);
 		txtTelefono.setColumns(10);
-		txtTelefono.setBounds(225, 49, 191, 22);
+		txtTelefono.setBounds(12, 142, 171, 22);
+		if(auxPersona != null) {
+			txtTelefono.setText(auxPersona.getTelefono());
+		}
 		panel.add(txtTelefono);
 
 		JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
 		lblTelfono.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblTelfono.setBounds(225, 22, 109, 14);
+		lblTelfono.setBounds(12, 126, 109, 14);
 		panel.add(lblTelfono);
 
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNombre.setBounds(12, 82, 72, 14);
+		lblNombre.setBounds(12, 75, 72, 14);
 		panel.add(lblNombre);
 
 		JLabel lblCdula = new JLabel("C\u00E9dula:");
 		lblCdula.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblCdula.setBounds(12, 26, 46, 14);
+		lblCdula.setBounds(202, 22, 46, 14);
 		panel.add(lblCdula);
 
-		textFieldDirec = new JTextField();
-		textFieldDirec.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(campoLleno()==true) {
-					okButton.setEnabled(true);
-				}
-			}
-		});
-		textFieldDirec.setColumns(10);
-		textFieldDirec.setBounds(12, 161, 403, 22);
-		panel.add(textFieldDirec);
+		txtDireccion = new JTextField();
+		txtDireccion.setColumns(10);
+		txtDireccion.setBounds(12, 195, 361, 22);
+		if(auxPersona != null) {
+			txtDireccion.setText(auxPersona.getDireccion());
+		}
+		panel.add(txtDireccion);
 
 		JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
 		lblDireccin.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblDireccin.setBounds(12, 142, 83, 14);
+		lblDireccin.setBounds(12, 177, 83, 14);
 		panel.add(lblDireccin);
 
 		JLabel lblGnero = new JLabel("G\u00E9nero:");
 		lblGnero.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblGnero.setBounds(429, 22, 46, 14);
+		lblGnero.setBounds(405, 22, 46, 14);
 		panel.add(lblGnero);
 
-		JComboBox<String> comboBoxGen = new JComboBox<String>();
-		comboBoxGen.setModel(new DefaultComboBoxModel<String>(new String[] {"<Selecciona>", "Hombre", "Mujer"}));
-		comboBoxGen.setBounds(429, 49, 132, 22);
-		panel.add(comboBoxGen);
+		cbxGenero = new JComboBox<String>();
+		cbxGenero.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		cbxGenero.setModel(new DefaultComboBoxModel<String>(new String[] {"Hombre", "Mujer"}));
+		cbxGenero.setBounds(402, 40, 119, 22);
+		if(auxPersona != null) {
+			cbxGenero.setEnabled(false);
+		}
+		panel.add(cbxGenero);
 
-		textFieldaNacionalidad = new JTextField();
-		textFieldaNacionalidad.setColumns(10);
-		textFieldaNacionalidad.setBounds(225, 109, 191, 22);
-		panel.add(textFieldaNacionalidad);
+		txtNacionalidad = new JTextField();
+		txtNacionalidad.setColumns(10);
+		txtNacionalidad.setBounds(202, 142, 171, 22);
+		if(auxPersona != null) {
+			txtNacionalidad.setText(auxPersona.getNacionalidad());
+		}
+		panel.add(txtNacionalidad);
 
 		JLabel lblNacionalidad = new JLabel("Nacionalidad:");
 		lblNacionalidad.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNacionalidad.setBounds(225, 82, 83, 14);
+		lblNacionalidad.setBounds(202, 126, 83, 14);
 		panel.add(lblNacionalidad);
 
-		rbtCrear = new JRadioButton("Crear usuario");
-		rbtCrear.setBackground(SystemColor.control);
-		rbtCrear.setForeground(SystemColor.activeCaptionText);
-		rbtCrear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(rbtCrear.isSelected()) {
-					txtUsuario.setEditable(true);
-					txtContrasenia.setEditable(true);
-				}
-			}
-
-		});
-		rbtCrear.setBounds(430, 161, 109, 22);
-		panel.add(rbtCrear);
 
 
-
-		comboBoxCargo = new JComboBox<String>();
-		comboBoxCargo.setForeground(SystemColor.textText);
-		comboBoxCargo.setFont(new Font("Sitka Small", Font.BOLD, 13));
-		comboBoxCargo.setModel(new DefaultComboBoxModel<String>(new String[] {"Cliente", "Administrador", "Trabajador"}));
-		comboBoxCargo.setSelectedIndex(0);
-		comboBoxCargo.setBounds(429, 109, 132, 22);
-		panel.add(comboBoxCargo);
-		if((AlticeSystem.getInstance().getPersonaConectada() instanceof P_Administrador)) {
-			comboBoxCargo.setEnabled(true);
-			rbtCrear.setVisible(true);
+		cbxCargo = new JComboBox<String>();
+		cbxCargo.setForeground(SystemColor.textText);
+		cbxCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		cbxCargo.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Trabajador"}));
+		cbxCargo.setSelectedIndex(0);
+		cbxCargo.setBounds(402, 91, 119, 22);
+		if(auxPersona != null && auxPersona.getTipo().equalsIgnoreCase("Administrador")) {
+			cbxCargo.setSelectedIndex(0);
 		}
+		if(auxPersona != null && auxPersona.getTipo().equalsIgnoreCase("Trabajador")) {
+			cbxCargo.setSelectedIndex(1);
+		}
+		panel.add(cbxCargo);
 
-		JLabel lblTipo = new JLabel("Tipo:");
+		JLabel lblTipo = new JLabel("Cargo:");
 		lblTipo.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblTipo.setBounds(430, 82, 46, 14);
+		lblTipo.setBounds(405, 75, 46, 14);
 		panel.add(lblTipo);
 		
+		labelCedula = new JLabel("*");
+		labelCedula.setForeground(Color.RED);
+		labelCedula.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelCedula.setBounds(373, 43, 20, 16);
+		labelCedula.setVisible(false);
+		panel.add(labelCedula);
+		
+		labelNombre = new JLabel("*");
+		labelNombre.setForeground(Color.RED);
+		labelNombre.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelNombre.setBounds(373, 94, 20, 16);
+		labelNombre.setVisible(false);
+		panel.add(labelNombre);
+		
+		labelTelefono = new JLabel("*");
+		labelTelefono.setForeground(Color.RED);
+		labelTelefono.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelTelefono.setBounds(184, 145, 20, 16);
+		labelTelefono.setVisible(false);
+		panel.add(labelTelefono);
+		
+		labelNacionalidad = new JLabel("*");
+		labelNacionalidad.setForeground(Color.RED);
+		labelNacionalidad.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelNacionalidad.setBounds(373, 145, 20, 16);
+		labelNacionalidad.setVisible(false);
+		panel.add(labelNacionalidad);
+		
+		labelDireccion = new JLabel("*");
+		labelDireccion.setForeground(Color.RED);
+		labelDireccion.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelDireccion.setBounds(373, 198, 20, 16);
+		labelDireccion.setVisible(false);
+		panel.add(labelDireccion);
+		
+		lblNewLabel_1 = new JLabel("Id:");
+		lblNewLabel_1.setBounds(12, 21, 56, 16);
+		panel.add(lblNewLabel_1);
+		
+		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
+		txtCodigo.setBounds(12, 40, 171, 22);
+		if(auxPersona != null) {
+			txtCodigo.setText(auxPersona.getCodigoUsuario());
+		}
+		else {
+			txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPersona());
+		}
+		panel.add(txtCodigo);
+		txtCodigo.setColumns(10);
+		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Crear Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Crear Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBackground(SystemColor.menu);
-		panel_1.setBounds(0, 212, 580, 85);
+		panel_1.setBounds(0, 241, 565, 85);
 		contentPanel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -206,21 +269,38 @@ public class RegistrarPersona extends JDialog {
 		lblNewLabel.setBounds(12, 28, 56, 16);
 		panel_1.add(lblNewLabel);
 		
-		txtUsuario = new JTextField();
-		txtUsuario.setEditable(false);
-		txtUsuario.setBounds(12, 50, 187, 22);
-		panel_1.add(txtUsuario);
-		txtUsuario.setColumns(10);
+		txtPersona = new JTextField();
+		txtPersona.setBounds(12, 50, 187, 22);
+		if(auxPersona != null && auxPersona instanceof P_Administrador) {
+			txtPersona.setText(((P_Administrador) auxPersona).getMiCuenta().getUsuario());
+		}
+		panel_1.add(txtPersona);
+		txtPersona.setColumns(10);
 		
 		JLabel lblNewLabel2 = new JLabel("Contrase\u00F1a:");
 		lblNewLabel2.setBounds(236, 28, 70, 16);
 		panel_1.add(lblNewLabel2);
 		
-		txtContrasenia = new JTextField();
-		txtContrasenia.setEditable(false);
-		txtContrasenia.setBounds(236, 50, 187, 22);
-		panel_1.add(txtContrasenia);
-		txtContrasenia.setColumns(10);
+		labelPersona = new JLabel("*");
+		labelPersona.setForeground(Color.RED);
+		labelPersona.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelPersona.setBounds(204, 53, 20, 16);
+		labelPersona.setVisible(false);
+		panel_1.add(labelPersona);
+		
+		labelPassword = new JLabel("*");
+		labelPassword.setForeground(Color.RED);
+		labelPassword.setFont(new Font("Tahoma", Font.BOLD, 13));
+		labelPassword.setBounds(427, 53, 20, 16);
+		labelPassword.setVisible(false);
+		panel_1.add(labelPassword);
+		
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(236, 50, 187, 22);
+		if(auxPersona != null && auxPersona instanceof P_Administrador) {
+			txtPassword.setText(((P_Administrador) auxPersona).getMiCuenta().getPassword());
+		}
+		panel_1.add(txtPassword);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBackground(UIManager.getColor("Button.background"));
@@ -228,53 +308,146 @@ public class RegistrarPersona extends JDialog {
 			buttonPane.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				okButton = new JButton("Siguiente");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						Persona persona = null;
-						if(comboBoxCargo.getSelectedIndex()==0) {
-							persona = new Cliente(textFieldCedula.getText(),txtNombre.getText(),txtNombre.getText(),comboBoxGen.getSelectedItem().toString(),textFieldaNacionalidad.getText(), textFieldDirec.getText(),txtTelefono.getText());
-						}
-
-						if(comboBoxCargo.getSelectedIndex()==1) {
-							persona = new P_Administrador(textFieldCedula.getText(),txtNombre.getText(),txtNombre.getText(),comboBoxGen.getSelectedItem().toString(),textFieldaNacionalidad.getText(), textFieldDirec.getText(),txtTelefono.getText());
-						}
-
-						if(comboBoxCargo.getSelectedIndex()==2) {
-							persona = new P_Trabajador(textFieldCedula.getText(),txtNombre.getText(),txtNombre.getText(),comboBoxGen.getSelectedItem().toString(),textFieldaNacionalidad.getText(), textFieldDirec.getText(),txtTelefono.getText());
-							
-						}
-						AlticeSystem.getInstance().ingresarPersona(persona);
-					}
-				});
-				okButton.setForeground(Color.WHITE);
-				okButton.setEnabled(false);
-				okButton.setBackground(Color.GREEN);
-				okButton.setFont(new Font("Sitka Small", Font.PLAIN, 12));
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+			
+			JButton btnRegistrar = new JButton("Registrar");
+			if(auxPersona != null) {
+				btnRegistrar.setText("Modificar");
 			}
+			btnRegistrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					boolean Persona = AlticeSystem.getInstance().PersonaExiste(txtPersona.getText(), auxPersona);
+					String password = new String(txtPassword.getPassword());
+					if(!Persona) {
+						if(auxPersona == null) {
+							if(validarCampos()) {
+								JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+							}
+							else {
+								Persona aux = null;
+								cuenta = new Cuenta(password, txtPersona.getText());
+								if(cbxCargo.getSelectedIndex()== 0) {
+									aux = new P_Administrador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText(), cbxCargo.getSelectedItem().toString(), cuenta);
+								}
+								if(cbxCargo.getSelectedIndex()== 1) {
+									aux = new P_Trabajador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText(), cbxCargo.getSelectedItem().toString(), cuenta);
+								}
+								AlticeSystem.getInstance().insertarPersona(aux);
+								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								clean();
+							}
+						}
+						else {
+							auxPersona.setNombre(txtNombre.getText());
+							auxPersona.setDireccion(txtDireccion.getText());
+							auxPersona.setNacionalidad(txtNacionalidad.getText());
+							auxPersona.setTelefono(txtTelefono.getText());
+							if(auxPersona instanceof P_Administrador) {
+								((P_Administrador) auxPersona).setMiCuenta(cuenta);
+							}
+							if(auxPersona instanceof P_Trabajador) {
+								((P_Trabajador) auxPersona).setMiCuenta(cuenta);
+							}
+							if(cbxCargo.getSelectedIndex() == 0) {
+								auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
+							}
+							if(cbxCargo.getSelectedIndex() == 1) {
+								auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
+							}
+							AlticeSystem.getInstance().modificarPersona(auxPersona, cuenta);
+							dispose();
+						}
+					}
+					else if(Persona) {
+						JOptionPane.showMessageDialog(null, "Este Usuario ya Existe", "Error", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+			btnRegistrar.setActionCommand("OK");
+			buttonPane.add(btnRegistrar);
 			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.addActionListener(new ActionListener() {
+				
+				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				cancelButton.setForeground(Color.WHITE);
-				cancelButton.setBackground(Color.RED);
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancelar.setActionCommand("Cancel");
+				buttonPane.add(btnCancelar);
 			}
 		}
 	}
-
-	public boolean campoLleno() {
-		if(textFieldCedula.getText().length()>0 && txtNombre.getText().length()>0 && txtTelefono.getText().length()>0 && textFieldDirec.getText().length()>0 && textFieldaNacionalidad.getText().length()>0) 
-			return true;
-		else
-			return false;
+	private void clean() {
+	    txtCedula.setValue(null);
+		txtNombre.setText("");
+		txtNacionalidad.setText("");
+		txtTelefono.setValue(null);
+		txtDireccion.setText("");
+		txtPersona.setText("");
+		txtPassword.setText("");
+		cbxGenero.setSelectedIndex(0);
+		cbxCargo.setSelectedIndex(0);
+		txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPersona());
+	}
+	
+	private boolean validarCampos(){
+		boolean validar = false;
+		
+		if(!txtCedula.isEditValid()) {
+			labelCedula.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelCedula.setVisible(false);
+		}
+		
+		if(!txtTelefono.isEditValid()) {
+			labelTelefono.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelTelefono.setVisible(false);
+		}
+		
+		if(txtNombre.getText().trim().isEmpty()) {
+			labelNombre.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelNombre.setVisible(false);
+		}
+		
+		if(txtNacionalidad.getText().trim().isEmpty()) {
+			labelNacionalidad.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelNacionalidad.setVisible(false);
+		}
+		
+		if(txtDireccion.getText().trim().isEmpty()) {
+			labelDireccion.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelDireccion.setVisible(false);
+		}
+		
+		if(txtPersona.getText().trim().isEmpty()) {
+			labelPersona.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelPersona.setVisible(false);
+		}
+		
+		if(txtPassword.getPassword().length == 0) {
+			labelPassword.setVisible(true);
+			validar = true;
+		}
+		else {
+			labelPassword.setVisible(false);
+		}
+		return validar;
 	}
 }

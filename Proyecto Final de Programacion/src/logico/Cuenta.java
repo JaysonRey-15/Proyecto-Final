@@ -3,21 +3,19 @@ package logico;
 public class Cuenta {
 	
 	private String password;
-	private String correE;
+	private String usuario;
 	
-	public Cuenta(String password, String correE) {
+	public Cuenta(String password, String usuario) {
 		super();
 		this.password = password;
-		this.correE = correE;
+		this.usuario = usuario;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public String getCorreE() {
-		return correE;
-	}
-	
-	
+	public String getUsuario() {
+		return usuario;
+	}	
 }

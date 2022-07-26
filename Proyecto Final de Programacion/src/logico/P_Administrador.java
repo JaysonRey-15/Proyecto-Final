@@ -2,52 +2,62 @@ package logico;
 
 import java.util.ArrayList;
 
-public class P_Administrador extends Persona {
+public class P_Administrador extends Persona{
 	
-	private float sueldoBruto;
+	private static final long serialVersionUID = 1L;
 	private float salario;
-	private int cantHorasTXmes;
+	private int cantHorasXmes;
 	private ArrayList<String> actividades;
-	private Cuenta cuenta;
 	private int puntosGanados;
-	private int gradoPermiso; // 1 o 2
-
-	public P_Administrador(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion, String telefono) {
-		super(identificacion, nombre, apellido, genero, nacionalidad,direccion, telefono);
-		
-		this.actividades = new ArrayList<String>();
-		this.puntosGanados=0;
-		this.gradoPermiso = 1;
-		this.cantHorasTXmes=0;
-		this.cuenta = null;
-	}
+	private Cuenta miCuenta;
 	
-	public float getSueldoBruto() {
-		return sueldoBruto;
+	public P_Administrador(String cedula, String nombre, String genero, String nacionalidad, String direccion,
+			String telefono, String codigoUsuario, String tipo, Cuenta miCuenta) {
+		super(cedula, nombre, genero, nacionalidad, direccion, telefono, codigoUsuario, tipo);
+		this.miCuenta = miCuenta;
+	}
+
+	public float getSalario() {
+		return salario;
+	}
+
+	public void setSalario(float salario) {
+		this.salario = salario;
+	}
+
+	public int getCantHorasXmes() {
+		return cantHorasXmes;
+	}
+
+	public void setCantHorasXmes(int cantHorasXmes) {
+		this.cantHorasXmes = cantHorasXmes;
 	}
 
 	public ArrayList<String> getActividades() {
 		return actividades;
 	}
 
+	public void setActividades(ArrayList<String> actividades) {
+		this.actividades = actividades;
+	}
+
 	public int getPuntosGanados() {
 		return puntosGanados;
 	}
 
+	public void setPuntosGanados(int puntosGanados) {
+		this.puntosGanados = puntosGanados;
+	}
 
-	public float calSalario() {
-		return (salario*cantHorasTXmes)+puntosGanados;
+	public Cuenta getMiCuenta() {
+		return miCuenta;
+	}
+
+	public void setMiCuenta(Cuenta miCuenta) {
+		this.miCuenta = miCuenta;
 	}
 	
-	public int getGradoPermiso() {
-		return gradoPermiso;
-	}
-
-	public Cuenta getCuenta() {
-		return cuenta;
-	}
-
-	public void addCuenta(Cuenta cuentaAsignada) {
-		cuenta = cuentaAsignada;
+	public float calSalario() {
+		return (salario*cantHorasXmes)+puntosGanados;
 	}
 }

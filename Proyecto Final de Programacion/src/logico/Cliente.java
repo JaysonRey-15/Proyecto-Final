@@ -4,29 +4,20 @@ import java.util.ArrayList;
 
 public class Cliente extends Persona {
 	
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList <Factura> misFacturas;
-
-	public Cliente(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion, String telefono) {
-		super(identificacion, nombre, apellido, genero, nacionalidad, direccion, telefono);
 	
-		this.misPlanes = new ArrayList<Plan>();
-		this.misFacturas = new ArrayList<Factura>();
+	public Cliente(String cedula, String nombre, String genero, String nacionalidad, String direccion, String telefono,
+			String codigoUsuario, String tipo) {
+		super(cedula, nombre, genero, nacionalidad, direccion, telefono, codigoUsuario, tipo);
 	}
-
+	
 	public ArrayList<Plan> getMisPlanes() {
 		return misPlanes;
 	}
 	
-	public ArrayList<Factura> getmisFacturas() {
+	public ArrayList<Factura> getMisFacturas() {
 		return misFacturas;
-	}
-	
-	public void insertarFactura(Factura auxFactura) {
-		misFacturas.add(auxFactura);
-	}
-	
-	public void insertarPlan(Plan auxPlan) {
-		misPlanes.add(auxPlan);
-	}
+	}	
 }

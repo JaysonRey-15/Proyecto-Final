@@ -1,34 +1,55 @@
 package logico;
 
-public abstract class Plan {
+public class Plan {
 
-	protected String codigo;
-	protected String tipo;
-	protected float precioInicial;
-	protected float precioMensual;
+	private String nombre;
+	private String cantCanales;
+	private String cantMinutos;
+	private String cantInternet;
+	private float precioInicial;
+	private float precioMensual;
 	
-	public Plan(String codigo,String tipo , float precioInicial, float precioMensual) {
+	public Plan(String nombre, String cantCanales, String cantMinutos, String cantInternet,
+			float precioInicial, float precioMensual) {
 		super();
-		this.codigo = codigo;
-		this.tipo = tipo;
+		this.nombre = nombre;
+		this.cantCanales = cantCanales;
+		this.cantMinutos = cantMinutos;
+		this.cantInternet = cantInternet;
 		this.precioInicial = precioInicial;
 		this.precioMensual = precioMensual;
 	}
 
-	public String getCodigo() {
-		return codigo;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public String getCantCanales() {
+		return cantCanales;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setCantCanales(String cantCanales) {
+		this.cantCanales = cantCanales;
+	}
+
+	public String getCantMinutos() {
+		return cantMinutos;
+	}
+
+	public void setCantMinutos(String cantMinutos) {
+		this.cantMinutos = cantMinutos;
+	}
+
+	public String getCantInternet() {
+		return cantInternet;
+	}
+
+	public void setCantInternet(String cantInternet) {
+		this.cantInternet = cantInternet;
 	}
 
 	public float getPrecioInicial() {

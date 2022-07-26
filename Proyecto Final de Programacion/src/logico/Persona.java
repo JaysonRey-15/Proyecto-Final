@@ -1,24 +1,46 @@
 package logico;
 
-public class Persona {
+import java.io.Serializable;
+
+public class Persona implements Serializable{
 	
-	protected String identificacion;
+	private static final long serialVersionUID = 1L;
+	protected String cedula;
 	protected String nombre;
-	protected String apellido;
 	protected String genero;
 	protected String nacionalidad;
 	protected String direccion;
 	protected String telefono;
+	protected String codigoUsuario;
+	protected String tipo;
 	
-	public Persona(String identificacion, String nombre, String apellido, String genero, String nacionalidad,String direccion,String telefono) {
+	public Persona (String cedula, String nombre, String genero, String nacionalidad, String direccion, String telefono,
+			String codigoUsuario, String tipo) {
 		super();
-		this.identificacion = identificacion;
+		this.cedula = cedula;
 		this.nombre = nombre;
-		this.apellido = apellido;
 		this.genero = genero;
 		this.nacionalidad = nacionalidad;
 		this.direccion = direccion;
 		this.telefono = telefono;
+		this.codigoUsuario = codigoUsuario;
+		this.tipo = tipo;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
 	}
 
 	public String getNombre() {
@@ -27,14 +49,6 @@ public class Persona {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getApellido() {
-		return apellido;
-	}
-
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
 	}
 
 	public String getGenero() {
@@ -69,7 +83,11 @@ public class Persona {
 		this.telefono = telefono;
 	}
 
-	public String getIdentificacion() {
-		return identificacion;
+	public String getCodigoUsuario() {
+		return codigoUsuario;
+	}
+
+	public void setCodigoUsuario(String codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
 	}
 }
