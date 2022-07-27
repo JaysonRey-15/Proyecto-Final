@@ -344,10 +344,10 @@ public class ControlUsuario extends JDialog {
 				txtTelefono.setText(auxPersona.getTelefono());
 				txtGenero.setText(auxPersona.getGenero());
 				if(auxPersona instanceof P_Trabajador) {
-					txtpersona.setText(((P_Trabajador) auxPersona).getMiCuenta().getUsuario());
+					txtpersona.setText(((P_Trabajador) auxPersona).getCuenta().getUsuario());
 				}
 				if(auxPersona instanceof P_Administrador) {
-					txtpersona.setText(((P_Administrador) auxPersona).getMiCuenta().getUsuario());
+					txtpersona.setText(((P_Administrador) auxPersona).getCuenta().getUsuario());
 				}
 				txtCargo.setText(auxPersona.getTipo());
 				txtCodigo.setText(auxPersona.getCodigoUsuario());

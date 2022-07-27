@@ -15,6 +15,7 @@ import javax.swing.text.MaskFormatter;
 
 import logico.P_Administrador;
 import logico.AlticeSystem;
+import logico.Cliente;
 import logico.Cuenta;
 import logico.P_Trabajador;
 import logico.Persona;
@@ -57,6 +58,8 @@ public class RegistrarPersona extends JDialog {
 	private JTextField txtCodigo;
 	private JComboBox<String> cbxGenero;
     private Cuenta cuenta = null;
+    private JTextField textField;
+    private JRadioButton rbtBtnComfirm;
 	/**
 	 * Launch the application.
 	 */
@@ -111,7 +114,7 @@ public class RegistrarPersona extends JDialog {
 
 		txtNombre = new JTextField();
 		txtNombre.setColumns(10);
-		txtNombre.setBounds(12, 91, 361, 22);
+		txtNombre.setBounds(12, 91, 171, 22);
 		if(auxPersona != null) {
 			txtNombre.setText(auxPersona.getNombre());
 		}
@@ -260,9 +263,21 @@ public class RegistrarPersona extends JDialog {
 		panel.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Asignar usuario");
-		rdbtnNewRadioButton.setBounds(408, 141, 149, 23);
-		panel.add(rdbtnNewRadioButton);
+		rbtBtnComfirm = new JRadioButton("Asignar usuario");
+		rbtBtnComfirm.setBounds(408, 141, 149, 23);
+		panel.add(rbtBtnComfirm);
+		
+		
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		textField.setBounds(202, 91, 171, 22);
+		panel.add(textField);
+		
+		JLabel lblApellido = new JLabel("Apellido:");
+		lblApellido.setFont(new Font("Dialog", Font.BOLD, 11));
+		lblApellido.setBounds(202, 75, 72, 14);
+		panel.add(lblApellido);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Crear Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -278,9 +293,11 @@ public class RegistrarPersona extends JDialog {
 		txtUser = new JTextField();
 		txtUser.setEditable(false);
 		txtUser.setBounds(12, 50, 187, 22);
-		if(auxPersona != null && auxPersona instanceof P_Administrador) {
-			txtUser.setText(((P_Administrador) auxPersona).getMiCuenta().getUsuario());
-		}
+		
+//		IF(AUXPERSONA != NULL && AUXPERSONA INSTANCEOF P_ADMINISTRADOR) {
+//			TXTUSER.SETTEXT(((P_ADMINISTRADOR) AUXPERSONA).GETMICUENTA().GETUSUARIO());
+//		}
+//		
 		panel_1.add(txtUser);
 		txtUser.setColumns(10);
 		
@@ -305,9 +322,11 @@ public class RegistrarPersona extends JDialog {
 		txtPassword = new JPasswordField();
 		txtPassword.setEditable(false);
 		txtPassword.setBounds(236, 50, 187, 22);
-		if(auxPersona != null && auxPersona instanceof P_Administrador) {
-			txtPassword.setText(((P_Administrador) auxPersona).getMiCuenta().getPassword());
-		}
+		
+//		if(auxPersona != null && auxPersona instanceof P_Administrador) {
+//			txtPassword.setText(((P_Administrador) auxPersona).getMiCuenta().getPassword());
+//		}
+		
 		panel_1.add(txtPassword);
 		{
 			JPanel buttonPane = new JPanel();
@@ -334,10 +353,14 @@ public class RegistrarPersona extends JDialog {
 								Persona aux = null;
 								cuenta = new Cuenta(password, txtUser.getText());
 								if(cbxCargo.getSelectedIndex()== 0) {
-									aux = new P_Administrador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText(), cbxCargo.getSelectedItem().toString(), cuenta);
+									aux = new Cliente(txtCedula.getText(), txtNombre.getText(),txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText());
+								}
+								
+								if(cbxCargo.getSelectedIndex()==0) {
+									aux = new P_Administrador(txtCedula.getText(), txtNombre.getText(),txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText());
 								}
 								if(cbxCargo.getSelectedIndex()== 1) {
-									aux = new P_Trabajador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText(), cbxCargo.getSelectedItem().toString(), cuenta);
+									aux = new P_Trabajador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText());
 								}
 								AlticeSystem.getInstance().ingresarPersona(aux);
 								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -354,10 +377,10 @@ public class RegistrarPersona extends JDialog {
 								auxPersona.setNacionalidad(txtNacionalidad.getText());
 								auxPersona.setTelefono(txtTelefono.getText());
 								if(auxPersona instanceof P_Administrador) {
-									((P_Administrador) auxPersona).setMiCuenta(cuenta);
+									((P_Administrador) auxPersona).addCuenta(cuenta);
 								}
 								if(auxPersona instanceof P_Trabajador) {
-									((P_Trabajador) auxPersona).setMiCuenta(cuenta);
+									((P_Trabajador) auxPersona).addCuenta(cuenta);
 								}
 								if(cbxCargo.getSelectedIndex() == 0) {
 									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
@@ -446,6 +469,8 @@ public class RegistrarPersona extends JDialog {
 			labelDireccion.setVisible(false);
 		}
 		
+		if(rbtBtnComfirm.isSelected()) {
+		
 		if(txtUser.getText().trim().isEmpty()) {
 			labelPersona.setVisible(true);
 			validar = true;
@@ -460,6 +485,7 @@ public class RegistrarPersona extends JDialog {
 		}
 		else {
 			labelPassword.setVisible(false);
+		}
 		}
 		return validar;
 	}
