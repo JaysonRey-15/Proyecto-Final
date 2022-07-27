@@ -21,6 +21,8 @@ import javax.swing.text.MaskFormatter;
 
 import logico.AlticeSystem;
 import logico.Cliente;
+import logico.P_Trabajador;
+import logico.Persona;
 import logico.Plan;
 import logico.PlanAdquirido;
 
@@ -56,7 +58,7 @@ public class AdquirirPlan extends JDialog {
 	private JTextField txtApellido;
 	private JTextField txtNacionalidad;
 	private Plan auxPlan = null;
-	private Cliente auxCliente = null;
+	private Persona auxPersona = null;
 	private PlanAdquirido auxPlanAd = null;
 	private float precio = 0;
 	private JFormattedTextField txtTelefono;
@@ -128,8 +130,8 @@ public class AdquirirPlan extends JDialog {
 			JButton btnNewButton = new JButton("Buscar");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					auxCliente = AlticeSystem.getInstance().buscarClienteByCedula(txtCedula.getText());
-					if(auxCliente == null) {
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(txtCedula.getText());
+					if(auxPersona == null) {
 						JOptionPane.showMessageDialog(null, "El cliente no esta registrado", "Error", JOptionPane.ERROR_MESSAGE);
 						txtNombre.setEditable(true);
 						txtApellido.setEditable(true);
@@ -151,15 +153,15 @@ public class AdquirirPlan extends JDialog {
 						txtDireccion.setEditable(false);
 						txtNacionalidad.setEditable(false);
 						cbxGenero.setEnabled(false);
-						txtNombre.setText(auxCliente.getNombre());
-						txtApellido.setText(auxCliente.getApellido());
-						txtNacionalidad.setText(auxCliente.getNacionalidad());
-						txtDireccion.setText(auxCliente.getDireccion());
-						txtTelefono.setText(auxCliente.getTelefono());
-						if(auxCliente.getGenero().equalsIgnoreCase("Hombre")) {
+						txtNombre.setText(auxPersona.getNombre());
+						txtApellido.setText(auxPersona.getApellido());
+						txtNacionalidad.setText(auxPersona.getNacionalidad());
+						txtDireccion.setText(auxPersona.getDireccion());
+						txtTelefono.setText(auxPersona.getTelefono());
+						if(auxPersona.getGenero().equalsIgnoreCase("Hombre")) {
 						   cbxGenero.setSelectedIndex(0);
 						}
-						if(auxCliente.getGenero().equalsIgnoreCase("Mujer")) {
+						if(auxPersona.getGenero().equalsIgnoreCase("Mujer")) {
 						   cbxGenero.setSelectedIndex(1);
 						}
 					}
@@ -313,13 +315,13 @@ public class AdquirirPlan extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						int aux = table.getSelectedRow();
 						if(aux != -1) {
-							if(auxCliente == null) {
-								auxCliente = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
-								AlticeSystem.getInstance().insertarCliente(auxCliente);
+							if(auxPersona == null) {
+								auxPersona = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
+								AlticeSystem.getInstance().insertarPersona(auxPersona);
 							}
 							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), txtFecha.getText(), precio, false);
 							auxPlanAd.insertarPlan(auxPlan);
-							auxCliente.insertarPlanAd(auxPlanAd);
+							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().insertarPlanAd(auxPlanAd);
 							JOptionPane.showMessageDialog(null, "Operacion Exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							clean();

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class AlticeSystem {
 
-	private ArrayList<Cliente> misClientes;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Persona> misPersonas;
@@ -16,7 +15,6 @@ public class AlticeSystem {
 
 	public AlticeSystem() {
 		super();
-		this.misClientes = new ArrayList<Cliente>();
 		this.misPlanes = new ArrayList<Plan>();
 		this.misPlanesAd = new ArrayList<PlanAdquirido>();
 		this.misFacturas = new ArrayList<Factura>();
@@ -36,10 +34,6 @@ public class AlticeSystem {
 		return misPersonas;
 	}
 
-	public ArrayList<Cliente> getMisClientes() {
-		return misClientes;
-	}
-
 	public ArrayList<Plan> getMisPlanes() {
 		return misPlanes;
 	}
@@ -54,10 +48,6 @@ public class AlticeSystem {
 
 	public int getGeneradorCodigoPersona() {
 		return generadorCodigoPersona;
-	}
-
-	public void insertarCliente(Cliente auxCliente) {
-		misClientes.add(auxCliente);
 	}
 	
 	public void insertarPlan(Plan auxPlan) {
@@ -199,18 +189,18 @@ public class AlticeSystem {
 
 	}
 
-	public Cliente buscarClienteByCedula(String cedula) {
-		Cliente cliente = null;
+	public Persona buscarPersonaByCedula(String cedula) {
+		Persona persona = null;
 		boolean encontrado = false;
 		int i = 0;
-		while(i < misClientes.size() && !encontrado) {
-			if(misClientes.get(i).getCedula().equalsIgnoreCase(cedula)) {
-				cliente = misClientes.get(i);
+		while(i < misPersonas.size() && !encontrado) {
+			if(misPersonas.get(i).getCedula().equalsIgnoreCase(cedula)) {
+				persona = misPersonas.get(i);
 				encontrado = true;
 			}
 			i++;
 		}
-		return cliente;
+		return persona;
 	}
 	
 	//Por discutir
