@@ -11,7 +11,9 @@ public class Persona implements Serializable{
 	protected String nacionalidad;
 	protected String direccion;
 	protected String telefono;
+	//Recuerde al tener un nombre usuario el codigo usuario no es necesario para personales de la empresa, mucho menos para cliente
 	protected String codigoUsuario;
+	//Por qué tienes un atributo tipo?
 	protected String tipo;
 	
 	public Persona (String cedula, String nombre, String genero, String nacionalidad, String direccion, String telefono,

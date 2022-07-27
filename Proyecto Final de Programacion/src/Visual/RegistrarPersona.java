@@ -32,6 +32,7 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 
 public class RegistrarPersona extends JDialog {
 
@@ -42,7 +43,7 @@ public class RegistrarPersona extends JDialog {
 	private JTextField txtDireccion;
 	private JTextField txtNacionalidad;
 	private JComboBox<String> cbxCargo;
-	private JTextField txtPersona;
+	private JTextField txtUser;
 	private JLabel labelCedula;
 	private JLabel labelTelefono;
 	private JLabel labelNombre;
@@ -80,7 +81,7 @@ public class RegistrarPersona extends JDialog {
 		}
 		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 585,417);
+		setBounds(100, 100, 608,427);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(SystemColor.menu);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -92,7 +93,7 @@ public class RegistrarPersona extends JDialog {
 		panel.setLayout(null);
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Informaci\u00F3n Personal", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel.setBackground(SystemColor.menu);
-		panel.setBounds(0, 0, 565, 238);
+		panel.setBounds(12, 12, 565, 238);
 		contentPanel.add(panel);
 		MaskFormatter cedula = null;
 		try {
@@ -183,15 +184,16 @@ public class RegistrarPersona extends JDialog {
 
 		JLabel lblNacionalidad = new JLabel("Nacionalidad:");
 		lblNacionalidad.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNacionalidad.setBounds(202, 126, 83, 14);
+		lblNacionalidad.setBounds(202, 126, 119, 14);
 		panel.add(lblNacionalidad);
 
 
 
 		cbxCargo = new JComboBox<String>();
+		cbxCargo.setEnabled(false);
 		cbxCargo.setForeground(SystemColor.textText);
 		cbxCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		cbxCargo.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrador", "Trabajador"}));
+		cbxCargo.setModel(new DefaultComboBoxModel(new String[] {"Cliente", "Administrador", "Trabajador"}));
 		cbxCargo.setSelectedIndex(0);
 		cbxCargo.setBounds(402, 91, 119, 22);
 		if(auxPersona != null && auxPersona.getTipo().equalsIgnoreCase("Administrador")) {
@@ -258,27 +260,32 @@ public class RegistrarPersona extends JDialog {
 		panel.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Asignar usuario");
+		rdbtnNewRadioButton.setBounds(408, 141, 149, 23);
+		panel.add(rdbtnNewRadioButton);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Crear Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBackground(SystemColor.menu);
-		panel_1.setBounds(0, 241, 565, 85);
+		panel_1.setBounds(12, 256, 565, 85);
 		contentPanel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Usuario:");
-		lblNewLabel.setBounds(12, 28, 56, 16);
+		lblNewLabel.setBounds(12, 28, 111, 16);
 		panel_1.add(lblNewLabel);
 		
-		txtPersona = new JTextField();
-		txtPersona.setBounds(12, 50, 187, 22);
+		txtUser = new JTextField();
+		txtUser.setEditable(false);
+		txtUser.setBounds(12, 50, 187, 22);
 		if(auxPersona != null && auxPersona instanceof P_Administrador) {
-			txtPersona.setText(((P_Administrador) auxPersona).getMiCuenta().getUsuario());
+			txtUser.setText(((P_Administrador) auxPersona).getMiCuenta().getUsuario());
 		}
-		panel_1.add(txtPersona);
-		txtPersona.setColumns(10);
+		panel_1.add(txtUser);
+		txtUser.setColumns(10);
 		
 		JLabel lblNewLabel2 = new JLabel("Contrase\u00F1a:");
-		lblNewLabel2.setBounds(236, 28, 70, 16);
+		lblNewLabel2.setBounds(236, 28, 121, 16);
 		panel_1.add(lblNewLabel2);
 		
 		labelPersona = new JLabel("*");
@@ -296,6 +303,7 @@ public class RegistrarPersona extends JDialog {
 		panel_1.add(labelPassword);
 		
 		txtPassword = new JPasswordField();
+		txtPassword.setEditable(false);
 		txtPassword.setBounds(236, 50, 187, 22);
 		if(auxPersona != null && auxPersona instanceof P_Administrador) {
 			txtPassword.setText(((P_Administrador) auxPersona).getMiCuenta().getPassword());
@@ -315,7 +323,7 @@ public class RegistrarPersona extends JDialog {
 			}
 			btnRegistrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					boolean Persona = AlticeSystem.getInstance().PersonaExiste(txtPersona.getText(), auxPersona);
+					boolean Persona = AlticeSystem.getInstance().PersonaExiste(txtUser.getText(), auxPersona);
 					String password = new String(txtPassword.getPassword());
 					if(!Persona) {
 						if(auxPersona == null) {
@@ -324,14 +332,14 @@ public class RegistrarPersona extends JDialog {
 							}
 							else {
 								Persona aux = null;
-								cuenta = new Cuenta(password, txtPersona.getText());
+								cuenta = new Cuenta(password, txtUser.getText());
 								if(cbxCargo.getSelectedIndex()== 0) {
 									aux = new P_Administrador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText(), cbxCargo.getSelectedItem().toString(), cuenta);
 								}
 								if(cbxCargo.getSelectedIndex()== 1) {
 									aux = new P_Trabajador(txtCedula.getText(), txtNombre.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCodigo.getText(), cbxCargo.getSelectedItem().toString(), cuenta);
 								}
-								AlticeSystem.getInstance().insertarPersona(aux);
+								AlticeSystem.getInstance().ingresarPersona(aux);
 								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 								clean();
 							}
@@ -388,7 +396,7 @@ public class RegistrarPersona extends JDialog {
 		txtNacionalidad.setText("");
 		txtTelefono.setValue(null);
 		txtDireccion.setText("");
-		txtPersona.setText("");
+		txtUser.setText("");
 		txtPassword.setText("");
 		cbxGenero.setSelectedIndex(0);
 		cbxCargo.setSelectedIndex(0);
@@ -438,7 +446,7 @@ public class RegistrarPersona extends JDialog {
 			labelDireccion.setVisible(false);
 		}
 		
-		if(txtPersona.getText().trim().isEmpty()) {
+		if(txtUser.getText().trim().isEmpty()) {
 			labelPersona.setVisible(true);
 			validar = true;
 		}
