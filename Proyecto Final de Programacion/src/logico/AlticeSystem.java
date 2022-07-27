@@ -1,17 +1,19 @@
 package logico;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class AlticeSystem {
-	
+
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Persona> misPersonas;
+	private ArrayList<Cuenta> misCuentas;
 	private ArrayList<PlanAdquirido> misPlanesAd;
 	private int generadorCodigoPersona;
 	public static AlticeSystem ALS = null;
-	
+
 	public AlticeSystem() {
 		super();
 		this.misClientes = new ArrayList<Cliente>();
@@ -19,6 +21,7 @@ public class AlticeSystem {
 		this.misPlanesAd = new ArrayList<PlanAdquirido>();
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
+		this.misCuentas = new ArrayList<Cuenta>();
 		generadorCodigoPersona = 1;
 	}
 
@@ -28,7 +31,7 @@ public class AlticeSystem {
 		}
 		return ALS;
 	}
-	
+
 	public ArrayList<Persona> getMisPersonas() {
 		return misPersonas;
 	}
@@ -40,7 +43,7 @@ public class AlticeSystem {
 	public ArrayList<Plan> getMisPlanes() {
 		return misPlanes;
 	}
-	
+
 	public ArrayList<PlanAdquirido> getmisPlanesAd() {
 		return misPlanesAd;
 	}
@@ -52,20 +55,20 @@ public class AlticeSystem {
 	public int getGeneradorCodigoPersona() {
 		return generadorCodigoPersona;
 	}
-	
+
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
 	}
-	
+
 	public void insertarPlanAd(PlanAdquirido auxPlanAd) {
 		misPlanesAd.add(auxPlanAd);
 	}
-	
+
 	public void insertarPersona(Persona auxPersona) {
 		misPersonas.add(auxPersona);
 		generadorCodigoPersona++;
 	}
-	
+
 	public void modificarPlan(Plan auxPlan) {
 		int ind = buscarIndexByNomb(auxPlan.getNombre());
 		if(ind != -1) {
@@ -88,7 +91,7 @@ public class AlticeSystem {
 		}
 		return ind;
 	}
-	
+
 	public boolean PersonaExiste(String Persona, Persona aux) {
 		int i = 0;
 		boolean encontrado = false;
@@ -157,4 +160,41 @@ public class AlticeSystem {
 			misPersonas.remove(auxPersona);
 		}
 	}
+
+
+	public void addUser(String cedula,Cuenta cuenta) {
+		Persona aux =buscarPersonaByCode(cedula);
+
+		if(aux!=null && cuenta!=null) {
+			if(aux instanceof P_Administrador) {
+				P_Administrador admi = (P_Administrador)aux;
+				misCuentas.add(cuenta);
+				admi.addCuenta(cuenta);
+			}else 
+				if(aux instanceof P_Trabajador) {
+					P_Trabajador tra = (P_Trabajador)aux;
+					misCuentas.add(cuenta);
+					tra.addCuenta(cuenta);
+				}
+
+		}
+
+	}
+	
+	//Por discutir
+//
+//	public void actualizarBalanceCliente(Cliente cliente,BalancePendiente ppendiente) {
+//		int ind;
+//		PlanAdquirido plan = null;
+//		if(cliente.getMiPlan().isPagoPendiente()) {
+//			plan = cliente.getMiPlan();
+//			Date date;
+//			//BalancePendiente bpendiente new BalancePendiente("Cuentas por pagar", plan.getMisPlanes().get(0).getPrecioMensual(), date);
+//			
+//			cliente.getPPendientes().add(null);
+//		}
+//	}
+
 }
+
+
