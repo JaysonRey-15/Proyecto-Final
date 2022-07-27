@@ -77,8 +77,7 @@ public class ControlUsuario extends JDialog {
 	  private JTextField txtpersona;
 	  private JButton btnCerrar;
 	  private JButton btnModificar;
-	  private JLabel lblNewLabel_1;
-	  private JLabel lblNewLabel_2;
+	  private JTextField textField;
 	/**
 	 * Launch the application.
 	 */
@@ -120,45 +119,26 @@ public class ControlUsuario extends JDialog {
 		panelSystem.setLayout(null);
 		
 		panelHead = new JPanel();
-		panelHead.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Buscar Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelHead.setBackground(Color.LIGHT_GRAY);
-		panelHead.setBounds(12, 13, 1144, 88);
+		panelHead.setBounds(10, 0, 1156, 70);
 		panelSystem.add(panelHead);
 		panelHead.setLayout(null);
-		MaskFormatter buscar = null;
 		
-		try {
-			buscar = new MaskFormatter("P-#");
-			buscar.setPlaceholderCharacter('_');
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		txtBuscar = new JFormattedTextField(buscar);
-		txtBuscar.setBounds(12, 48, 153, 27);
-		panelHead.add(txtBuscar);
-		txtBuscar.setColumns(10);
 		
 		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(SystemColor.activeCaptionBorder);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				auxPersona = AlticeSystem.getInstance().buscarPersonaByCode(txtBuscar.getText());
 				if(auxPersona == null) {
 					JOptionPane.showMessageDialog(null, "Usuario No Esta Registrado", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				loadPersonasByCode(auxPersona);
+				
 				clean();
 			}
 		});
-		btnBuscar.setBounds(170, 48, 100, 27);
+		btnBuscar.setBounds(150, 31, 100, 27);
 		panelHead.add(btnBuscar);
-		
-		lblNewLabel_1 = new JLabel("Codigo:");
-		lblNewLabel_1.setBounds(12, 29, 56, 16);
-		panelHead.add(lblNewLabel_1);
-		
-		lblNewLabel_2 = new JLabel("Tipo de Usuario:");
-		lblNewLabel_2.setBounds(309, 29, 100, 16);
-		panelHead.add(lblNewLabel_2);
 		
 		JComboBox cbxTipo = new JComboBox();
 		cbxTipo.addActionListener(new ActionListener() {
@@ -168,8 +148,13 @@ public class ControlUsuario extends JDialog {
 			}
 		});
 		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Todos>", "Administradores", "Trabajadores"}));
-		cbxTipo.setBounds(309, 50, 153, 27);
+		cbxTipo.setBounds(441, 31, 153, 27);
 		panelHead.add(cbxTipo);
+		
+		textField = new JTextField();
+		textField.setBounds(24, 31, 114, 27);
+		panelHead.add(textField);
+		textField.setColumns(10);
 		
 		panelInfo = new JPanel();
 		panelInfo.setBounds(10, 108, 600, 285);
@@ -197,7 +182,7 @@ public class ControlUsuario extends JDialog {
 		scrollPane_1.setViewportView(tableInfo);
 		{
 			model = new DefaultTableModel();
-			String[] header = {"Codigo","Nombre","Cedula","Teléfono", "Cargo"};
+			String[] header = {"Codigo","Nombre","Cedula","Telefono", "Cargo"};
 			model.setColumnIdentifiers(header);
 		}
 		
@@ -219,24 +204,24 @@ public class ControlUsuario extends JDialog {
 		
 		txtNombre = new JTextField();
 		txtNombre.setEditable(false);
-		txtNombre.setBounds(12, 99, 315, 22);
+		txtNombre.setBounds(12, 101, 315, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
 		txtTelefono = new JTextField();
 		txtTelefono.setEditable(false);
-		txtTelefono.setBounds(12, 150, 143, 22);
+		txtTelefono.setBounds(12, 164, 143, 22);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		
 		lblNewLabel_3 = new JLabel("Tel\u00E9fono:");
 		lblNewLabel_3.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_3.setBounds(12, 134, 109, 14);
+		lblNewLabel_3.setBounds(12, 148, 109, 14);
 		panel.add(lblNewLabel_3);
 		
 		lblNewLabel_4 = new JLabel("Nombre:");
 		lblNewLabel_4.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_4.setBounds(12, 80, 72, 14);
+		lblNewLabel_4.setBounds(12, 82, 72, 14);
 		panel.add(lblNewLabel_4);
 		
 		lblNewLabel_5 = new JLabel("C\u00E9dula:");
@@ -247,13 +232,13 @@ public class ControlUsuario extends JDialog {
 		
 		txtDireccion = new JTextField();
 		txtDireccion.setEditable(false);
-		txtDireccion.setBounds(12, 195, 479, 22);
+		txtDireccion.setBounds(12, 228, 479, 22);
 		panel.add(txtDireccion);
 		txtDireccion.setColumns(10);
 		
 		lblNewLabel_6 = new JLabel("Direcci\u00F3n:");
 		lblNewLabel_6.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_6.setBounds(12, 177, 83, 14);
+		lblNewLabel_6.setBounds(12, 210, 83, 14);
 		panel.add(lblNewLabel_6);
 		
 		lblNewLabel_7 = new JLabel("G\u00E9nero:");
@@ -263,18 +248,18 @@ public class ControlUsuario extends JDialog {
 		
 		txtNacionalidad = new JTextField();
 		txtNacionalidad.setEditable(false);
-		txtNacionalidad.setBounds(184, 151, 143, 22);
+		txtNacionalidad.setBounds(184, 165, 143, 22);
 		panel.add(txtNacionalidad);
 		txtNacionalidad.setColumns(10);
 		
 		JLabel lblNewLabel_8 = new JLabel("Nacionalidad:");
 		lblNewLabel_8.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_8.setBounds(184, 134, 83, 14);
+		lblNewLabel_8.setBounds(184, 148, 83, 14);
 		panel.add(lblNewLabel_8);
 		
 		lblCargo = new JLabel("Cargo:");
 		lblCargo.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblCargo.setBounds(350, 80, 46, 14);
+		lblCargo.setBounds(350, 82, 46, 14);
 		panel.add(lblCargo);
 		
 		lblNewLabel = new JLabel("Codigo:");
@@ -296,18 +281,18 @@ public class ControlUsuario extends JDialog {
 		
 		txtCargo = new JTextField();
 		txtCargo.setEditable(false);
-		txtCargo.setBounds(348, 99, 143, 22);
+		txtCargo.setBounds(348, 101, 143, 22);
 		panel.add(txtCargo);
 		txtCargo.setColumns(10);
 		
 		Usuario = new JLabel("Usuario:");
 		Usuario.setFont(new Font("Dialog", Font.BOLD, 11));
-		Usuario.setBounds(350, 133, 56, 16);
+		Usuario.setBounds(350, 147, 56, 16);
 		panel.add(Usuario);
 		
 		txtpersona = new JTextField();
 		txtpersona.setEditable(false);
-		txtpersona.setBounds(348, 150, 143, 22);
+		txtpersona.setBounds(348, 164, 143, 22);
 		panel.add(txtpersona);
 		txtpersona.setColumns(10);
 		
@@ -342,7 +327,7 @@ public class ControlUsuario extends JDialog {
 		panelNav = new JPanel();
 		panelNav.setBounds(0, 586, 1154, 59);
 		contentPane.add(panelNav);
-		panelNav.setBackground(new Color(0, 0, 51));
+		panelNav.setBackground(Color.LIGHT_GRAY);
 		panelNav.setLayout(null);
 		
 		btnVer = new JButton("Ver");
@@ -359,17 +344,17 @@ public class ControlUsuario extends JDialog {
 				txtTelefono.setText(auxPersona.getTelefono());
 				txtGenero.setText(auxPersona.getGenero());
 				if(auxPersona instanceof P_Trabajador) {
-					txtpersona.setText(((P_Trabajador) auxPersona).getMiCuenta().getUsuario());
+					txtpersona.setText(((P_Trabajador) auxPersona).getCuenta().getUsuario());
 				}
 				if(auxPersona instanceof P_Administrador) {
-					txtpersona.setText(((P_Administrador) auxPersona).getMiCuenta().getUsuario());
+					txtpersona.setText(((P_Administrador) auxPersona).getCuenta().getUsuario());
 				}
 				txtCargo.setText(auxPersona.getTipo());
 				txtCodigo.setText(auxPersona.getCodigoUsuario());
 			}
 		});
 		btnVer.setForeground(Color.WHITE);
-		btnVer.setBackground(new Color(0, 0, 255));
+		btnVer.setBackground(SystemColor.inactiveCaption);
 		btnVer.setFont(new Font("Sitka Small", Font.BOLD, 14));
 		
 				btnVer.setBounds(257, 11, 112, 37);
@@ -388,7 +373,7 @@ public class ControlUsuario extends JDialog {
 					}
 				});
 				btnEliminar.setForeground(Color.WHITE);
-				btnEliminar.setBackground(new Color(0, 0, 255));
+				btnEliminar.setBackground(SystemColor.inactiveCaption);
 				btnEliminar.setFont(new Font("Sitka Small", Font.BOLD, 14));
 				btnEliminar.setBounds(505, 11, 112, 37);
 				panelNav.add(btnEliminar);
@@ -405,7 +390,7 @@ public class ControlUsuario extends JDialog {
 					}
 				});
 				btnNewButton_1.setForeground(Color.WHITE);
-				btnNewButton_1.setBackground(new Color(0, 0, 255));
+				btnNewButton_1.setBackground(SystemColor.inactiveCaption);
 				btnNewButton_1.setFont(new Font("Sitka Small", Font.BOLD, 14));
 				btnNewButton_1.setBounds(634, 11, 125, 37);
 				panelNav.add(btnNewButton_1);
@@ -427,7 +412,7 @@ public class ControlUsuario extends JDialog {
 				});
 				btnModificar.setForeground(Color.WHITE);
 				btnModificar.setFont(new Font("Sitka Small", Font.BOLD, 14));
-				btnModificar.setBackground(Color.BLUE);
+				btnModificar.setBackground(SystemColor.inactiveCaption);
 				btnModificar.setBounds(381, 11, 112, 37);
 				panelNav.add(btnModificar);
 				panelSystem.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelNav, btnVer, btnEliminar, btnNewButton_1, panelHead, txtBuscar, btnBuscar, panelInfo, scrollPane_1, tableInfo, panel, txtCedula, txtNombre, txtTelefono, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5, txtDireccion, lblNewLabel_6, lblNewLabel_7, txtNacionalidad, lblNewLabel_8, lblCargo, panel_1, panel_2}));
@@ -440,7 +425,7 @@ public class ControlUsuario extends JDialog {
 				});
 				btnCerrar.setForeground(Color.WHITE);
 				btnCerrar.setFont(new Font("Dialog", Font.BOLD, 14));
-				btnCerrar.setBackground(Color.BLUE);
+				btnCerrar.setBackground(SystemColor.inactiveCaption);
 				btnCerrar.setBounds(771, 11, 112, 37);
 				panelNav.add(btnCerrar);
 		
@@ -458,29 +443,6 @@ public class ControlUsuario extends JDialog {
 		txtpersona.setText("");
 		txtCargo.setText("");
 		txtCodigo.setText("");
-	}
-	private void loadPersonasByCode(Persona auxPersona) {
-		model.setRowCount(0);
-		row = new Object[model.getColumnCount()];
-		
-		if(auxPersona == null) {
-			for(int ind = 0; ind < AlticeSystem.getInstance().getMisPersonas().size(); ind++) {
-				row[0]= AlticeSystem.getInstance().getMisPersonas().get(ind).getCodigoUsuario();
-				row[1]= AlticeSystem.getInstance().getMisPersonas().get(ind).getNombre();
-				row[2]= AlticeSystem.getInstance().getMisPersonas().get(ind).getCedula();
-				row[3] = AlticeSystem.getInstance().getMisPersonas().get(ind).getTelefono();
-				row[4] =AlticeSystem.getInstance().getMisPersonas().get(ind).getTipo();
-				model.addRow(row);
-			}
-		}
-		else {
-			row[0] = auxPersona.getCodigoUsuario();
-			row[1] = auxPersona.getNombre();
-			row[2] = auxPersona.getCedula();
-			row[3] = auxPersona.getTelefono();
-			row[4] = auxPersona.getTipo();
-			model.addRow(row);
-		}
 	}
 	
 	private void loadPersonasByTipo(int i) {

@@ -94,22 +94,22 @@ public class AlticeSystem {
 		boolean encontrado = false;
 		while (!encontrado && i < misPersonas.size()) {
 			if(aux != null && aux instanceof P_Administrador) {
-				if(Persona.equals(((P_Administrador) aux).getMiCuenta().getUsuario())) {
+				if(Persona.equals(((P_Administrador) aux).getCuenta().getUsuario())) {
 					return false;
 				}
 			}
 			else if(aux != null && aux instanceof P_Trabajador) {
-				if(Persona.equals(((P_Trabajador) aux).getMiCuenta().getUsuario())) {
+				if(Persona.equals(((P_Trabajador) aux).getCuenta().getUsuario())) {
 					return false;
 				}
 			}
 			if (misPersonas.get(i) instanceof P_Administrador) {
-				if(((P_Administrador) misPersonas.get(i)).getMiCuenta().getUsuario().equalsIgnoreCase(Persona)) {
+				if(((P_Administrador) misPersonas.get(i)).getCuenta().getUsuario().equalsIgnoreCase(Persona)) {
 					encontrado = true;	
 				}
 			}
 			else if (misPersonas.get(i) instanceof P_Trabajador) {
-				if(((P_Trabajador) misPersonas.get(i)).getMiCuenta().getUsuario().equalsIgnoreCase(Persona)) {
+				if(((P_Trabajador) misPersonas.get(i)).getCuenta().getUsuario().equalsIgnoreCase(Persona)) {
 					encontrado = true;	
 				}
 			}
@@ -126,7 +126,7 @@ public class AlticeSystem {
 			Persona.setTipo(auxPersona.getTipo());
 			Persona.setNacionalidad(auxPersona.getNacionalidad());
 			Persona.setDireccion(auxPersona.getDireccion());
-			((P_Administrador) Persona).setMiCuenta(cuenta);
+			((P_Administrador) Persona).addCuenta(cuenta);
 		}
 		if(Persona != null && auxPersona instanceof P_Trabajador) {
 			Persona.setTelefono(auxPersona.getTelefono());
@@ -134,7 +134,7 @@ public class AlticeSystem {
 			Persona.setTipo(auxPersona.getTipo());
 			Persona.setNacionalidad(auxPersona.getNacionalidad());
 			Persona.setDireccion(auxPersona.getDireccion());
-			((P_Trabajador) Persona).setMiCuenta(cuenta);
+			((P_Trabajador) Persona).addCuenta(cuenta);
 		}
 	}
 

@@ -7,11 +7,14 @@ public class Cliente extends Persona {
 	private static final long serialVersionUID = 1L;
 	private ArrayList <Factura> misFacturas;
 	private PlanAdquirido miPlan;
-	
-	public Cliente(String cedula, String nombre, String genero, String nacionalidad, String direccion, String telefono,
-			String codigoUsuario, String tipo, PlanAdquirido miPlan) {
-		super(cedula, nombre, genero, nacionalidad, direccion, telefono, codigoUsuario, tipo);
+	private ArrayList<Object> PPendientes;
+
+	public Cliente(String cedula, String nombre, String apellido, String genero, String nacionalidad, String direccion,
+			String telefono, String tipo, String codigoUsuario, PlanAdquirido miPlan) {
+		super(cedula, nombre, apellido, genero, nacionalidad, direccion, telefono, tipo, codigoUsuario);
 		this.miPlan = miPlan;
+		this.misFacturas = new ArrayList<Factura>();
+		this.PPendientes = new ArrayList<Object>();
 	}
 
 	public ArrayList<Factura> getMisFacturas() {
