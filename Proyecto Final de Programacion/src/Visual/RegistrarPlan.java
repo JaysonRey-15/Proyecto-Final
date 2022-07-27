@@ -45,6 +45,9 @@ public class RegistrarPlan extends JDialog {
 	private JLabel lblNewLabel_5;
 	private JTextField txtNombre;
 	private JLabel labelNombre;
+	private JRadioButton rdbInternet;
+	private JRadioButton rdbTelefono;
+	private JRadioButton rdbTelevision;
 
 	/**
 	 * Launch the application.
@@ -180,6 +183,7 @@ public class RegistrarPlan extends JDialog {
 			panelInternet.add(lblNewLabel_2);
 			
 			txtVelocidad = new JTextField();
+			txtVelocidad.setEditable(false);
 			txtVelocidad.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
@@ -200,6 +204,20 @@ public class RegistrarPlan extends JDialog {
 			labelVelocidad.setBounds(165, 25, 56, 16);
 			panelInternet.add(labelVelocidad);
 			
+			rdbInternet = new JRadioButton("Agregar");
+			rdbInternet.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbInternet.isSelected()){
+						txtVelocidad.setEditable(true);
+					}
+					else{
+						txtVelocidad.setEditable(false);
+					}
+				}
+			});
+			rdbInternet.setBounds(209, 25, 86, 20);
+			panelInternet.add(rdbInternet);
+			
 			panelCable = new JPanel();
 			panelCable.setBounds(12, 200, 469, 70);
 			panelTipo.add(panelCable);
@@ -211,6 +229,7 @@ public class RegistrarPlan extends JDialog {
 			panelCable.add(lblNewLabel_4);
 			
 			txtCanales = new JTextField();
+			txtCanales.setEditable(false);
 			txtCanales.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
@@ -231,6 +250,20 @@ public class RegistrarPlan extends JDialog {
 			labelCanales.setBounds(166, 25, 56, 16);
 			panelCable.add(labelCanales);
 			
+			rdbTelevision = new JRadioButton("Agregar");
+			rdbTelevision.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbTelevision.isSelected()){
+						txtCanales.setEditable(true);
+					}
+					else{
+						txtCanales.setEditable(false);
+					}
+				}
+			});
+			rdbTelevision.setBounds(209, 25, 86, 20);
+			panelCable.add(rdbTelevision);
+			
 			panelTelefono = new JPanel();
 			panelTelefono.setBounds(12, 118, 469, 70);
 			panelTipo.add(panelTelefono);
@@ -242,6 +275,7 @@ public class RegistrarPlan extends JDialog {
 			panelTelefono.add(lblNewLabel_3);
 			
 			txtMinutos = new JTextField();
+			txtMinutos.setEditable(false);
 			txtMinutos.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyTyped(KeyEvent e) {
@@ -261,14 +295,25 @@ public class RegistrarPlan extends JDialog {
 			labelMinutos.setForeground(Color.RED);
 			labelMinutos.setBounds(166, 25, 56, 16);
 			panelTelefono.add(labelMinutos);
+			
+			rdbTelefono = new JRadioButton("Agregar");
+			rdbTelefono.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(rdbTelefono.isSelected()){
+						txtMinutos.setEditable(true);
+					}
+					else{
+						txtMinutos.setEditable(false);
+					}
+				}
+			});
+			rdbTelefono.setBounds(209, 25, 86, 20);
+			panelTelefono.add(rdbTelefono);
 		}
 		if(auxPlan != null) {
 			txtVelocidad.setText(auxPlan.getCantInternet());;
-			txtVelocidad.setEditable(false);
 			txtMinutos.setText(auxPlan.getCantMinutos());;
-			txtMinutos.setEditable(false);
 			txtCanales.setText(auxPlan.getCantCanales());;
-			txtCanales.setEditable(false);
 		}
 		
 		{
@@ -284,33 +329,43 @@ public class RegistrarPlan extends JDialog {
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(auxPlan == null) {
-							if(validarCampos()) {
-								JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+							if(verificarPlan()) {
+								JOptionPane.showConfirmDialog(null, "El plan deber tener al menos dos servicios", "Error", JOptionPane.WARNING_MESSAGE);
 							}
 							else {
-								Plan p1 = null;
-								String nom = txtNombre.getText();
-								float precioIni = Float.valueOf(txtPrecioInicial.getText());
-								float precioM = Float.valueOf(txtPrecioMensual.getText());
-								p1 = new Plan(nom, txtCanales.getText(), txtMinutos.getText(), txtVelocidad.getText(), precioIni, precioM);
-								AlticeSystem.getInstance().insertarPlan(p1);
-								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-								clean();
+								if(validarCampos()) {
+									JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+								}
+								else {
+									Plan p1 = null;
+									String nom = txtNombre.getText();
+									float precioIni = Float.valueOf(txtPrecioInicial.getText());
+									float precioM = Float.valueOf(txtPrecioMensual.getText());
+									p1 = new Plan(nom, txtCanales.getText(), txtMinutos.getText(), txtVelocidad.getText(), precioIni, precioM);
+									AlticeSystem.getInstance().insertarPlan(p1);
+									JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+									clean();
+								}
 							}
 						}
 						else {
-							if(validarCampos()) {
-								JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+							if(verificarPlan()) {
+								JOptionPane.showConfirmDialog(null, "El plan deber tener al menos dos servicios", "Error", JOptionPane.WARNING_MESSAGE);
 							}
 							else {
-							   auxPlan.setNombre(txtNombre.getText());
-							   auxPlan.setPrecioInicial(Float.valueOf(txtPrecioInicial.getText()));
-							   auxPlan.setPrecioMensual(Float.valueOf(txtPrecioMensual.getText()));
-						       auxPlan.setCantInternet(txtVelocidad.getText());
-							   auxPlan.setCantMinutos(txtMinutos.getText());
-							   auxPlan.setCantCanales(txtCanales.getText());
-							   AlticeSystem.getInstance().modificarPlan(auxPlan);
-							   dispose();
+								if(validarCampos()) {
+									JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+								}
+								else {
+								   auxPlan.setNombre(txtNombre.getText());
+								   auxPlan.setPrecioInicial(Float.valueOf(txtPrecioInicial.getText()));
+								   auxPlan.setPrecioMensual(Float.valueOf(txtPrecioMensual.getText()));
+							       auxPlan.setCantInternet(txtVelocidad.getText());
+								   auxPlan.setCantMinutos(txtMinutos.getText());
+								   auxPlan.setCantCanales(txtCanales.getText());
+								   AlticeSystem.getInstance().modificarPlan(auxPlan);
+								   dispose();
+								}
 							}
 					    }
 					}
@@ -338,8 +393,33 @@ public class RegistrarPlan extends JDialog {
 		txtMinutos.setText("");
 		txtCanales.setText("");
 		txtNombre.setText("");
+		txtVelocidad.setEditable(false);
+		txtMinutos.setEditable(false);
+		txtCanales.setEditable(false);
+		rdbInternet.setSelected(false);
+		rdbTelefono.setSelected(false);
+		rdbTelevision.setSelected(false);
 	}
 	
+	private boolean verificarPlan() {
+		
+		boolean validar = false;
+		
+		if(txtVelocidad.getText().trim().isEmpty() && txtMinutos.getText().trim().isEmpty() && !txtCanales.getText().trim().isEmpty()) {
+			validar = true;
+		}
+		if(txtVelocidad.getText().trim().isEmpty() && txtCanales.getText().trim().isEmpty() && !txtMinutos.getText().trim().isEmpty()) {
+			validar = true;
+		}
+		if(txtCanales.getText().trim().isEmpty() && txtMinutos.getText().trim().isEmpty() && !txtVelocidad.getText().trim().isEmpty()) {
+			validar = true;
+		}
+		if(txtVelocidad.getText().trim().isEmpty() && txtMinutos.getText().trim().isEmpty() && txtCanales.getText().trim().isEmpty()) {
+			validar = true;
+		}
+		return validar;
+		
+	}
 	private boolean validarCampos(){
 		boolean validar = false;
 		
@@ -367,7 +447,7 @@ public class RegistrarPlan extends JDialog {
 			labelPrecioM.setVisible(false);
 		}
 		
-		if(txtVelocidad.getText().trim().isEmpty()) {
+		if(txtVelocidad.getText().trim().isEmpty() && rdbInternet.isSelected()) {
 			labelVelocidad.setVisible(true);
 			validar = true;
 		}
@@ -375,7 +455,7 @@ public class RegistrarPlan extends JDialog {
 			labelVelocidad.setVisible(false);
 		}
 		
-		if(txtMinutos.getText().trim().isEmpty()) {
+		if(txtMinutos.getText().trim().isEmpty() && rdbTelefono.isSelected()) {
 			labelMinutos.setVisible(true);
 			validar = true;
 		}
@@ -383,7 +463,7 @@ public class RegistrarPlan extends JDialog {
 			labelMinutos.setVisible(false);
 		}
 		
-		if(txtCanales.getText().trim().isEmpty()) {
+		if(txtCanales.getText().trim().isEmpty() && rdbTelevision.isSelected()) {
 			labelCanales.setVisible(true);
 			validar = true;
 		}

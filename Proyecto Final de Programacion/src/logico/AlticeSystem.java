@@ -8,6 +8,7 @@ public class AlticeSystem {
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Persona> misPersonas;
+	private ArrayList<PlanAdquirido> misPlanesAd;
 	private int generadorCodigoPersona;
 	public static AlticeSystem ALS = null;
 	
@@ -15,6 +16,7 @@ public class AlticeSystem {
 		super();
 		this.misClientes = new ArrayList<Cliente>();
 		this.misPlanes = new ArrayList<Plan>();
+		this.misPlanesAd = new ArrayList<PlanAdquirido>();
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
 		generadorCodigoPersona = 1;
@@ -38,6 +40,10 @@ public class AlticeSystem {
 	public ArrayList<Plan> getMisPlanes() {
 		return misPlanes;
 	}
+	
+	public ArrayList<PlanAdquirido> getmisPlanesAd() {
+		return misPlanesAd;
+	}
 
 	public ArrayList<Factura> getMisFacturas() {
 		return misFacturas;
@@ -49,6 +55,10 @@ public class AlticeSystem {
 	
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
+	}
+	
+	public void insertarPlanAd(PlanAdquirido auxPlanAd) {
+		misPlanesAd.add(auxPlanAd);
 	}
 	
 	public void insertarPersona(Persona auxPersona) {
@@ -142,7 +152,7 @@ public class AlticeSystem {
 		return Persona;
 	}
 
-	public void eliminarPersona(String code, Persona auxPersona) {
+	public void eliminarPersona(Persona auxPersona) {
 		if(auxPersona != null) {
 			misPersonas.remove(auxPersona);
 		}

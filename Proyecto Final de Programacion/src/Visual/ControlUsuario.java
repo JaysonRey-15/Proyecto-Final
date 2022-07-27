@@ -382,7 +382,7 @@ public class ControlUsuario extends JDialog {
 						if (tableInfo.getSelectedRow() != -1) {
 							auxPersona = AlticeSystem.getInstance().buscarPersonaByCode(codigo);
 						}
-						AlticeSystem.getInstance().eliminarPersona(codigo, auxPersona);
+						AlticeSystem.getInstance().eliminarPersona(auxPersona);
 						clean();
 						loadPersonasByTipo(0);
 					}
