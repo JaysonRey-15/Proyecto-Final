@@ -56,6 +56,10 @@ public class AlticeSystem {
 		return generadorCodigoPersona;
 	}
 
+	public void insertarCliente(Cliente auxCliente) {
+		misClientes.add(auxCliente);
+	}
+	
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
 	}
@@ -76,6 +80,20 @@ public class AlticeSystem {
 			misPlanes.get(ind).setPrecioInicial(auxPlan.getPrecioInicial());
 			misPlanes.get(ind).setPrecioMensual(auxPlan.getPrecioMensual());
 		}
+	}
+	
+	public Plan buscarPlanByNomb(String nombre) {
+		Plan plan = null;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado && i < misPlanes.size()) {
+			if(misPlanes.get(i).getNombre().equalsIgnoreCase(nombre)) {
+				encontrado=true;
+				plan = misPlanes.get(i);
+			}
+			i++;
+		}
+		return plan;
 	}
 
 	private int buscarIndexByNomb(String nombre) {
@@ -179,6 +197,20 @@ public class AlticeSystem {
 
 		}
 
+	}
+
+	public Cliente buscarClienteByCedula(String cedula) {
+		Cliente cliente = null;
+		boolean encontrado = false;
+		int i = 0;
+		while(i < misClientes.size() && !encontrado) {
+			if(misClientes.get(i).getCedula().equalsIgnoreCase(cedula)) {
+				cliente = misClientes.get(i);
+				encontrado = true;
+			}
+			i++;
+		}
+		return cliente;
 	}
 	
 	//Por discutir

@@ -8,17 +8,15 @@ public class PlanAdquirido {
 	private String numCliente;
 	private ArrayList<Plan> misPlanes;
 	private String fecha;
-	private String diaPago;
 	private float pagoInicial;
 	private boolean pagoPendiente;
 	
-	public PlanAdquirido(String cedulaCliente, String numCliente, String fecha, String diaPago, float pagoInicial,
+	public PlanAdquirido(String cedulaCliente, String numCliente, String fecha, float pagoInicial,
 			boolean pagoPendiente) {
 		super();
 		this.cedulaCliente = cedulaCliente;
 		this.numCliente = numCliente;
 		this.fecha = fecha;
-		this.diaPago = diaPago;
 		this.pagoInicial = pagoInicial;
 		this.pagoPendiente = pagoPendiente;
 		misPlanes = new ArrayList<Plan>();
@@ -55,14 +53,6 @@ public class PlanAdquirido {
 
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
-	}
-
-	public String getDiaPago() {
-		return diaPago;
-	}
-
-	public void setDiaPago(String diaPago) {
-		this.diaPago = diaPago;
 	}
 
 	public float getPagoInicial() {

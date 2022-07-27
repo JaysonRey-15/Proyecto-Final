@@ -24,6 +24,7 @@ import javax.swing.JRadioButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Font;
+import javax.swing.JCheckBox;
 
 public class RegistrarPlan extends JDialog {
 
@@ -45,9 +46,9 @@ public class RegistrarPlan extends JDialog {
 	private JLabel lblNewLabel_5;
 	private JTextField txtNombre;
 	private JLabel labelNombre;
-	private JRadioButton rdbInternet;
-	private JRadioButton rdbTelefono;
-	private JRadioButton rdbTelevision;
+	private JCheckBox chxVelocidad;
+	private JCheckBox chxMinutos;
+	private JCheckBox chxCanales;
 
 	/**
 	 * Launch the application.
@@ -204,10 +205,10 @@ public class RegistrarPlan extends JDialog {
 			labelVelocidad.setBounds(165, 25, 56, 16);
 			panelInternet.add(labelVelocidad);
 			
-			rdbInternet = new JRadioButton("Agregar");
-			rdbInternet.addActionListener(new ActionListener() {
+			chxVelocidad = new JCheckBox("A\u00F1adir");
+			chxVelocidad.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(rdbInternet.isSelected()){
+					if(chxVelocidad.isSelected()){
 						txtVelocidad.setEditable(true);
 					}
 					else{
@@ -215,8 +216,8 @@ public class RegistrarPlan extends JDialog {
 					}
 				}
 			});
-			rdbInternet.setBounds(209, 25, 86, 20);
-			panelInternet.add(rdbInternet);
+			chxVelocidad.setBounds(210, 21, 113, 25);
+			panelInternet.add(chxVelocidad);
 			
 			panelCable = new JPanel();
 			panelCable.setBounds(12, 200, 469, 70);
@@ -250,10 +251,10 @@ public class RegistrarPlan extends JDialog {
 			labelCanales.setBounds(166, 25, 56, 16);
 			panelCable.add(labelCanales);
 			
-			rdbTelevision = new JRadioButton("Agregar");
-			rdbTelevision.addActionListener(new ActionListener() {
+			chxCanales = new JCheckBox("A\u00F1adir");
+			chxCanales.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(rdbTelevision.isSelected()){
+					if(chxCanales.isSelected()){
 						txtCanales.setEditable(true);
 					}
 					else{
@@ -261,8 +262,8 @@ public class RegistrarPlan extends JDialog {
 					}
 				}
 			});
-			rdbTelevision.setBounds(209, 25, 86, 20);
-			panelCable.add(rdbTelevision);
+			chxCanales.setBounds(210, 21, 113, 25);
+			panelCable.add(chxCanales);
 			
 			panelTelefono = new JPanel();
 			panelTelefono.setBounds(12, 118, 469, 70);
@@ -296,19 +297,20 @@ public class RegistrarPlan extends JDialog {
 			labelMinutos.setBounds(166, 25, 56, 16);
 			panelTelefono.add(labelMinutos);
 			
-			rdbTelefono = new JRadioButton("Agregar");
-			rdbTelefono.addActionListener(new ActionListener() {
+			chxMinutos = new JCheckBox("A\u00F1adir");
+			chxMinutos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(rdbTelefono.isSelected()){
+					if(chxMinutos.isSelected()){
 						txtMinutos.setEditable(true);
 					}
 					else{
 						txtMinutos.setEditable(false);
 					}
+
 				}
 			});
-			rdbTelefono.setBounds(209, 25, 86, 20);
-			panelTelefono.add(rdbTelefono);
+			chxMinutos.setBounds(210, 21, 113, 25);
+			panelTelefono.add(chxMinutos);
 		}
 		if(auxPlan != null) {
 			txtVelocidad.setText(auxPlan.getCantInternet());;
@@ -396,9 +398,9 @@ public class RegistrarPlan extends JDialog {
 		txtVelocidad.setEditable(false);
 		txtMinutos.setEditable(false);
 		txtCanales.setEditable(false);
-		rdbInternet.setSelected(false);
-		rdbTelefono.setSelected(false);
-		rdbTelevision.setSelected(false);
+		chxVelocidad.setSelected(false);
+		chxMinutos.setSelected(false);
+		chxCanales.setSelected(false);
 	}
 	
 	private boolean verificarPlan() {
@@ -447,7 +449,7 @@ public class RegistrarPlan extends JDialog {
 			labelPrecioM.setVisible(false);
 		}
 		
-		if(txtVelocidad.getText().trim().isEmpty() && rdbInternet.isSelected()) {
+		if(txtVelocidad.getText().trim().isEmpty() && chxVelocidad.isSelected()) {
 			labelVelocidad.setVisible(true);
 			validar = true;
 		}
@@ -455,7 +457,7 @@ public class RegistrarPlan extends JDialog {
 			labelVelocidad.setVisible(false);
 		}
 		
-		if(txtMinutos.getText().trim().isEmpty() && rdbTelefono.isSelected()) {
+		if(txtMinutos.getText().trim().isEmpty() && chxMinutos.isSelected()) {
 			labelMinutos.setVisible(true);
 			validar = true;
 		}
@@ -463,7 +465,7 @@ public class RegistrarPlan extends JDialog {
 			labelMinutos.setVisible(false);
 		}
 		
-		if(txtCanales.getText().trim().isEmpty() && rdbTelevision.isSelected()) {
+		if(txtCanales.getText().trim().isEmpty() && chxCanales.isSelected()) {
 			labelCanales.setVisible(true);
 			validar = true;
 		}

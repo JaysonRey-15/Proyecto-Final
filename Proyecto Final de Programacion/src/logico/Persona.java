@@ -30,6 +30,14 @@ public class Persona implements Serializable{
         this.tipo = tipo;
 	}
 
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
 	public String getTipo() {
 		return tipo;
 	}

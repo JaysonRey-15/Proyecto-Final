@@ -140,6 +140,15 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Adquirir Plan");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AdquirirPlan planAd = new AdquirirPlan();
+				planAd.setVisible(true);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_3);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
