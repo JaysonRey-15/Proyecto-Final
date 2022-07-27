@@ -451,6 +451,17 @@ public class ControlUsuario extends JDialog {
 		switch(i) {
 		    case 0:
 				for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
+				   row[0]= persona.getCodigoUsuario();
+				   row[1]= persona.getNombre();
+				   row[2]= persona.getCedula();
+				   row[3]= persona.getTelefono();
+				   row[4]= persona.getTipo();
+				   model.addRow(row);
+				}
+			break;
+			
+		    case 1:
+		    	for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
 					if(persona instanceof P_Administrador) {
 						row[0]= persona.getCodigoUsuario();
 						row[1]= persona.getNombre();
@@ -459,6 +470,11 @@ public class ControlUsuario extends JDialog {
 						row[4]= persona.getTipo();
 						model.addRow(row);
 					}
+		    	}
+		    break;
+		    
+		    case 2: 
+		    	for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
 					if(persona instanceof P_Trabajador) {
 						row[0]= persona.getCodigoUsuario();
 						row[1]= persona.getNombre();
@@ -467,33 +483,7 @@ public class ControlUsuario extends JDialog {
 						row[4]= persona.getTipo();
 						model.addRow(row);
 					}
-				}
-			break;
-			
-		    case 1:
-		    	for(int ind = 0; ind < AlticeSystem.getInstance().getMisPersonas().size(); ind++) {
-		    		if(AlticeSystem.getInstance().getMisPersonas().get(ind).getTipo().equalsIgnoreCase("Administrador")) {
-						row[0]= AlticeSystem.getInstance().getMisPersonas().get(ind).getCodigoUsuario();
-						row[1]= AlticeSystem.getInstance().getMisPersonas().get(ind).getNombre();
-						row[2]= AlticeSystem.getInstance().getMisPersonas().get(ind).getCedula();
-						row[3] = AlticeSystem.getInstance().getMisPersonas().get(ind).getTelefono();
-						row[4] =AlticeSystem.getInstance().getMisPersonas().get(ind).getTipo();
-						model.addRow(row);
-		    		}
-				}
-		    break;
-		    
-		    case 2: 
-		    	for(int ind = 0; ind < AlticeSystem.getInstance().getMisPersonas().size(); ind++) {
-		    		if(AlticeSystem.getInstance().getMisPersonas().get(ind).getTipo().equalsIgnoreCase("Trabajador")) {
-						row[0]= AlticeSystem.getInstance().getMisPersonas().get(ind).getCodigoUsuario();
-						row[1]= AlticeSystem.getInstance().getMisPersonas().get(ind).getNombre();
-						row[2]= AlticeSystem.getInstance().getMisPersonas().get(ind).getCedula();
-						row[3] = AlticeSystem.getInstance().getMisPersonas().get(ind).getTelefono();
-						row[4] =AlticeSystem.getInstance().getMisPersonas().get(ind).getTipo();
-						model.addRow(row);
-		    		}
-				}
+		    	}
 		    break;
 	   }
 	   btnModificar.setEnabled(false);
