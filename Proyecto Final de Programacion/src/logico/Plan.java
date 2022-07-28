@@ -6,11 +6,12 @@ public class Plan {
 	private String cantCanales;
 	private String cantMinutos;
 	private String cantInternet;
+	private String estado;
 	private float precioInicial;
 	private float precioMensual;
 	
 	public Plan(String nombre, String cantCanales, String cantMinutos, String cantInternet,
-			float precioInicial, float precioMensual) {
+			float precioInicial, float precioMensual, String estado) {
 		super();
 		this.nombre = nombre;
 		this.cantCanales = cantCanales;
@@ -18,6 +19,15 @@ public class Plan {
 		this.cantInternet = cantInternet;
 		this.precioInicial = precioInicial;
 		this.precioMensual = precioMensual;
+		this.estado = estado;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	public String getNombre() {

@@ -149,6 +149,15 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_3);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Listar Planes");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarPlanes listPlan = new ListarPlanes();
+				listPlan.setVisible(true);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_4);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 

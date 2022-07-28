@@ -370,13 +370,15 @@ public class AdquirirPlan extends JDialog {
 		rows = new Object[model.getColumnCount()];
 		
 		for(int i = 0; i < AlticeSystem.getInstance().getMisPlanes().size(); i++) {
-			rows[0] = AlticeSystem.getInstance().getMisPlanes().get(i).getNombre();
-			rows[1] = AlticeSystem.getInstance().getMisPlanes().get(i).getCantInternet();
-			rows[2] = AlticeSystem.getInstance().getMisPlanes().get(i).getCantMinutos();
-			rows[3] = AlticeSystem.getInstance().getMisPlanes().get(i).getCantCanales();
-			rows[4] = AlticeSystem.getInstance().getMisPlanes().get(i).getPrecioInicial();
-			rows[5] = AlticeSystem.getInstance().getMisPlanes().get(i).getPrecioMensual();
-			model.addRow(rows);
+			if(AlticeSystem.getInstance().getMisPlanes().get(i).getEstado().equalsIgnoreCase("Habilitado")) {
+				rows[0] = AlticeSystem.getInstance().getMisPlanes().get(i).getNombre();
+				rows[1] = AlticeSystem.getInstance().getMisPlanes().get(i).getCantInternet();
+				rows[2] = AlticeSystem.getInstance().getMisPlanes().get(i).getCantMinutos();
+				rows[3] = AlticeSystem.getInstance().getMisPlanes().get(i).getCantCanales();
+				rows[4] = AlticeSystem.getInstance().getMisPlanes().get(i).getPrecioInicial();
+				rows[5] = AlticeSystem.getInstance().getMisPlanes().get(i).getPrecioMensual();
+				model.addRow(rows);
+			}
 		}
 	}
 }

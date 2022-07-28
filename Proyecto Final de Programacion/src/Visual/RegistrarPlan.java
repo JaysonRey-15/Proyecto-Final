@@ -343,7 +343,7 @@ public class RegistrarPlan extends JDialog {
 									String nom = txtNombre.getText();
 									float precioIni = Float.valueOf(txtPrecioInicial.getText());
 									float precioM = Float.valueOf(txtPrecioMensual.getText());
-									p1 = new Plan(nom, txtCanales.getText(), txtMinutos.getText(), txtVelocidad.getText(), precioIni, precioM);
+									p1 = new Plan(nom, txtCanales.getText(), txtMinutos.getText(), txtVelocidad.getText(), precioIni, precioM, "Habilitado");
 									AlticeSystem.getInstance().insertarPlan(p1);
 									JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 									clean();
