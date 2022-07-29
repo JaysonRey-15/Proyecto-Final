@@ -41,6 +41,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -86,6 +88,8 @@ public class AdquirirPlan extends JDialog {
 		setModal(true);
 		setBounds(100, 100, 586, 640);
 		setLocationRelativeTo(null);
+		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
+		setIconImage(logo.getImage());
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

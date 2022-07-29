@@ -3,6 +3,7 @@ package Visual;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -77,6 +78,8 @@ public class RegistrarPlan extends JDialog {
 		setModal(true);
 		setBounds(100, 100, 545, 533);
 		setLocationRelativeTo(null);
+		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
+		setIconImage(logo.getImage());
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

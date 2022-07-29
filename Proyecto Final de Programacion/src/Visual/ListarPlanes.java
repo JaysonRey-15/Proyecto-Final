@@ -17,6 +17,7 @@ import logico.Plan;
 
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -65,6 +66,8 @@ public class ListarPlanes extends JDialog {
 		setModal(true);
 		setBounds(100, 100, 730, 485);
 		setLocationRelativeTo(null);
+		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
+		setIconImage(logo.getImage());
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 722, 396);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

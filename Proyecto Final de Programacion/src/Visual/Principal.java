@@ -101,6 +101,8 @@ public class Principal extends JFrame {
 		dim = getToolkit().getScreenSize();
 		setSize(dim.width, dim.height-35);
 		setLocationRelativeTo(null);
+		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
+		setIconImage(logo.getImage());
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -108,6 +109,8 @@ public class ControlUsuario extends JDialog {
 		setSize(1178, 692);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
+		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
+		setIconImage(logo.getImage());
 		contentPane.setLayout(null);
 		panelSystem = new JPanel();
 		panelSystem.setOpaque(false);
