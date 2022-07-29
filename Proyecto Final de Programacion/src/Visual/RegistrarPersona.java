@@ -109,7 +109,7 @@ public class RegistrarPersona extends JDialog {
 		} catch (ParseException e) {}
 		txtCedula = new JFormattedTextField(cedula);
 		txtCedula.setColumns(10);
-		txtCedula.setBounds(202, 40, 171, 22);
+		txtCedula.setBounds(150, 36, 171, 22);
 		if(auxPersona != null) {
 			txtCedula.setEditable(false);
 			txtCedula.setText(auxPersona.getCedula());
@@ -151,7 +151,7 @@ public class RegistrarPersona extends JDialog {
 
 		JLabel lblCdula = new JLabel("C\u00E9dula:");
 		lblCdula.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblCdula.setBounds(202, 22, 46, 14);
+		lblCdula.setBounds(150, 17, 46, 14);
 		panel.add(lblCdula);
 
 		txtDireccion = new JTextField();
@@ -169,13 +169,13 @@ public class RegistrarPersona extends JDialog {
 
 		JLabel lblGnero = new JLabel("G\u00E9nero:");
 		lblGnero.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblGnero.setBounds(405, 22, 46, 14);
+		lblGnero.setBounds(410, 91, 46, 14);
 		panel.add(lblGnero);
 
 		cbxGenero = new JComboBox<String>();
 		cbxGenero.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		cbxGenero.setModel(new DefaultComboBoxModel<String>(new String[] {"Hombre", "Mujer"}));
-		cbxGenero.setBounds(402, 40, 119, 22);
+		cbxGenero.setModel(new DefaultComboBoxModel(new String[] {"<Selecciona>", "Hombre", "Mujer"}));
+		cbxGenero.setBounds(407, 109, 119, 22);
 		if(auxPersona != null) {
 			cbxGenero.setEnabled(false);
 		}
@@ -199,26 +199,26 @@ public class RegistrarPersona extends JDialog {
 		cbxCargo = new JComboBox<String>();
 		cbxCargo.setForeground(SystemColor.textText);
 		cbxCargo.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		cbxCargo.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Trabajador"}));
+		cbxCargo.setModel(new DefaultComboBoxModel(new String[] {"<Selecciona>", "Administrador", "Trabajador"}));
 		cbxCargo.setSelectedIndex(0);
-		cbxCargo.setBounds(402, 91, 119, 22);
-		if(auxPersona != null && auxPersona.getTipo().equalsIgnoreCase("Administrador")) {
-			cbxCargo.setSelectedIndex(0);
-		}
-		if(auxPersona != null && auxPersona.getTipo().equalsIgnoreCase("Trabajador")) {
+		cbxCargo.setBounds(407, 169, 119, 22);
+		if(auxPersona != null && auxPersona instanceof P_Administrador) {
 			cbxCargo.setSelectedIndex(1);
+		}
+		if(auxPersona != null && auxPersona instanceof P_Trabajador) {
+			cbxCargo.setSelectedIndex(2);
 		}
 		panel.add(cbxCargo);
 
 		JLabel lblTipo = new JLabel("Cargo:");
 		lblTipo.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblTipo.setBounds(405, 75, 46, 14);
+		lblTipo.setBounds(410, 153, 46, 14);
 		panel.add(lblTipo);
 		
 		labelCedula = new JLabel("*");
 		labelCedula.setForeground(Color.RED);
 		labelCedula.setFont(new Font("Tahoma", Font.BOLD, 13));
-		labelCedula.setBounds(373, 43, 20, 16);
+		labelCedula.setBounds(184, 42, 20, 16);
 		labelCedula.setVisible(false);
 		panel.add(labelCedula);
 		
@@ -249,25 +249,7 @@ public class RegistrarPersona extends JDialog {
 		labelDireccion.setBounds(373, 198, 20, 16);
 		labelDireccion.setVisible(false);
 		panel.add(labelDireccion);
-		
-		lblNewLabel_1 = new JLabel("Id:");
-		lblNewLabel_1.setBounds(12, 21, 56, 16);
-		panel.add(lblNewLabel_1);
-		
-		txtCodigo = new JTextField();
-		txtCodigo.setEditable(false);
-		txtCodigo.setBounds(12, 40, 171, 22);
-		if(auxPersona != null) {
-			txtCodigo.setText(auxPersona.getCodigoUsuario());
-		}
-		else {
-			txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPersona());
-		}
-		panel.add(txtCodigo);
-		txtCodigo.setColumns(10);
-		
-		
-		
+	
 		txtApellido = new JTextField();
 		txtApellido.setColumns(10);
 		txtApellido.setBounds(202, 91, 171, 22);
@@ -310,7 +292,7 @@ public class RegistrarPersona extends JDialog {
 		txtUser.setColumns(10);
 		
 		JLabel lblNewLabel2 = new JLabel("Contrase\u00F1a:");
-		lblNewLabel2.setBounds(236, 28, 121, 16);
+		lblNewLabel2.setBounds(342, 28, 121, 16);
 		panel_1.add(lblNewLabel2);
 		
 		labelPersona = new JLabel("*");
@@ -323,12 +305,12 @@ public class RegistrarPersona extends JDialog {
 		labelPassword = new JLabel("*");
 		labelPassword.setForeground(Color.RED);
 		labelPassword.setFont(new Font("Tahoma", Font.BOLD, 13));
-		labelPassword.setBounds(427, 53, 20, 16);
+		labelPassword.setBounds(533, 53, 20, 16);
 		labelPassword.setVisible(false);
 		panel_1.add(labelPassword);
 		
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(236, 50, 187, 22);
+		txtPassword.setBounds(342, 50, 187, 22);
 		
  		if(auxPersona != null && auxPersona instanceof P_Administrador) {
 			txtPassword.setText(((P_Administrador) auxPersona).getCuenta().getPassword());
@@ -347,6 +329,7 @@ public class RegistrarPersona extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
 			JButton btnRegistrar = new JButton("Registrar");
+			btnRegistrar.setForeground(Color.GRAY);
 			if(auxPersona != null) {
 				btnRegistrar.setText("Modificar");
 			}
@@ -363,13 +346,14 @@ public class RegistrarPersona extends JDialog {
 								Persona aux = null;
 								cuenta = new Cuenta(password, txtUser.getText());
 								
-								if(cbxCargo.getSelectedIndex()==0) {
+								if(cbxCargo.getSelectedIndex()==1) {
 									aux = new P_Administrador(txtCedula.getText(), txtNombre.getText(),txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), cbxCargo.getSelectedItem().toString(), txtUser.getText());
 								}
-								if(cbxCargo.getSelectedIndex()== 1) {
+								if(cbxCargo.getSelectedIndex()== 2) {
 									aux = new P_Trabajador(txtCedula.getText(), txtNombre.getText(),txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), cbxCargo.getSelectedItem().toString(), txtUser.getText());
 								}
 								AlticeSystem.getInstance().insertarPersona(aux);
+								AlticeSystem.getInstance().addUser(txtCedula.getText(), cuenta);
 								JOptionPane.showMessageDialog(null, "Registro Exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 								clean();
 							}
@@ -389,12 +373,12 @@ public class RegistrarPersona extends JDialog {
 								if(auxPersona instanceof P_Trabajador) {
 									((P_Trabajador) auxPersona).addCuenta(cuenta);
 								}
-								if(cbxCargo.getSelectedIndex() == 0) {
-									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
-								}
-								if(cbxCargo.getSelectedIndex() == 1) {
-									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
-								}
+//								if(cbxCargo.getSelectedIndex() == 0) {
+//									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
+//								}
+//								if(cbxCargo.getSelectedIndex() == 1) {
+//									auxPersona.setTipo(cbxCargo.getSelectedItem().toString());
+//								}
 								AlticeSystem.getInstance().modificarPersona(auxPersona, cuenta);
 								dispose();
 							}
@@ -410,6 +394,7 @@ public class RegistrarPersona extends JDialog {
 			{
 				
 				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.setForeground(Color.GRAY);
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -431,7 +416,6 @@ public class RegistrarPersona extends JDialog {
 		txtApellido.setText("");
 		cbxGenero.setSelectedIndex(0);
 		cbxCargo.setSelectedIndex(0);
-		txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPersona());
 	}
 	
 	private boolean validarCampos(){

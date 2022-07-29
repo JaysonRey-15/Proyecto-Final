@@ -3,6 +3,8 @@ package logico;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class AlticeSystem {
 
 	private ArrayList<Plan> misPlanes;
@@ -20,7 +22,6 @@ public class AlticeSystem {
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
 		this.misCuentas = new ArrayList<Cuenta>();
-		generadorCodigoPersona = 1;
 	}
 
 	public static AlticeSystem getInstance(){
@@ -60,7 +61,6 @@ public class AlticeSystem {
 
 	public void insertarPersona(Persona auxPersona) {
 		misPersonas.add(auxPersona);
-		generadorCodigoPersona++;
 	}
 
 	public void modificarPlan(Plan auxPlan) {
@@ -130,11 +130,10 @@ public class AlticeSystem {
 	}
 
 	public void modificarPersona(Persona auxPersona, Cuenta cuenta) {
-		Persona Persona = buscarPersonaByCode(auxPersona.getCodigoUsuario());
+		Persona Persona = buscarPersonaByCedula(auxPersona.getCedula());
 		if(Persona != null && auxPersona instanceof P_Administrador) {
 			Persona.setTelefono(auxPersona.getTelefono());
 			Persona.setNombre(auxPersona.getNombre());
-			Persona.setTipo(auxPersona.getTipo());
 			Persona.setNacionalidad(auxPersona.getNacionalidad());
 			Persona.setDireccion(auxPersona.getDireccion());
 			((P_Administrador) Persona).addCuenta(cuenta);
@@ -142,25 +141,20 @@ public class AlticeSystem {
 		if(Persona != null && auxPersona instanceof P_Trabajador) {
 			Persona.setTelefono(auxPersona.getTelefono());
 			Persona.setNombre(auxPersona.getNombre());
-			Persona.setTipo(auxPersona.getTipo());
 			Persona.setNacionalidad(auxPersona.getNacionalidad());
 			Persona.setDireccion(auxPersona.getDireccion());
 			((P_Trabajador) Persona).addCuenta(cuenta);
 		}
 	}
 
-	public Persona buscarPersonaByCode(String codigoPersona) {
-		Persona Persona = null;
-		boolean encontrado = false;
-		int i = 0;
-		while (!encontrado && i < misPersonas.size()) {
-			if(misPersonas.get(i).getCodigoUsuario().equalsIgnoreCase(codigoPersona)) {
-				encontrado=true;
-				Persona = misPersonas.get(i);
+	public Persona buscarPersonaByCode(String identificacion) {
+		Persona persona = null;
+		for(Persona pers: misPersonas) {
+			if(pers.getCedula().equalsIgnoreCase(identificacion)) {
+				persona = pers;
 			}
-			i++;
 		}
-		return Persona;
+		return persona;
 	}
 
 	public void eliminarPersona(Persona auxPersona) {
@@ -191,14 +185,10 @@ public class AlticeSystem {
 
 	public Persona buscarPersonaByCedula(String cedula) {
 		Persona persona = null;
-		boolean encontrado = false;
-		int i = 0;
-		while(i < misPersonas.size() && !encontrado) {
-			if(misPersonas.get(i).getCedula().equalsIgnoreCase(cedula)) {
-				persona = misPersonas.get(i);
-				encontrado = true;
+		for(Persona pers: misPersonas) {
+			if(persona.getCedula().equalsIgnoreCase(cedula)) {
+				persona = pers;
 			}
-			i++;
 		}
 		return persona;
 	}
@@ -216,7 +206,40 @@ public class AlticeSystem {
 //			cliente.getPPendientes().add(null);
 //		}
 //	}
+	
 
+
+	public Persona filtroG(String filtro) {
+		Persona aux = null;
+
+		for(Persona per: misPersonas) {
+			if(per.getCedula().equalsIgnoreCase(filtro) || per.getNombre().equalsIgnoreCase(filtro) || per.getTelefono().equalsIgnoreCase(filtro)) {
+				aux=per;
+			}
+		}
+		
+		if(aux==null)
+			JOptionPane.showMessageDialog(null,"Usuario no encontrado");
+
+		return aux;
+	}
+
+
+	public String tipoP(Persona person) {
+		String tipo =null;
+		
+		if(person instanceof P_Administrador) 
+			tipo = "Administrador";
+		
+		
+		if(person instanceof P_Trabajador) 
+			tipo = "Trabajador";
+		
+		
+		if(person instanceof Cliente)
+			tipo = "Cliente";
+		return tipo;
+	}
 }
 
 

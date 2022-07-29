@@ -12,11 +12,7 @@ public class Persona implements Serializable{
 	protected String nacionalidad;
 	protected String direccion;
 	protected String telefono;
-	//Recuerde al tener un nombre usuario el codigo usuario no es necesario para personales de la empresa, mucho menos para cliente
-	protected String codigoUsuario;
-	//Por qué tienes un atributo tipo?
-	protected String tipo;
-	
+
 	public Persona (String cedula, String nombre, String apellido,String genero, String nacionalidad, String direccion, String telefono, String tipo, String codigoUsuario) {
 		super();
 		this.cedula = cedula;
@@ -26,8 +22,6 @@ public class Persona implements Serializable{
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.apellido = apellido;
-        this.codigoUsuario = codigoUsuario;
-        this.tipo = tipo;
 	}
 
 	public String getApellido() {
@@ -36,14 +30,6 @@ public class Persona implements Serializable{
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 
 	public String getCedula() {
@@ -94,11 +80,5 @@ public class Persona implements Serializable{
 		this.telefono = telefono;
 	}
 
-	public String getCodigoUsuario() {
-		return codigoUsuario;
-	}
 
-	public void setCodigoUsuario(String codigoUsuario) {
-		this.codigoUsuario = codigoUsuario;
-	}
 }

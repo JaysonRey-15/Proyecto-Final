@@ -43,34 +43,6 @@ public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	FondoPanel fondo = new FondoPanel();
-	private JPanel panelSystem;
-	private JButton btnRegistrar;
-	private JButton btnEliminar;
-	private JButton btnNewButton_1;
-	private JPanel panelNav;
-	private JPanel panelHead;
-	private JTextField txtMostrarUsuario;
-
-	private JTextField textBuscar;
-	private JButton btnEnviar;
-	private JPanel panelInfo;
-	private JTable tableInfo;
-	private DefaultTableModel model;
-	private Object[] row;
-	private JScrollPane scrollPane;
-	private JButton btnNewButton_2;
-	private JPanel panel;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_4;
-	private JLabel lblNewLabel_5;
-	private JTextField textField_3;
-	private JLabel lblNewLabel_6;
-	private JLabel lblNewLabel_7;
-	private JTextField textField_4;
-	private JLabel lblCargo;
 	private JTextField textField_5;
 	private JTextField textField_6;
 

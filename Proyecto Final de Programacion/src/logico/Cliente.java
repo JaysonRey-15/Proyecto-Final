@@ -36,8 +36,18 @@ public class Cliente extends Persona {
 	public void actualizarBalance(BalancePendiente nuevoBalance) {
 		PPendientes.add(nuevoBalance);
 	}
-	
+
 	public void insertarPlanAd(PlanAdquirido auxPlanAd) {
 		misPlanesAd.add(auxPlanAd);
 	}
+	
+//	public void BalancePendiente() {
+//		for(PlanAdquirido plan: misPlanesAd) {
+//			if(plan.isPagoPendiente()) {
+//				float balanceP = plan.getMisPlanes().get(0).
+//				BalancePendiente balance = new BalancePendiente(plan.getMisPlanes().get(0).getNombre(), blcePendi, fechaVencido)
+//			}
+//		}
+//		
+//	}
 }
