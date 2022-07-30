@@ -154,8 +154,7 @@ public class AlticeSystem {
 			misPersonas.remove(auxPersona);
 		}
 	}
-
-
+	
 	public void addUser(String cedula,Cuenta cuenta) {
 		Persona aux = buscarPersonaByCedula(cedula);
 
@@ -235,6 +234,14 @@ public class AlticeSystem {
 		if(person instanceof Cliente)
 			tipo = "Cliente";
 		return tipo;
+	}
+	
+	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
+	    if(auxPlanAd != null) {
+	      if(!auxPlanAd.isPagoPendiente()) {
+	         misPlanesAd.remove(auxPlanAd); 
+	      }
+	    }
 	}
 }
 

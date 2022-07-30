@@ -41,6 +41,14 @@ public class Cliente extends Persona {
 		misPlanesAd.add(auxPlanAd);
 	}
 	
+	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
+	    if(auxPlanAd != null) {
+	      if(!auxPlanAd.isPagoPendiente()) {
+	         misPlanesAd.remove(auxPlanAd); 
+	      }
+	    }
+	}
+	
 //	public void BalancePendiente() {
 //		for(PlanAdquirido plan: misPlanesAd) {
 //			if(plan.isPagoPendiente()) {

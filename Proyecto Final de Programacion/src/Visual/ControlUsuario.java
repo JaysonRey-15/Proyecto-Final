@@ -166,13 +166,17 @@ public class ControlUsuario extends JDialog {
 			}
 		});
 		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Clientes", "Administradores", "Trabajadores"}));
-		cbxTipo.setBounds(363, 31, 153, 27);
+		cbxTipo.setBounds(367, 31, 153, 27);
 		panelHead.add(cbxTipo);
 
 		textBuscar = new JTextField();
 		textBuscar.setBounds(13, 31, 166, 27);
 		panelHead.add(textBuscar);
 		textBuscar.setColumns(10);
+		
+		JLabel lblNewLabel_1 = new JLabel("Tipo:");
+		lblNewLabel_1.setBounds(367, 13, 56, 16);
+		panelHead.add(lblNewLabel_1);
 
 		panelInfo = new JPanel();
 		panelInfo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -323,7 +327,7 @@ public class ControlUsuario extends JDialog {
 		panel_1.setLayout(null);
 
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(0, 22, 281, 143);
+		scrollPane_3.setBounds(12, 22, 269, 143);
 		panel_1.add(scrollPane_3);
 
 		tableAdcional = new JTable();
