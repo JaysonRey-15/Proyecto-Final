@@ -134,6 +134,7 @@ public class AlticeSystem {
 		if(Persona != null && auxPersona instanceof P_Administrador) {
 			Persona.setTelefono(auxPersona.getTelefono());
 			Persona.setNombre(auxPersona.getNombre());
+			Persona.setApellido(auxPersona.getApellido());
 			Persona.setNacionalidad(auxPersona.getNacionalidad());
 			Persona.setDireccion(auxPersona.getDireccion());
 			((P_Administrador) Persona).addCuenta(cuenta);
@@ -141,20 +142,11 @@ public class AlticeSystem {
 		if(Persona != null && auxPersona instanceof P_Trabajador) {
 			Persona.setTelefono(auxPersona.getTelefono());
 			Persona.setNombre(auxPersona.getNombre());
+			Persona.setApellido(auxPersona.getApellido());
 			Persona.setNacionalidad(auxPersona.getNacionalidad());
 			Persona.setDireccion(auxPersona.getDireccion());
 			((P_Trabajador) Persona).addCuenta(cuenta);
 		}
-	}
-
-	public Persona buscarPersonaByCode(String identificacion) {
-		Persona persona = null;
-		for(Persona pers: misPersonas) {
-			if(pers.getCedula().equalsIgnoreCase(identificacion)) {
-				persona = pers;
-			}
-		}
-		return persona;
 	}
 
 	public void eliminarPersona(Persona auxPersona) {
@@ -165,7 +157,7 @@ public class AlticeSystem {
 
 
 	public void addUser(String cedula,Cuenta cuenta) {
-		Persona aux =buscarPersonaByCode(cedula);
+		Persona aux = buscarPersonaByCedula(cedula);
 
 		if(aux!=null && cuenta!=null) {
 			if(aux instanceof P_Administrador) {
@@ -185,10 +177,14 @@ public class AlticeSystem {
 
 	public Persona buscarPersonaByCedula(String cedula) {
 		Persona persona = null;
-		for(Persona pers: misPersonas) {
-			if(persona.getCedula().equalsIgnoreCase(cedula)) {
-				persona = pers;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado && i < misPersonas.size()) {
+			if(misPersonas.get(i).getCedula().equalsIgnoreCase(cedula)) {
+				encontrado=true;
+				persona = misPersonas.get(i);
 			}
+			i++;
 		}
 		return persona;
 	}

@@ -1,61 +1,71 @@
 package logico;
 
-import java.util.ArrayList;
+import java.sql.Date;
 
 public class Factura {
-
-	private String cedulaCliente;
-	private ArrayList<Plan> misPlanes;
-	private String fecha;
-	private String codigo;
-	private float pago;
 	
-	public Factura(String cedulaCliente, String fecha, String codigo, float pago) {
-		super();
-		this.cedulaCliente = cedulaCliente;
-		this.fecha = fecha;
-		this.codigo = codigo;
-		this.pago = pago;
-		misPlanes = new ArrayList<Plan>();
-	}
+   private Cliente cliente;
+   private PlanAdquirido miPlanAd;
+   private Date fecha;
+   private Date fechaPago;
+   private String codigo;
+   private float pago;
+   
+   public Factura(Cliente cliente, Date fecha, Date fechaPago, String codigo, float pago) {
+	super();
+      this.cliente = cliente;
+	  this.fecha = fecha;
+	  this.fechaPago = fechaPago;
+	  this.codigo = codigo;
+	  this.pago = pago;
+	  miPlanAd = null;
+   }
 
-	public ArrayList<Plan> getMisPlanes() {
-		return misPlanes;
+	public Cliente getCliente() {
+		return cliente;
 	}
-
-	public String getCedulaCliente() {
-		return cedulaCliente;
+	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
-
-	public void setCedulaCliente(String cedulaCliente) {
-		this.cedulaCliente = cedulaCliente;
+	
+	public PlanAdquirido getMiPlanAd() {
+		return miPlanAd;
 	}
-
-	public String getFecha() {
+	
+	public void setMiPlanAd(PlanAdquirido miPlanAd) {
+		this.miPlanAd = miPlanAd;
+	}
+	
+	public Date getFecha() {
 		return fecha;
 	}
-
-	public void setFecha(String fecha) {
+	
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
+	
+	public Date getFechaPago() {
+		return fechaPago;
+	}
+	
+	public void setFechaPago(Date fechaPago) {
+		this.fechaPago = fechaPago;
+	}
+	
 	public String getCodigo() {
 		return codigo;
 	}
-
+	
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
-
+	
 	public float getPago() {
 		return pago;
 	}
-
+	
 	public void setPago(float pago) {
 		this.pago = pago;
-	}
-	
-	public void insertarPlan(Plan auxPlan) {
-		misPlanes.add(auxPlan);
-	}
+	} 
 }

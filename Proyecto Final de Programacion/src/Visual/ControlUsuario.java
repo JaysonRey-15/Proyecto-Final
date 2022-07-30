@@ -30,6 +30,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import logico.P_Administrador;
 import logico.AlticeSystem;
+import logico.Cliente;
 import logico.P_Trabajador;
 import logico.Persona;
 
@@ -122,8 +123,9 @@ public class ControlUsuario extends JDialog {
 		panelSystem.setLayout(null);
 
 		panelHead = new JPanel();
+		panelHead.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Filtros", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelHead.setBackground(Color.LIGHT_GRAY);
-		panelHead.setBounds(10, 0, 1156, 70);
+		panelHead.setBounds(10, 13, 1144, 82);
 		panelSystem.add(panelHead);
 		panelHead.setLayout(null);
 
@@ -163,8 +165,8 @@ public class ControlUsuario extends JDialog {
 				clean();
 			}
 		});
-		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Todos>", "Administradores", "Trabajadores","Cliente"}));
-		cbxTipo.setBounds(441, 31, 153, 27);
+		cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Clientes", "Administradores", "Trabajadores"}));
+		cbxTipo.setBounds(363, 31, 153, 27);
 		panelHead.add(cbxTipo);
 
 		textBuscar = new JTextField();
@@ -173,6 +175,7 @@ public class ControlUsuario extends JDialog {
 		textBuscar.setColumns(10);
 
 		panelInfo = new JPanel();
+		panelInfo.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelInfo.setBounds(10, 108, 600, 285);
 		panelSystem.add(panelInfo);
 		panelInfo.setLayout(null);
@@ -191,7 +194,7 @@ public class ControlUsuario extends JDialog {
 					btnVer.setEnabled(true);
 					btnEliminar.setEnabled(true);
 					String id = (String) tableInfo.getValueAt(aux, 0);
-					auxPersona = AlticeSystem.getInstance().buscarPersonaByCode(id);
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(id);
 				}
 			}
 		});
@@ -214,47 +217,47 @@ public class ControlUsuario extends JDialog {
 
 		txtCedula = new JTextField();
 		txtCedula.setEditable(false);
-		txtCedula.setBounds(12, 46, 143, 22);
+		txtCedula.setBounds(12, 101, 143, 22);
 		panel.add(txtCedula);
 		txtCedula.setColumns(10);
 
 		txtNombre = new JTextField();
 		txtNombre.setEditable(false);
-		txtNombre.setBounds(12, 101, 315, 22);
+		txtNombre.setBounds(12, 46, 143, 22);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 
 		txtTelefono = new JTextField();
 		txtTelefono.setEditable(false);
-		txtTelefono.setBounds(12, 164, 143, 22);
+		txtTelefono.setBounds(184, 101, 143, 22);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 
 		lblNewLabel_3 = new JLabel("Tel\u00E9fono:");
 		lblNewLabel_3.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_3.setBounds(12, 148, 109, 14);
+		lblNewLabel_3.setBounds(184, 82, 109, 14);
 		panel.add(lblNewLabel_3);
 
 		lblNewLabel_4 = new JLabel("Nombre:");
 		lblNewLabel_4.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_4.setBounds(12, 82, 72, 14);
+		lblNewLabel_4.setBounds(12, 28, 72, 14);
 		panel.add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel("C\u00E9dula:");
 		lblNewLabel_5.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_5.setBounds(12, 28, 46, 14);
+		lblNewLabel_5.setBounds(12, 82, 46, 14);
 		panel.add(lblNewLabel_5);
 
 
 		txtDireccion = new JTextField();
 		txtDireccion.setEditable(false);
-		txtDireccion.setBounds(12, 228, 479, 22);
+		txtDireccion.setBounds(12, 153, 315, 22);
 		panel.add(txtDireccion);
 		txtDireccion.setColumns(10);
 
 		lblNewLabel_6 = new JLabel("Direcci\u00F3n:");
 		lblNewLabel_6.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_6.setBounds(12, 210, 83, 14);
+		lblNewLabel_6.setBounds(12, 130, 83, 14);
 		panel.add(lblNewLabel_6);
 
 		lblNewLabel_7 = new JLabel("G\u00E9nero:");
@@ -264,16 +267,16 @@ public class ControlUsuario extends JDialog {
 
 		txtNacionalidad = new JTextField();
 		txtNacionalidad.setEditable(false);
-		txtNacionalidad.setBounds(184, 165, 143, 22);
+		txtNacionalidad.setBounds(350, 153, 143, 22);
 		panel.add(txtNacionalidad);
 		txtNacionalidad.setColumns(10);
 
 		JLabel lblNewLabel_8 = new JLabel("Nacionalidad:");
 		lblNewLabel_8.setFont(new Font("Sitka Small", Font.BOLD, 11));
-		lblNewLabel_8.setBounds(184, 148, 83, 14);
+		lblNewLabel_8.setBounds(350, 130, 83, 14);
 		panel.add(lblNewLabel_8);
 
-		lblCargo = new JLabel("Cargo:");
+		lblCargo = new JLabel("Tipo:");
 		lblCargo.setFont(new Font("Sitka Small", Font.BOLD, 11));
 		lblCargo.setBounds(350, 82, 46, 14);
 		panel.add(lblCargo);
@@ -292,12 +295,12 @@ public class ControlUsuario extends JDialog {
 
 		Usuario = new JLabel("Usuario:");
 		Usuario.setFont(new Font("Dialog", Font.BOLD, 11));
-		Usuario.setBounds(350, 147, 56, 16);
+		Usuario.setBounds(12, 188, 56, 16);
 		panel.add(Usuario);
 
 		txtpersona = new JTextField();
 		txtpersona.setEditable(false);
-		txtpersona.setBounds(348, 164, 143, 22);
+		txtpersona.setBounds(12, 208, 143, 22);
 		panel.add(txtpersona);
 		txtpersona.setColumns(10);
 		
@@ -341,7 +344,8 @@ public class ControlUsuario extends JDialog {
 		scrollPane_2.setViewportView(tableHPagos);
 
 		panelNav = new JPanel();
-		panelNav.setBounds(0, 586, 1154, 59);
+		panelNav.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelNav.setBounds(0, 586, 1160, 59);
 		contentPane.add(panelNav);
 		panelNav.setBackground(Color.LIGHT_GRAY);
 		panelNav.setLayout(null);
@@ -351,9 +355,10 @@ public class ControlUsuario extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if (tableInfo.getSelectedRow() != -1) {
 					String codigo = (String) tableInfo.getValueAt(tableInfo.getSelectedRow(),0);
-					auxPersona = AlticeSystem.getInstance().buscarPersonaByCode(codigo);
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(codigo);
 				}
 				txtCedula.setText(auxPersona.getCedula());
+				txtApellido.setText(auxPersona.getApellido());
 				txtNombre.setText(auxPersona.getNombre());
 				txtDireccion.setText(auxPersona.getDireccion());
 				txtNacionalidad.setText(auxPersona.getNacionalidad());
@@ -380,7 +385,7 @@ public class ControlUsuario extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String codigo = (String) tableInfo.getValueAt(tableInfo.getSelectedRow(),0);
 				if (tableInfo.getSelectedRow() != -1) {
-					auxPersona = AlticeSystem.getInstance().buscarPersonaByCode(codigo);
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(codigo);
 				}
 				AlticeSystem.getInstance().eliminarPersona(auxPersona);
 				clean();
@@ -415,7 +420,7 @@ public class ControlUsuario extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if (tableInfo.getSelectedRow() != -1) {
 					String codigo = (String) tableInfo.getValueAt(tableInfo.getSelectedRow(),0);
-					auxPersona = AlticeSystem.getInstance().buscarPersonaByCode(codigo);
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(codigo);
 				}
 				if(auxPersona != null) {
 					RegistrarPersona user = new RegistrarPersona(auxPersona);
@@ -472,19 +477,10 @@ public class ControlUsuario extends JDialog {
 		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
 		switch(i) {
+
 		case 0:
 			for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
-				row[0]= persona.getCedula();
-				row[1]= persona.getNombre();
-				row[2]=persona.getApellido();
-				row[3]= persona.getTelefono();
-				model.addRow(row);
-			}
-			break;
-
-		case 1:
-			for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
-				if(persona instanceof P_Administrador) {
+				if(persona instanceof Cliente) {
 					row[0]= persona.getCedula();
 					row[1]= persona.getNombre();
 					row[2]=persona.getApellido();
@@ -495,6 +491,18 @@ public class ControlUsuario extends JDialog {
 			break;
 
 
+		case 1: 
+			for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
+				if(persona instanceof P_Administrador) {
+					row[0]= persona.getCedula();
+					row[1]= persona.getNombre();
+					row[2]=persona.getApellido();
+					row[3]= persona.getTelefono();
+					model.addRow(row);
+				}
+			}
+			break;
+			
 		case 2: 
 			for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
 				if(persona instanceof P_Trabajador) {
