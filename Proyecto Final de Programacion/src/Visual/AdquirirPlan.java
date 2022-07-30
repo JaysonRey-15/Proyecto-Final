@@ -323,7 +323,7 @@ public class AdquirirPlan extends JDialog {
 								auxPersona = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
 								AlticeSystem.getInstance().insertarPersona(auxPersona);
 							}
-							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), txtFecha.getText(), precio, true);
+							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), txtFecha.getText(), precio, false);
 							auxPlanAd.insertarPlan(auxPlan);
 							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().insertarPlanAd(auxPlanAd);

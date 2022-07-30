@@ -238,7 +238,7 @@ public class AlticeSystem {
 	
 	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
 	    if(auxPlanAd != null) {
-	      if(!auxPlanAd.isPagoPendiente()) {
+	      if(auxPlanAd.isPagoPendiente()) {
 	         misPlanesAd.remove(auxPlanAd); 
 	      }
 	    }

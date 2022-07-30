@@ -43,7 +43,7 @@ public class Cliente extends Persona {
 	
 	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
 	    if(auxPlanAd != null) {
-	      if(!auxPlanAd.isPagoPendiente()) {
+	      if(auxPlanAd.isPagoPendiente()) {
 	         misPlanesAd.remove(auxPlanAd); 
 	      }
 	    }
