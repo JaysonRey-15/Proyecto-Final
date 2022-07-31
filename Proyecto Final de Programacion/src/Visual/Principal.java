@@ -10,6 +10,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import imagenes.FondoPanel;
+
+import logico.AlticeSystem;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JLabel;
@@ -21,7 +24,14 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
@@ -34,6 +44,8 @@ import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.CardLayout;
 import java.awt.Canvas;
 import javax.swing.JToggleButton;
@@ -44,8 +56,6 @@ public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	FondoPanel fondo = new FondoPanel();
-	private JTextField textField_5;
-	private JTextField textField_6;
 
 	/**
 	 * Launch the application.
@@ -67,6 +77,12 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Guardar("altice.dat");
+			}
+		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 799, 562);
 		contentPane = new JPanel();
@@ -76,7 +92,7 @@ public class Principal extends JFrame {
 		setLocationRelativeTo(null);
 		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
 		setIconImage(logo.getImage());
-
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -134,43 +150,44 @@ public class Principal extends JFrame {
 		});
 		mnNewMenu.add(mntmNewMenuItem_4);
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBackground(new Color(0, 0, 128));
-		panel_1.setBounds(0, 0, 1356, 53);
-		contentPane.add(panel_1);
-
-		textField_5 = new JTextField();
-		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_5.setForeground(Color.WHITE);
-		textField_5.setFont(new Font("Sitka Text", Font.PLAIN, 15));
-		textField_5.setEditable(false);
-		textField_5.setColumns(10);
-		textField_5.setBackground(Color.LIGHT_GRAY);
-		textField_5.setBounds(1021, 10, 170, 31);
-		panel_1.add(textField_5);
-
-		JButton button = new JButton("Cerrar Sessi\u00F3n");
-		button.setForeground(Color.LIGHT_GRAY);
-		button.setFont(new Font("Sitka Small", Font.BOLD, 12));
-		button.setBackground(Color.RED);
-		button.setBounds(1201, 10, 134, 32);
-		panel_1.add(button);
-
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(25, 12, 153, 27);
-		panel_1.add(textField_6);
-
-		JButton button_1 = new JButton("Buscar");
-		button_1.setForeground(new Color(255, 228, 181));
-		button_1.setFont(new Font("Sitka Small", Font.BOLD, 16));
-		button_1.setBackground(Color.GREEN);
-		button_1.setBounds(188, 11, 113, 27);
-		panel_1.add(button_1);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelPrincipal = new JPanel();
+		panelPrincipal.setBackground(Color.WHITE);
+		panelPrincipal.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPane.add(panelPrincipal, BorderLayout.CENTER);
+		panelPrincipal.setLayout(null);
+		
+		JButton btnCerrar = new JButton("Cerrar Sesion");
+		btnCerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Guardar("altice.dat");
+				Login login = new Login();
+				dispose();
+				login.setVisible(true);
+			}
+		});
+		btnCerrar.setBounds(1762, 13, 118, 33);
+		panelPrincipal.add(btnCerrar);
 
 
+	}
+	
+	public void Guardar(String nombre)
+	{
+		try {
+			FileOutputStream altice2;
+			ObjectOutputStream alticeWrite;
+			altice2 = new  FileOutputStream(nombre);
+			alticeWrite = new ObjectOutputStream(altice2);
+			alticeWrite.writeObject(AlticeSystem.getInstance());
+			alticeWrite.close();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }

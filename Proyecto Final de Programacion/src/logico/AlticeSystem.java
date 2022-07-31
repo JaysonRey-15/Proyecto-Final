@@ -1,5 +1,6 @@
 package logico;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,8 +9,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class AlticeSystem {
+public class AlticeSystem implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Persona> misPersonas;
@@ -17,6 +19,7 @@ public class AlticeSystem {
 	private ArrayList<PlanAdquirido> misPlanesAd;
 	public static AlticeSystem ALS = null;
 	private int genFac;
+	private static Persona loginUser;
 
 	ZoneId defaultZoneId = ZoneId.systemDefault();
 
@@ -35,6 +38,37 @@ public class AlticeSystem {
 			ALS= new AlticeSystem();	
 		}
 		return ALS;
+	}
+	
+	public static void setAltice(AlticeSystem altice) {
+		AlticeSystem.ALS = altice;
+	}
+	
+	public static Persona getLoginUser() {
+		return loginUser;
+	}
+
+	public static void setLoginUser(Persona loginUser) {
+		AlticeSystem.loginUser = loginUser;
+	}
+	
+	public boolean confirmarLogin(String usuario, String password) {
+		boolean validar = false;
+		for (Persona per : misPersonas) {
+			if(per instanceof P_Administrador) {
+				if (((P_Administrador) per).getCuenta().getUsuario().equalsIgnoreCase(usuario) && ((P_Administrador) per).getCuenta().getPassword().equalsIgnoreCase(password)) {
+					setLoginUser(per);
+					validar = true;
+				}
+			}
+			if(per instanceof P_Trabajador) {
+				if (((P_Trabajador) per).getCuenta().getUsuario().equalsIgnoreCase(usuario) && ((P_Trabajador) per).getCuenta().getPassword().equalsIgnoreCase(password)) {
+					setLoginUser(per);
+					validar = true;
+				}
+			}
+		}
+		return validar;
 	}
 
 	public ArrayList<Persona> getMisPersonas() {

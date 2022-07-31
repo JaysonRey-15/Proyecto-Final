@@ -1,11 +1,13 @@
 package logico;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 
 
-public class PlanAdquirido {
+public class PlanAdquirido implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private String cedulaCliente;
 	private String numCliente;
 	private ArrayList<Plan> misPlanes;

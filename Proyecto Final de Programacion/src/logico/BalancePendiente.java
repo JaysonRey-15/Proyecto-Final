@@ -1,8 +1,11 @@
 package logico;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class BalancePendiente {
+public class BalancePendiente implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private String detalle;
 	private float blcePendiente;
 	private Date fechaVencido;
