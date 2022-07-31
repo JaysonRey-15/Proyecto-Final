@@ -31,13 +31,17 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import logico.P_Administrador;
 import logico.AlticeSystem;
 import logico.Cliente;
+import logico.Factura;
 import logico.P_Trabajador;
 import logico.Persona;
+import logico.PlanAdquirido;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Date;
 import java.text.ParseException;
+import javax.swing.border.LineBorder;
 
 public class ControlUsuario extends JDialog {
 
@@ -54,6 +58,10 @@ public class ControlUsuario extends JDialog {
 	private JPanel panelInfo;
 	private DefaultTableModel model;
 	private Object[] row;
+	private DefaultTableModel model1;
+	private Object[] row1;
+	private DefaultTableModel model2;
+	private Object[] row2;
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private JTextField txtCedula;
@@ -135,7 +143,7 @@ public class ControlUsuario extends JDialog {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				auxPersona = AlticeSystem.getInstance().filtroG(textBuscar.getText());
-				
+
 				txtCedula.setText(auxPersona.getCedula());
 				txtNombre.setText(auxPersona.getNombre());
 				txtApellido.setText(auxPersona.getApellido());
@@ -151,7 +159,7 @@ public class ControlUsuario extends JDialog {
 				}
 				txtCargo.setText(AlticeSystem.getInstance().tipoP(auxPersona));
 
-				
+
 				clean();
 			}
 		});
@@ -173,7 +181,7 @@ public class ControlUsuario extends JDialog {
 		textBuscar.setBounds(13, 31, 166, 27);
 		panelHead.add(textBuscar);
 		textBuscar.setColumns(10);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Tipo:");
 		lblNewLabel_1.setBounds(367, 13, 56, 16);
 		panelHead.add(lblNewLabel_1);
@@ -307,17 +315,17 @@ public class ControlUsuario extends JDialog {
 		txtpersona.setBounds(12, 208, 143, 22);
 		panel.add(txtpersona);
 		txtpersona.setColumns(10);
-		
-				lblNewLabel = new JLabel("Apellido:");
-				lblNewLabel.setBounds(184, 28, 56, 16);
-				panel.add(lblNewLabel);
-				lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 11));
-				
-						txtApellido = new JTextField();
-						txtApellido.setBounds(184, 46, 143, 22);
-						panel.add(txtApellido);
-						txtApellido.setEditable(false);
-						txtApellido.setColumns(10);
+
+		lblNewLabel = new JLabel("Apellido:");
+		lblNewLabel.setBounds(184, 28, 56, 16);
+		panel.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 11));
+
+		txtApellido = new JTextField();
+		txtApellido.setBounds(184, 46, 143, 22);
+		panel.add(txtApellido);
+		txtApellido.setEditable(false);
+		txtApellido.setColumns(10);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -332,10 +340,17 @@ public class ControlUsuario extends JDialog {
 
 		tableAdcional = new JTable();
 		scrollPane_3.setViewportView(tableAdcional);
+		{
+			model2 = new DefaultTableModel();
+			String[] header = {"Nombre","Estado"};
+			model2.setColumnIdentifiers(header);
+		}
 
+		tableAdcional.setModel(model2);
+		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
-		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Historial De Pagos Clientes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Historial De Facturas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_2.setBounds(306, 406, 850, 176);
 		panelSystem.add(panel_2);
 		panel_2.setLayout(null);
@@ -346,6 +361,13 @@ public class ControlUsuario extends JDialog {
 
 		tableHPagos = new JTable();
 		scrollPane_2.setViewportView(tableHPagos);
+		{
+			model1 = new DefaultTableModel();
+			String[] header = {"Cliente","CodFactura","Fecha Facturación","Total","Fecha Pagada","Estado"};
+			model1.setColumnIdentifiers(header);
+		}
+
+		tableHPagos.setModel(model1);
 
 		panelNav = new JPanel();
 		panelNav.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -375,6 +397,9 @@ public class ControlUsuario extends JDialog {
 					txtpersona.setText(((P_Administrador) auxPersona).getCuenta().getUsuario());
 				}
 				txtCargo.setText(AlticeSystem.getInstance().tipoP(auxPersona));
+
+				loadFactura((Cliente)auxPersona);
+				loadPlanAquirido((Cliente)auxPersona);
 			}
 		});
 		btnVer.setForeground(Color.WHITE);
@@ -452,7 +477,7 @@ public class ControlUsuario extends JDialog {
 		btnCerrar.setBackground(SystemColor.inactiveCaption);
 		btnCerrar.setBounds(871, 12, 112, 37);
 		panelNav.add(btnCerrar);
-		
+
 		JButton btnPagar = new JButton("Pagar");
 		btnPagar.setToolTipText("Agregar Personal");
 		btnPagar.setForeground(Color.WHITE);
@@ -506,7 +531,7 @@ public class ControlUsuario extends JDialog {
 				}
 			}
 			break;
-			
+
 		case 2: 
 			for(Persona persona : AlticeSystem.getInstance().getMisPersonas()) {
 				if(persona instanceof P_Trabajador) {
@@ -522,5 +547,32 @@ public class ControlUsuario extends JDialog {
 		btnModificar.setEnabled(false);
 		btnVer.setEnabled(false);
 		btnEliminar.setEnabled(false);
+	}
+
+	public void loadFactura(Persona cli) {
+		model1.setRowCount(0);
+		row1 = new Object[model1.getColumnCount()];
+		for(PlanAdquirido plan:((Cliente) cli).getMisPlanesAd()) {
+			row[0]=cli.getCedula();
+			row[3]=plan.getpagoMensual();
+
+			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
+				row[1]=fac.getCodigo();
+				row[2]=fac.getFechaGen();
+				row[4]=fac.getFechaPagado();
+				row[5]=fac.isEstado();
+			}
+		}
+	}
+	
+	public void loadPlanAquirido(Persona cli) {
+		model2.setRowCount(0);
+		int index=0;
+		row2 = new Object[model2.getColumnCount()];
+		for(PlanAdquirido plAq:((Cliente) cli).getMisPlanesAd()) {
+			row[0] = plAq.getMisPlanes().get(index).getNombre();
+			row[1]=plAq.getSwitch1();
+			index++;
+		}
 	}
 }

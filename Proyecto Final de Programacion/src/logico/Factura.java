@@ -1,22 +1,21 @@
 package logico;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 public class Factura {
 	
    private Cliente cliente;
    private PlanAdquirido miPlanAd;
-   private LocalDate fechaGen;
+   private Date fechaGen;
    private Date fechaPagado;
    private String codigo;
    private boolean estado;
    private float pago;
    
-   public Factura(Cliente cliente, LocalDate localDate, String codigo, float pago) {
+   public Factura(Cliente cliente, Date date, String codigo, float pago) {
 	super();
       this.cliente = cliente;
-	  this.fechaGen = localDate;
+	  this.fechaGen = date;
 	  this.fechaPagado = null;
 	  this.codigo = codigo;
 	  this.pago = pago;
@@ -40,11 +39,11 @@ public class Factura {
 		this.miPlanAd = miPlanAd;
 	}
 	
-	public LocalDate getFecha() {
+	public Date getFecha() {
 		return fechaGen;
 	}
 	
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(Date fecha) {
 		this.fechaGen = fecha;
 	}
 	
@@ -68,7 +67,7 @@ public class Factura {
 		return pago;
 	}
 	
-	public LocalDate getFechaGen() {
+	public Date getFechaGen() {
 		return fechaGen;
 	}
 

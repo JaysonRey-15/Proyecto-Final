@@ -3,6 +3,7 @@ package logico;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -16,6 +17,8 @@ public class AlticeSystem {
 	private ArrayList<PlanAdquirido> misPlanesAd;
 	public static AlticeSystem ALS = null;
 	private int genFac;
+
+	ZoneId defaultZoneId = ZoneId.systemDefault();
 
 	public AlticeSystem() {
 		super();
@@ -51,14 +54,16 @@ public class AlticeSystem {
 	}
 
 
-	
+
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
 	}
-
+	
 	public void insertarPlanAd(PlanAdquirido auxPlanAd) {
 		misPlanesAd.add(auxPlanAd);
 	}
+
+
 
 	public void insertarPersona(Persona auxPersona) {
 		misPersonas.add(auxPersona);
@@ -72,7 +77,7 @@ public class AlticeSystem {
 			misPlanes.get(ind).setPrecioMensual(auxPlan.getPrecioMensual());
 		}
 	}
-	
+
 	public Plan buscarPlanByNomb(String nombre) {
 		Plan plan = null;
 		boolean encontrado = false;
@@ -152,10 +157,16 @@ public class AlticeSystem {
 
 	public void eliminarPersona(Persona auxPersona) {
 		if(auxPersona != null) {
-			misPersonas.remove(auxPersona);
+			if(auxPersona instanceof Cliente) {
+				if(((Cliente)auxPersona).getMisPlanesAd()!=null) {
+					JOptionPane.showConfirmDialog(null, "No se puede eliminar clientes con planes activados");
+				}else {
+					misPersonas.remove(auxPersona);
+				}
+			}
 		}
 	}
-	
+
 	public void addUser(String cedula,Cuenta cuenta) {
 		Persona aux = buscarPersonaByCedula(cedula);
 
@@ -170,7 +181,6 @@ public class AlticeSystem {
 					misCuentas.add(cuenta);
 					tra.addCuenta(cuenta);
 				}
-
 		}
 
 	}
@@ -197,7 +207,7 @@ public class AlticeSystem {
 				aux=per;
 			}
 		}
-		
+
 		if(aux==null)
 			JOptionPane.showMessageDialog(null,"Usuario no encontrado");
 
@@ -207,55 +217,60 @@ public class AlticeSystem {
 
 	public String tipoP(Persona person) {
 		String tipo =null;
-		
+
 		if(person instanceof P_Administrador) 
 			tipo = "Administrador";
-		
-		
+
+
 		if(person instanceof P_Trabajador) 
 			tipo = "Trabajador";
-		
-		
+
+
 		if(person instanceof Cliente)
 			tipo = "Cliente";
 		return tipo;
 	}
-	
+
 	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
-	    if(auxPlanAd != null) {
-	      if(auxPlanAd.isPagoPendiente()) {
-	         misPlanesAd.remove(auxPlanAd); 
-	      }
-	    }
-	}
-	
-	public void generarFacturaPorFecha() {
-		for(Persona per: misPersonas) {
-			if(per instanceof Cliente) {
-				addFactura((Cliente)per);
+		if(auxPlanAd != null) {
+			if(!auxPlanAd.isPagoPendiente()) {
+				misPlanesAd.remove(auxPlanAd); 
 			}
 		}
 	}
-	
+
+
+	//Se va a generar las facturas cada 27 de cada mes
+	public void generarFacturaPorFecha() {
+		if(LocalDateTime.now().getDayOfMonth()==27) {
+			for(Persona per: misPersonas) {
+				if(per instanceof Cliente) {
+					addFactura((Cliente)per);
+				}
+				genFac++;
+			}
+		}
+	}
 	public void addFactura(Cliente cli) {
 		int ind;
-		Date fecha;
+		LocalDate localDate = LocalDate.now();
+		Date date = (Date) Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
-			if(cli.getMisPlanesAd().get(ind).isPagoPendiente()) {
-				Factura fact = new Factura(cli, LocalDate.now(),"F"+genFac,1);
-				cli.addFactura(fact);
-			}
+			Factura fact = new Factura(cli, date,"F"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual());
+			BalancePendiente newBalance= new BalancePendiente("Plan Aquirido",cli.getMisPlanesAd().get(ind).getpagoMensual(),date);
+			cli.addFactura(fact);
+			cli.BalancePendienteAd(newBalance);
 		}
 	}
-	
-	public static long diasEntreDosFechas(Date fechaDesde, Date fechaHasta){
-	     long startTime = fechaDesde.getTime() ;
-	     long endTime = fechaHasta.getTime();
-	     long diasDesde = (long) Math.floor(startTime / (1000*60*60*24)); 
-	     long diasHasta = (long) Math.floor(endTime / (1000*60*60*24)); 
-	     long dias = diasHasta - diasDesde;
 
-	     return dias;
+	public static long diasEntreDosFechas(Date fechaDesde, Date fechaHasta){
+		long startTime = fechaDesde.getTime() ;
+		long endTime = fechaHasta.getTime();
+		long diasDesde = (long) Math.floor(startTime / (1000*60*60*24)); 
+		long diasHasta = (long) Math.floor(endTime / (1000*60*60*24)); 
+		long dias = diasHasta - diasDesde;
+
+		return dias;
 	}
 }
 

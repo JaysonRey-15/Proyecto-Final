@@ -11,7 +11,7 @@ public class PlanAdquirido {
 	private float pagoInicial;
 	private float pagoMensual;
 	private boolean pagoPendiente;
-	
+	private String switch1;
 	public PlanAdquirido(String cedulaCliente, String numCliente, String fecha, float pagoInicial, float pagoMensual,
 			boolean pagoPendiente) {
 		super();
@@ -21,7 +21,8 @@ public class PlanAdquirido {
 		this.pagoInicial = pagoInicial;
 		this.pagoMensual = pagoMensual;
 		this.pagoPendiente = pagoPendiente;
-		misPlanes = new ArrayList<Plan>();
+		this.misPlanes = new ArrayList<Plan>();
+		this.switch1 = "Activado";
 	}
 
 	public String getCedulaCliente() {
@@ -79,6 +80,11 @@ public class PlanAdquirido {
 
 	public void setPagoPendiente(boolean pagoPendiente) {
 		this.pagoPendiente = pagoPendiente;
+	}
+
+	
+	public String getSwitch1() {
+		return switch1;
 	}
 
 	public void insertarPlan(Plan auxPlan) {
