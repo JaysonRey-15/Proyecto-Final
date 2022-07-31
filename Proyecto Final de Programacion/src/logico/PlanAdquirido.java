@@ -1,18 +1,21 @@
 package logico;
 
+import java.sql.Date;
 import java.util.ArrayList;
+
 
 public class PlanAdquirido {
 
 	private String cedulaCliente;
 	private String numCliente;
 	private ArrayList<Plan> misPlanes;
-	private String fecha;
+	private Date fecha;
 	private float pagoInicial;
 	private float pagoMensual;
 	private boolean pagoPendiente;
 	private String switch1;
-	public PlanAdquirido(String cedulaCliente, String numCliente, String fecha, float pagoInicial, float pagoMensual,
+	
+	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual,
 			boolean pagoPendiente) {
 		super();
 		this.cedulaCliente = cedulaCliente;
@@ -50,11 +53,11 @@ public class PlanAdquirido {
 		this.misPlanes = misPlanes;
 	}
 
-	public String getFecha() {
+	public Date getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(String fecha) {
+	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
 

@@ -363,7 +363,7 @@ public class ControlUsuario extends JDialog {
 		scrollPane_2.setViewportView(tableHPagos);
 		{
 			model1 = new DefaultTableModel();
-			String[] header = {"Cliente","CodFactura","Fecha Facturación","Total","Fecha Pagada","Estado"};
+			String[] header = {"Cliente","CodFactura","Fecha Facturacion","Total","Fecha Pagada","Estado"};
 			model1.setColumnIdentifiers(header);
 		}
 

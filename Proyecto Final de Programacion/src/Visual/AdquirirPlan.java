@@ -11,9 +11,11 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -323,7 +325,16 @@ public class AdquirirPlan extends JDialog {
 								auxPersona = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
 								AlticeSystem.getInstance().insertarPersona(auxPersona);
 							}
-							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), txtFecha.getText(), precio, auxPlan.getPrecioMensual(), false);
+							 SimpleDateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
+						     Date date1 = null;
+							try {
+								date1 = fecha.parse(txtFecha.getText());
+							} catch (ParseException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							java.sql.Date date2 = new java.sql.Date(date1.getTime());
+							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), false);
 							auxPlanAd.insertarPlan(auxPlan);
 							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().insertarPlanAd(auxPlanAd);
