@@ -129,13 +129,13 @@ public class Login extends JFrame {
 		JLabel lblNewLabel = new JLabel("Bienvenido");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblNewLabel.setBounds(402, 170, 139, 39);
+		lblNewLabel.setBounds(261, 71, 139, 39);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Usuario:");
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_1.setBounds(358, 235, 56, 16);
+		lblNewLabel_1.setBounds(228, 120, 56, 16);
 		panel.add(lblNewLabel_1);
 		
 		txtUsuario = new JTextField();
@@ -156,14 +156,14 @@ public class Login extends JFrame {
 		txtUsuario.setForeground(Color.GRAY);
 		txtUsuario.setText("Ingresar Usuario");
 		txtUsuario.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtUsuario.setBounds(358, 258, 200, 23);
+		txtUsuario.setBounds(228, 143, 200, 23);
 		panel.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Contrase\u00F1a:");
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_2.setBounds(358, 285, 80, 16);
+		lblNewLabel_2.setBounds(228, 170, 80, 16);
 		panel.add(lblNewLabel_2);
 		
 		txtPassword = new JPasswordField();
@@ -183,7 +183,7 @@ public class Login extends JFrame {
 		});
 		txtPassword.setForeground(Color.GRAY);
 		txtPassword.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtPassword.setBounds(358, 306, 200, 23);
+		txtPassword.setBounds(228, 191, 200, 23);
 		txtPassword.setEchoChar((char)0);
 		txtPassword.setText("Ingresar Contraseña");
 		panel.add(txtPassword);
@@ -211,7 +211,7 @@ public class Login extends JFrame {
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnNewButton.setBounds(391, 342, 130, 23);
+		btnNewButton.setBounds(261, 227, 130, 23);
 		panel.add(btnNewButton);
 		
 		JCheckBox cbkPassword = new JCheckBox("");
@@ -230,7 +230,7 @@ public class Login extends JFrame {
 			}
 		});
 		cbkPassword.setOpaque(false);
-		cbkPassword.setBounds(566, 304, 80, 25);
+		cbkPassword.setBounds(402, 227, 80, 25);
 		panel.add(cbkPassword);
 		
 		labelVer = new JLabel("");
@@ -257,7 +257,7 @@ public class Login extends JFrame {
 		panel.add(labelLogo);
 		
 		labelFondo = new JLabel("");
-		labelFondo.setBounds(0, 0, dim.width/2, dim.height/2);
+		labelFondo.setBounds(0, 0, 667, 345);
 		ImageIcon fondo = new ImageIcon("src/imagenes/fondo.jpg");
 		Icon ico = new ImageIcon(fondo.getImage().getScaledInstance(labelFondo.getWidth(), labelFondo.getHeight(), Image.SCALE_DEFAULT));
 		labelFondo.setIcon(ico);

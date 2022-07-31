@@ -96,6 +96,10 @@ public class Principal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
+		AlticeSystem.getInstance();
+		if(AlticeSystem.loginUser==null) {
+			menuBar.setVisible(false);
+		}
 		JMenu mnNewMenu_1 = new JMenu("Usuarios");
 		menuBar.add(mnNewMenu_1);
 

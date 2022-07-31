@@ -398,8 +398,8 @@ public class ControlUsuario extends JDialog {
 				}
 				txtCargo.setText(AlticeSystem.getInstance().tipoP(auxPersona));
 
-				loadFactura((Cliente)auxPersona);
-				loadPlanAquirido((Cliente)auxPersona);
+//				loadFactura((Cliente)auxPersona);
+//				loadPlanAquirido((Cliente)auxPersona);
 			}
 		});
 		btnVer.setForeground(Color.WHITE);

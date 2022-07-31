@@ -19,7 +19,7 @@ public class AlticeSystem implements Serializable{
 	private ArrayList<PlanAdquirido> misPlanesAd;
 	public static AlticeSystem ALS = null;
 	private int genFac;
-	private static Persona loginUser;
+	public static Persona loginUser=null;
 
 	ZoneId defaultZoneId = ZoneId.systemDefault();
 
