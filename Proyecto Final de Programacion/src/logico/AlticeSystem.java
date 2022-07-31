@@ -229,7 +229,15 @@ public class AlticeSystem {
 	    }
 	}
 	
-	public void addFactura(Cliente cli, Factura fac) {
+	public void generarFacturaPorFecha() {
+		for(Persona per: misPersonas) {
+			if(per instanceof Cliente) {
+				addFactura((Cliente)per);
+			}
+		}
+	}
+	
+	public void addFactura(Cliente cli) {
 		int ind;
 		Date fecha;
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
