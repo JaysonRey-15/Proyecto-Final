@@ -99,12 +99,12 @@ public class AdquirirPlan extends JDialog {
 			panel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
-			
+
 			JLabel lblNewLabel = new JLabel("Cedula:");
 			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblNewLabel.setBounds(10, 10, 104, 23);
 			panel.add(lblNewLabel);
-			
+
 			MaskFormatter cedula = null;
 			try {
 				cedula = new MaskFormatter("###-#######-#");
@@ -130,7 +130,7 @@ public class AdquirirPlan extends JDialog {
 				panel.add(txtFecha);
 				txtFecha.setColumns(10);
 			}
-			
+
 			JButton btnNewButton = new JButton("Buscar");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -163,22 +163,22 @@ public class AdquirirPlan extends JDialog {
 						txtDireccion.setText(auxPersona.getDireccion());
 						txtTelefono.setText(auxPersona.getTelefono());
 						if(auxPersona.getGenero().equalsIgnoreCase("Hombre")) {
-						   cbxGenero.setSelectedIndex(0);
+							cbxGenero.setSelectedIndex(0);
 						}
 						if(auxPersona.getGenero().equalsIgnoreCase("Mujer")) {
-						   cbxGenero.setSelectedIndex(1);
+							cbxGenero.setSelectedIndex(1);
 						}
 					}
 				}
 			});
 			btnNewButton.setBounds(222, 29, 97, 22);
 			panel.add(btnNewButton);
-			
+
 			JLabel lblNewLabel_2 = new JLabel("Nombre:");
 			lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblNewLabel_2.setBounds(10, 63, 104, 23);
 			panel.add(lblNewLabel_2);
-			
+
 			txtNombre = new JTextField();
 			txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			txtNombre.setEditable(false);
@@ -220,7 +220,7 @@ public class AdquirirPlan extends JDialog {
 				panel.add(txtDireccion);
 				txtDireccion.setColumns(10);
 			}
-			
+
 			JPanel panel_1 = new JPanel();
 			panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Planes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			panel_1.setBounds(10, 231, 533, 272);
@@ -256,31 +256,31 @@ public class AdquirirPlan extends JDialog {
 					scrollPane.setViewportView(table);
 				}
 			}
-			
+
 			JLabel lblNewLabel_6 = new JLabel("Total:");
 			lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblNewLabel_6.setBounds(10, 507, 90, 35);
 			panel.add(lblNewLabel_6);
-			
+
 			txtTotal = new JTextField();
 			txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			txtTotal.setEditable(false);
 			txtTotal.setBounds(51, 513, 104, 23);
 			panel.add(txtTotal);
 			txtTotal.setColumns(10);
-			
+
 			JLabel lblNewLabel_5 = new JLabel("Apellido:");
 			lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblNewLabel_5.setBounds(242, 63, 104, 23);
 			panel.add(lblNewLabel_5);
-			
+
 			txtApellido = new JTextField();
 			txtApellido.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			txtApellido.setEditable(false);
 			txtApellido.setBounds(238, 83, 206, 23);
 			panel.add(txtApellido);
 			txtApellido.setColumns(10);
-			
+
 			JLabel lblNewLabel_7 = new JLabel("Nacionalidad:");
 			lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblNewLabel_7.setBounds(242, 119, 104, 23);
@@ -299,7 +299,7 @@ public class AdquirirPlan extends JDialog {
 				lblNewLabel_8.setBounds(466, 63, 104, 23);
 				panel.add(lblNewLabel_8);
 			}
-			
+
 			cbxGenero = new JComboBox();
 			cbxGenero.setEnabled(false);
 			cbxGenero.setModel(new DefaultComboBoxModel(new String[] {"Hombre", "Mujer"}));
@@ -372,7 +372,7 @@ public class AdquirirPlan extends JDialog {
 	private void loadPlanes() {
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
-		
+
 		for(int i = 0; i < AlticeSystem.getInstance().getMisPlanes().size(); i++) {
 			if(AlticeSystem.getInstance().getMisPlanes().get(i).getEstado().equalsIgnoreCase("Habilitado")) {
 				rows[0] = AlticeSystem.getInstance().getMisPlanes().get(i).getNombre();

@@ -1,6 +1,8 @@
 package logico;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -12,8 +14,8 @@ public class AlticeSystem {
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Cuenta> misCuentas;
 	private ArrayList<PlanAdquirido> misPlanesAd;
-	private int generadorCodigoPersona;
 	public static AlticeSystem ALS = null;
+	private int genFac;
 
 	public AlticeSystem() {
 		super();
@@ -22,6 +24,7 @@ public class AlticeSystem {
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
 		this.misCuentas = new ArrayList<Cuenta>();
+		this.genFac = 1;
 	}
 
 	public static AlticeSystem getInstance(){
@@ -47,9 +50,7 @@ public class AlticeSystem {
 		return misFacturas;
 	}
 
-	public int getGeneradorCodigoPersona() {
-		return generadorCodigoPersona;
-	}
+
 	
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
@@ -187,22 +188,6 @@ public class AlticeSystem {
 		}
 		return persona;
 	}
-	
-	//Por discutir
-//
-//	public void actualizarBalanceCliente(Cliente cliente,BalancePendiente ppendiente) {
-//		int ind;
-//		PlanAdquirido plan = null;
-//		if(cliente.getMiPlan().isPagoPendiente()) {
-//			plan = cliente.getMiPlan();
-//			Date date;
-//			//BalancePendiente bpendiente new BalancePendiente("Cuentas por pagar", plan.getMisPlanes().get(0).getPrecioMensual(), date);
-//			
-//			cliente.getPPendientes().add(null);
-//		}
-//	}
-	
-
 
 	public Persona filtroG(String filtro) {
 		Persona aux = null;
@@ -242,6 +227,27 @@ public class AlticeSystem {
 	         misPlanesAd.remove(auxPlanAd); 
 	      }
 	    }
+	}
+	
+	public void addFactura(Cliente cli, Factura fac) {
+		int ind;
+		Date fecha;
+		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
+			if(cli.getMisPlanesAd().get(ind).isPagoPendiente()) {
+				Factura fact = new Factura(cli, LocalDate.now(),"F"+genFac,1);
+				cli.addFactura(fact);
+			}
+		}
+	}
+	
+	public static long diasEntreDosFechas(Date fechaDesde, Date fechaHasta){
+	     long startTime = fechaDesde.getTime() ;
+	     long endTime = fechaHasta.getTime();
+	     long diasDesde = (long) Math.floor(startTime / (1000*60*60*24)); 
+	     long diasHasta = (long) Math.floor(endTime / (1000*60*60*24)); 
+	     long dias = diasHasta - diasDesde;
+
+	     return dias;
 	}
 }
 

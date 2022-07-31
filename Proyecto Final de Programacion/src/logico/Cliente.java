@@ -19,10 +19,6 @@ public class Cliente extends Persona {
 
 	public ArrayList<Factura> getMisFacturas() {
 		return misFacturas;
-	}	
-
-	public ArrayList<PlanAdquirido> getmisPlanesAd() {
-		return misPlanesAd;
 	}
 	
 	public ArrayList<PlanAdquirido> getMisPlanesAd() {
@@ -49,6 +45,9 @@ public class Cliente extends Persona {
 	    }
 	}
 	
+	public void addFactura(Factura fac) {
+		misFacturas.add(fac);
+	}
 //	public void BalancePendiente() {
 //		for(PlanAdquirido plan: misPlanesAd) {
 //			if(plan.isPagoPendiente()) {

@@ -1,24 +1,27 @@
 package logico;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Factura {
 	
    private Cliente cliente;
    private PlanAdquirido miPlanAd;
-   private Date fecha;
-   private Date fechaPago;
+   private LocalDate fechaGen;
+   private Date fechaPagado;
    private String codigo;
+   private boolean estado;
    private float pago;
    
-   public Factura(Cliente cliente, Date fecha, Date fechaPago, String codigo, float pago) {
+   public Factura(Cliente cliente, LocalDate localDate, String codigo, float pago) {
 	super();
       this.cliente = cliente;
-	  this.fecha = fecha;
-	  this.fechaPago = fechaPago;
+	  this.fechaGen = localDate;
+	  this.fechaPagado = null;
 	  this.codigo = codigo;
 	  this.pago = pago;
-	  miPlanAd = null;
+	  this.miPlanAd = null;
+	  this.estado = false;
    }
 
 	public Cliente getCliente() {
@@ -37,20 +40,20 @@ public class Factura {
 		this.miPlanAd = miPlanAd;
 	}
 	
-	public Date getFecha() {
-		return fecha;
+	public LocalDate getFecha() {
+		return fechaGen;
 	}
 	
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFecha(LocalDate fecha) {
+		this.fechaGen = fecha;
 	}
 	
 	public Date getFechaPago() {
-		return fechaPago;
+		return fechaPagado;
 	}
 	
 	public void setFechaPago(Date fechaPago) {
-		this.fechaPago = fechaPago;
+		this.fechaPagado = fechaPago;
 	}
 	
 	public String getCodigo() {
@@ -65,6 +68,18 @@ public class Factura {
 		return pago;
 	}
 	
+	public LocalDate getFechaGen() {
+		return fechaGen;
+	}
+
+	public Date getFechaPagado() {
+		return fechaPagado;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
 	public void setPago(float pago) {
 		this.pago = pago;
 	} 
