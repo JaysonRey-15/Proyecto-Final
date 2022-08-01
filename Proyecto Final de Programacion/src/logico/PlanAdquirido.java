@@ -16,6 +16,8 @@ public class PlanAdquirido implements Serializable{
 	private float pagoMensual;
 	private boolean pagoPendiente;
 	private String switch1;
+	private int code;
+	private String codePlad;
 	
 	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual,
 			boolean pagoPendiente) {
@@ -28,6 +30,8 @@ public class PlanAdquirido implements Serializable{
 		this.pagoPendiente = pagoPendiente;
 		this.misPlanes = new ArrayList<Plan>();
 		this.switch1 = "Activado";
+		this.code = 1;
+		this.codePlad = "P-"+code;
 	}
 
 	public String getCedulaCliente() {
@@ -91,8 +95,15 @@ public class PlanAdquirido implements Serializable{
 	public String getSwitch1() {
 		return switch1;
 	}
+	
+	
+
+	public String getCodePlad() {
+		return codePlad;
+	}
 
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
+		code++;
 	}
 }

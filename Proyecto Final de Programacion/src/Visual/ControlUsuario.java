@@ -80,6 +80,7 @@ public class ControlUsuario extends JDialog {
 	private JTable tableHPagos;
 	private JTable tableAdcional;
 	private Persona auxPersona = null;
+	private PlanAdquirido auxplad=null;
 	private JLabel lblNewLabel;
 	private JTextField txtApellido;
 	private JTextField txtGenero;
@@ -90,6 +91,8 @@ public class ControlUsuario extends JDialog {
 	private JButton btnModificar;
 	private JTextField textBuscar;
 	private Persona persLogueado = AlticeSystem.getLoginUser();
+	private JButton btnQuitar;
+	private JButton btnSusp;
 	/**
 	 * Launch the application.
 	 */
@@ -330,26 +333,41 @@ public class ControlUsuario extends JDialog {
 		txtApellido.setColumns(10);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos Adicionales", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Planes Adquiridos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panel_1.setBackground(Color.LIGHT_GRAY);
 		panel_1.setBounds(12, 406, 288, 176);
 		panelSystem.add(panel_1);
 		panel_1.setLayout(null);
 
 		JScrollPane scrollPane_3 = new JScrollPane();
-		scrollPane_3.setBounds(12, 22, 269, 143);
+		scrollPane_3.setBounds(12, 22, 269, 109);
 		panel_1.add(scrollPane_3);
 
 		tableAdcional = new JTable();
 		scrollPane_3.setViewportView(tableAdcional);
 		{
 			model2 = new DefaultTableModel();
-			String[] header = {"Nombre","Estado"};
+			String[] header = {"Code","Nombre","Estado"};
 			model2.setColumnIdentifiers(header);
 		}
 
 		tableAdcional.setModel(model2);
-		
+
+		btnSusp = new JButton("Suspender");
+		btnSusp.setFont(new Font("Sitka Small", Font.PLAIN, 12));
+		btnSusp.setBounds(38, 142, 104, 34);
+		panel_1.add(btnSusp);
+
+		btnQuitar = new JButton("Quitar");
+		btnQuitar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Deberia eliminar esté plan aquirido");
+			}
+		});
+		btnQuitar.setFont(new Font("Sitka Small", Font.PLAIN, 12));
+		btnQuitar.setBounds(152, 142, 104, 34);
+		panel_1.add(btnQuitar);
+
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		panel_2.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Historial De Facturas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -400,7 +418,7 @@ public class ControlUsuario extends JDialog {
 				}
 				txtCargo.setText(AlticeSystem.getInstance().tipoP(auxPersona));
 
-//				loadFactura((Cliente)auxPersona);
+				//				loadFactura((Cliente)auxPersona);
 				if(auxPersona instanceof Cliente)
 					loadPlanAquirido((Cliente)auxPersona);
 			}
@@ -435,7 +453,7 @@ public class ControlUsuario extends JDialog {
 		if(!(persLogueado instanceof P_Administrador)) {
 			btnNewButton_1.setVisible(false);
 			cbxTipo.setEnabled(false);
-			
+
 		}
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -498,7 +516,7 @@ public class ControlUsuario extends JDialog {
 		if(auxPersona!=null) {
 			loadPlanAquirido((Cliente)auxPersona);
 		}
-			
+
 
 
 	}
@@ -577,16 +595,17 @@ public class ControlUsuario extends JDialog {
 			}
 		}
 	}
-	
+
 	public void loadPlanAquirido(Cliente cli) {
 		model2.setRowCount(0);
 		int ind;
 		row2 = new Object[model2.getColumnCount()];
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
 			for(int i=0; i<cli.getMisPlanesAd().get(ind).getMisPlanes().size(); i++) {
-				row2[0] = cli.getMisPlanesAd().get(ind).getMisPlanes().get(i).getNombre();
+				row2[1] = cli.getMisPlanesAd().get(ind).getMisPlanes().get(i).getNombre();
 			}
-			row2[1]=cli.getMisPlanesAd().get(ind).getSwitch1();
+			row2[2]=cli.getMisPlanesAd().get(ind).getSwitch1();
+			row2[0]=cli.getMisPlanesAd().get(ind).getCodePlad();
 			model2.addRow(row2);
 		}
 	}

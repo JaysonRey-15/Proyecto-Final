@@ -117,6 +117,17 @@ public class AlticeSystem implements Serializable{
 		}
 	}
 
+	public PlanAdquirido buscarPlanEnCliente(Cliente cli,String code) {
+		PlanAdquirido aux = null;
+		int ind;
+		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
+			if(cli.getMisPlanesAd().get(ind).getCodePlad().equalsIgnoreCase(code)) {
+				aux=cli.getMisPlanesAd().get(ind);
+			}
+		}
+		return aux;
+	}
+
 	public Plan buscarPlanByNomb(String nombre) {
 		Plan plan = null;
 		boolean encontrado = false;
