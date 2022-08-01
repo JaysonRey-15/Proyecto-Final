@@ -42,6 +42,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.text.ParseException;
 import javax.swing.border.LineBorder;
+import javax.swing.JToggleButton;
 
 public class ControlUsuario extends JDialog {
 
@@ -88,6 +89,7 @@ public class ControlUsuario extends JDialog {
 	private JButton btnCerrar;
 	private JButton btnModificar;
 	private JTextField textBuscar;
+	private Persona persLogueado = AlticeSystem.getLoginUser();
 	/**
 	 * Launch the application.
 	 */
@@ -399,12 +401,13 @@ public class ControlUsuario extends JDialog {
 				txtCargo.setText(AlticeSystem.getInstance().tipoP(auxPersona));
 
 //				loadFactura((Cliente)auxPersona);
-//				loadPlanAquirido((Cliente)auxPersona);
+				if(auxPersona instanceof Cliente)
+					loadPlanAquirido((Cliente)auxPersona);
 			}
 		});
 		btnVer.setForeground(Color.WHITE);
-		btnVer.setBackground(SystemColor.inactiveCaption);
-		btnVer.setFont(new Font("Sitka Small", Font.BOLD, 14));
+		btnVer.setBackground(Color.GRAY);
+		btnVer.setFont(new Font("Dialog", Font.BOLD, 14));
 
 		btnVer.setBounds(357, 12, 112, 37);
 		panelNav.add(btnVer);
@@ -418,17 +421,22 @@ public class ControlUsuario extends JDialog {
 				}
 				AlticeSystem.getInstance().eliminarPersona(auxPersona);
 				clean();
-				loadPersonasByTipo(0);
+				loadPersonasByTipo(cbxTipo.getSelectedIndex());
 			}
 		});
 		btnEliminar.setForeground(Color.WHITE);
-		btnEliminar.setBackground(SystemColor.inactiveCaption);
+		btnEliminar.setBackground(Color.GRAY);
 		btnEliminar.setFont(new Font("Sitka Small", Font.BOLD, 14));
 		btnEliminar.setBounds(605, 12, 112, 37);
 		panelNav.add(btnEliminar);
 
 		btnNewButton_1 = new JButton("Nuevo");
 		btnNewButton_1.setToolTipText("Agregar Personal");
+		if(!(persLogueado instanceof P_Administrador)) {
+			btnNewButton_1.setVisible(false);
+			cbxTipo.setEnabled(false);
+			
+		}
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarPersona addPersona = new RegistrarPersona(null);
@@ -439,8 +447,8 @@ public class ControlUsuario extends JDialog {
 			}
 		});
 		btnNewButton_1.setForeground(Color.WHITE);
-		btnNewButton_1.setBackground(SystemColor.inactiveCaption);
-		btnNewButton_1.setFont(new Font("Sitka Small", Font.BOLD, 14));
+		btnNewButton_1.setBackground(Color.GRAY);
+		btnNewButton_1.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnNewButton_1.setBounds(220, 12, 125, 37);
 		panelNav.add(btnNewButton_1);
 
@@ -460,8 +468,8 @@ public class ControlUsuario extends JDialog {
 			}
 		});
 		btnModificar.setForeground(Color.WHITE);
-		btnModificar.setFont(new Font("Sitka Small", Font.BOLD, 14));
-		btnModificar.setBackground(SystemColor.inactiveCaption);
+		btnModificar.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnModificar.setBackground(Color.GRAY);
 		btnModificar.setBounds(481, 12, 112, 37);
 		panelNav.add(btnModificar);
 		panelSystem.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{panelNav, btnVer, btnEliminar, btnNewButton_1, panelHead, txtBuscar, btnBuscar, panelInfo, scrollPane_1, tableInfo, panel, txtCedula, txtNombre, txtTelefono, lblNewLabel_3, lblNewLabel_4, lblNewLabel_5, txtDireccion, lblNewLabel_6, lblNewLabel_7, txtNacionalidad, lblNewLabel_8, lblCargo, panel_1, panel_2}));
@@ -487,6 +495,11 @@ public class ControlUsuario extends JDialog {
 		panelNav.add(btnPagar);
 
 		loadPersonasByTipo(0);
+		if(auxPersona!=null) {
+			loadPlanAquirido((Cliente)auxPersona);
+		}
+			
+
 
 	}
 
@@ -565,14 +578,16 @@ public class ControlUsuario extends JDialog {
 		}
 	}
 	
-	public void loadPlanAquirido(Persona cli) {
+	public void loadPlanAquirido(Cliente cli) {
 		model2.setRowCount(0);
-		int index=0;
+		int ind;
 		row2 = new Object[model2.getColumnCount()];
-		for(PlanAdquirido plAq:((Cliente) cli).getMisPlanesAd()) {
-			row[0] = plAq.getMisPlanes().get(index).getNombre();
-			row[1]=plAq.getSwitch1();
-			index++;
+		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
+			for(int i=0; i<cli.getMisPlanesAd().get(ind).getMisPlanes().size(); i++) {
+				row2[0] = cli.getMisPlanesAd().get(ind).getMisPlanes().get(i).getNombre();
+			}
+			row2[1]=cli.getMisPlanesAd().get(ind).getSwitch1();
+			model2.addRow(row2);
 		}
 	}
 }

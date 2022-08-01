@@ -1,6 +1,8 @@
 package logico;
 
+import java.awt.Component;
 import java.io.Serializable;
+import java.security.KeyStore.PasswordProtection;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,10 +10,12 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 public class AlticeSystem implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	private static final Component PasswordProtection =null;
 	private ArrayList<Plan> misPlanes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Persona> misPersonas;
@@ -22,6 +26,7 @@ public class AlticeSystem implements Serializable{
 	public static Persona loginUser=null;
 
 	ZoneId defaultZoneId = ZoneId.systemDefault();
+
 
 	public AlticeSystem() {
 		super();
@@ -39,11 +44,11 @@ public class AlticeSystem implements Serializable{
 		}
 		return ALS;
 	}
-	
+
 	public static void setAltice(AlticeSystem altice) {
 		AlticeSystem.ALS = altice;
 	}
-	
+
 	public static Persona getLoginUser() {
 		return loginUser;
 	}
@@ -51,7 +56,7 @@ public class AlticeSystem implements Serializable{
 	public static void setLoginUser(Persona loginUser) {
 		AlticeSystem.loginUser = loginUser;
 	}
-	
+
 	public boolean confirmarLogin(String usuario, String password) {
 		boolean validar = false;
 		for (Persona per : misPersonas) {
@@ -92,7 +97,7 @@ public class AlticeSystem implements Serializable{
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
 	}
-	
+
 	public void insertarPlanAd(PlanAdquirido auxPlanAd) {
 		misPlanesAd.add(auxPlanAd);
 	}
@@ -193,9 +198,22 @@ public class AlticeSystem implements Serializable{
 		if(auxPersona != null) {
 			if(auxPersona instanceof Cliente) {
 				if(((Cliente)auxPersona).getMisPlanesAd()!=null) {
-					JOptionPane.showConfirmDialog(null, "No se puede eliminar clientes con planes activados");
+					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "¡Atención!", JOptionPane.ERROR_MESSAGE);
 				}else {
+					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseña");
+					if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
+						misPersonas.remove(auxPersona);
+					}else {
+						JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
+					}
+				}
+
+			}else {
+				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseña");
+				if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 					misPersonas.remove(auxPersona);
+				}else {
+					JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 				}
 			}
 		}
