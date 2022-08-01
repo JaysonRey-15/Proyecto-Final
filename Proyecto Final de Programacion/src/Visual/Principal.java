@@ -88,9 +88,6 @@ public class Principal extends JFrame {
 	private JLabel labelPlanes;
 	private JButton btnPlanes;
 	private JLabel lblPlanesEnEl;
-	private JPanel panelReportes;
-	private JLabel Reportes;
-	private JButton btnReportes;
 
 	/**
 	 * Launch the application.
@@ -214,13 +211,13 @@ public class Principal extends JFrame {
 		panelPrincipal.add(btnCerrar);
 		
 		panelClientes = new JPanel();
-		panelClientes.setBackground(new Color(186, 85, 211));
+		panelClientes.setBackground(Color.GRAY);
 		panelClientes.setBounds(200, 100, 240, 145);
 		panelPrincipal.add(panelClientes);
 		panelClientes.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Clientes");
-		lblNewLabel.setBackground(new Color(147, 112, 219));
+		lblNewLabel.setBackground(Color.LIGHT_GRAY);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel.setOpaque(true);
 		lblNewLabel.setBounds(0, 0, 240, 23);
@@ -253,14 +250,14 @@ public class Principal extends JFrame {
 		
 		panelTrabajadores = new JPanel();
 		panelTrabajadores.setLayout(null);
-		panelTrabajadores.setBackground(new Color(65, 105, 225));
-		panelTrabajadores.setBounds(200, 342, 240, 145);
+		panelTrabajadores.setBackground(Color.DARK_GRAY);
+		panelTrabajadores.setBounds(817, 313, 240, 145);
 		panelPrincipal.add(panelTrabajadores);
 		
 		lblTra = new JLabel("Trabajadores");
 		lblTra.setOpaque(true);
 		lblTra.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblTra.setBackground(new Color(100, 149, 237));
+		lblTra.setBackground(Color.LIGHT_GRAY);
 		lblTra.setBounds(0, 0, 240, 23);
 		panelTrabajadores.add(lblTra);
 		
@@ -291,14 +288,14 @@ public class Principal extends JFrame {
 		
 		panelAdmin = new JPanel();
 		panelAdmin.setLayout(null);
-		panelAdmin.setBackground(new Color(255, 140, 0));
+		panelAdmin.setBackground(Color.GRAY);
 		panelAdmin.setBounds(940, 100, 240, 145);
 		panelPrincipal.add(panelAdmin);
 		
 		lblAdministradores = new JLabel("Administradores");
 		lblAdministradores.setOpaque(true);
 		lblAdministradores.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblAdministradores.setBackground(new Color(255, 165, 0));
+		lblAdministradores.setBackground(Color.LIGHT_GRAY);
 		lblAdministradores.setBounds(0, 0, 240, 23);
 		panelAdmin.add(lblAdministradores);
 		
@@ -329,14 +326,14 @@ public class Principal extends JFrame {
 		
 		panelFacturas = new JPanel();
 		panelFacturas.setLayout(null);
-		panelFacturas.setBackground(new Color(0, 128, 128));
+		panelFacturas.setBackground(Color.DARK_GRAY);
 		panelFacturas.setBounds(570, 100, 240, 145);
 		panelPrincipal.add(panelFacturas);
 		
 		Facturas = new JLabel("Facturas");
 		Facturas.setOpaque(true);
 		Facturas.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Facturas.setBackground(new Color(60, 179, 113));
+		Facturas.setBackground(Color.LIGHT_GRAY);
 		Facturas.setBounds(0, 0, 240, 23);
 		panelFacturas.add(Facturas);
 		
@@ -367,14 +364,14 @@ public class Principal extends JFrame {
 		
 		panelPlanes = new JPanel();
 		panelPlanes.setLayout(null);
-		panelPlanes.setBackground(new Color(255, 215, 0));
-		panelPlanes.setBounds(570, 342, 240, 145);
+		panelPlanes.setBackground(Color.DARK_GRAY);
+		panelPlanes.setBounds(330, 313, 240, 145);
 		panelPrincipal.add(panelPlanes);
 		
 		lblPlanes = new JLabel("Planes");
 		lblPlanes.setOpaque(true);
 		lblPlanes.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblPlanes.setBackground(new Color(218, 165, 32));
+		lblPlanes.setBackground(Color.LIGHT_GRAY);
 		lblPlanes.setBounds(0, 0, 240, 23);
 		panelPlanes.add(lblPlanes);
 		
@@ -402,23 +399,6 @@ public class Principal extends JFrame {
 		lblPlanesEnEl.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblPlanesEnEl.setBounds(0, 122, 240, 23);
 		panelPlanes.add(lblPlanesEnEl);
-		
-		panelReportes = new JPanel();
-		panelReportes.setLayout(null);
-		panelReportes.setBackground(new Color(70, 130, 180));
-		panelReportes.setBounds(940, 342, 240, 145);
-		panelPrincipal.add(panelReportes);
-		
-		Reportes = new JLabel("Reportes");
-		Reportes.setOpaque(true);
-		Reportes.setFont(new Font("Tahoma", Font.BOLD, 18));
-		Reportes.setBackground(new Color(95, 158, 160));
-		Reportes.setBounds(0, 0, 240, 23);
-		panelReportes.add(Reportes);
-		
-		btnReportes = new JButton("Revisar Reportes");
-		btnReportes.setBounds(0, 98, 240, 23);
-		panelReportes.add(btnReportes);
 
 		cantSistema();
 		permisos();
@@ -433,7 +413,6 @@ public class Principal extends JFrame {
 			menuReporte.setVisible(false);
 			panelAdmin.setVisible(false);
 			panelPlanes.setVisible(false);
-			panelReportes.setVisible(false);
 			panelTrabajadores.setVisible(false);
 		}
 	}
