@@ -80,7 +80,7 @@ public class ControlUsuario extends JDialog {
 	private JTable tableHPagos;
 	private JTable tableAdcional;
 	private Persona auxPersona = null;
-	private PlanAdquirido auxplad=null;
+	private PlanAdquirido auxPlanAd = null;
 	private JLabel lblNewLabel;
 	private JTextField txtApellido;
 	private JTextField txtGenero;
@@ -344,6 +344,7 @@ public class ControlUsuario extends JDialog {
 		panel_1.add(scrollPane_3);
 
 		tableAdcional = new JTable();
+
 		scrollPane_3.setViewportView(tableAdcional);
 		{
 			model2 = new DefaultTableModel();
@@ -361,7 +362,18 @@ public class ControlUsuario extends JDialog {
 		btnQuitar = new JButton("Quitar");
 		btnQuitar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Deberia eliminar esté plan aquirido");
+				int aux = tableAdcional.getSelectedRow();
+				int aux2 = tableInfo.getSelectedRow();
+				if(aux != -1 && aux2 != -1) {
+					String code = (String) tableAdcional.getValueAt(aux, 0);
+					String cedula = (String) tableInfo.getValueAt(aux, 0);
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(cedula);
+					auxPlanAd = AlticeSystem.getInstance().buscarPlanEnCliente(auxPersona, code);
+				}
+				AlticeSystem.getInstance().eliminarPlanAd(auxPlanAd, auxPersona);
+				clean();
+				loadPlanAquirido((Cliente)auxPersona);
+				loadPersonasByTipo(cbxTipo.getSelectedIndex());
 			}
 		});
 		btnQuitar.setFont(new Font("Sitka Small", Font.PLAIN, 12));
@@ -600,13 +612,21 @@ public class ControlUsuario extends JDialog {
 		model2.setRowCount(0);
 		int ind;
 		row2 = new Object[model2.getColumnCount()];
-		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
-			for(int i=0; i<cli.getMisPlanesAd().get(ind).getMisPlanes().size(); i++) {
-				row2[1] = cli.getMisPlanesAd().get(ind).getMisPlanes().get(i).getNombre();
+		
+		if(cli != null) {
+			for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
+				for(int i=0; i<cli.getMisPlanesAd().get(ind).getMisPlanes().size(); i++) {
+					row2[1] = cli.getMisPlanesAd().get(ind).getMisPlanes().get(i).getNombre();
+				}
+				row2[2]=cli.getMisPlanesAd().get(ind).getSwitch1();
+				row2[0]=cli.getMisPlanesAd().get(ind).getCodigo();
+				model2.addRow(row2);
 			}
-			row2[2]=cli.getMisPlanesAd().get(ind).getSwitch1();
-			row2[0]=cli.getMisPlanesAd().get(ind).getCodePlad();
-			model2.addRow(row2);
+		}
+		else {
+			row2[0] = "";
+			row2[1] = "";
+			row2[2] = "";	
 		}
 	}
 }

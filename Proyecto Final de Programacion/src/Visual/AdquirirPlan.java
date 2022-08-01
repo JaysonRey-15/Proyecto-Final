@@ -67,6 +67,7 @@ public class AdquirirPlan extends JDialog {
 	private float precio = 0;
 	private JFormattedTextField txtTelefono;
 	private JComboBox cbxGenero;
+	private JTextField txtCodigo;
 
 	/**
 	 * Launch the application.
@@ -88,7 +89,7 @@ public class AdquirirPlan extends JDialog {
 		setTitle("Adquirir Plan");
 		setResizable(false);
 		setModal(true);
-		setBounds(100, 100, 586, 640);
+		setBounds(100, 100, 586, 690);
 		setLocationRelativeTo(null);
 		ImageIcon logo = new ImageIcon("src/imagenes/download.jpg");
 		setIconImage(logo.getImage());
@@ -119,14 +120,14 @@ public class AdquirirPlan extends JDialog {
 			{
 				JLabel lblNewLabel_1 = new JLabel("Fecha:");
 				lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-				lblNewLabel_1.setBounds(210, 516, 56, 16);
+				lblNewLabel_1.setBounds(184, 566, 56, 16);
 				panel.add(lblNewLabel_1);
 			}
 			{
 				txtFecha = new JTextField();
 				txtFecha.setFont(new Font("Tahoma", Font.PLAIN, 12));
 				txtFecha.setEditable(false);
-				txtFecha.setBounds(255, 513, 104, 23);
+				txtFecha.setBounds(228, 563, 104, 23);
 				DateTimeFormatter fechaAper = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 				txtFecha.setText(fechaAper.format(LocalDateTime.now()));
 				panel.add(txtFecha);
@@ -225,7 +226,7 @@ public class AdquirirPlan extends JDialog {
 
 			JPanel panel_1 = new JPanel();
 			panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Planes", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			panel_1.setBounds(10, 231, 533, 272);
+			panel_1.setBounds(10, 278, 533, 272);
 			panel.add(panel_1);
 			panel_1.setLayout(new BorderLayout(0, 0));
 			{
@@ -261,13 +262,13 @@ public class AdquirirPlan extends JDialog {
 
 			JLabel lblNewLabel_6 = new JLabel("Total:");
 			lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblNewLabel_6.setBounds(10, 507, 90, 35);
+			lblNewLabel_6.setBounds(10, 557, 90, 35);
 			panel.add(lblNewLabel_6);
 
 			txtTotal = new JTextField();
 			txtTotal.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			txtTotal.setEditable(false);
-			txtTotal.setBounds(51, 513, 104, 23);
+			txtTotal.setBounds(46, 563, 104, 22);
 			panel.add(txtTotal);
 			txtTotal.setColumns(10);
 
@@ -307,6 +308,17 @@ public class AdquirirPlan extends JDialog {
 			cbxGenero.setModel(new DefaultComboBoxModel(new String[] {"Hombre", "Mujer"}));
 			cbxGenero.setBounds(463, 83, 80, 23);
 			panel.add(cbxGenero);
+			
+			JLabel lblNewLabel_9 = new JLabel("Codigo:");
+			lblNewLabel_9.setBounds(12, 245, 56, 16);
+			panel.add(lblNewLabel_9);
+			
+			txtCodigo = new JTextField();
+			txtCodigo.setEditable(false);
+			txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPlanAd());
+			txtCodigo.setBounds(63, 242, 87, 22);
+			panel.add(txtCodigo);
+			txtCodigo.setColumns(10);
 			{
 			}
 		}
@@ -334,7 +346,7 @@ public class AdquirirPlan extends JDialog {
 								e1.printStackTrace();
 							}
 							java.sql.Date date2 = new java.sql.Date(date1.getTime());
-							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), false);
+							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText(),false);
 							auxPlanAd.insertarPlan(auxPlan);
 							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().insertarPlanAd(auxPlanAd);
@@ -364,6 +376,7 @@ public class AdquirirPlan extends JDialog {
 		loadPlanes();
 	}
 	protected void clean() {
+		txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPlanAd());
 		txtNombre.setText("");
 		txtApellido.setText("");
 		txtNacionalidad.setText("");

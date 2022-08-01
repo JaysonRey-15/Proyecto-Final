@@ -21,6 +21,7 @@ public class AlticeSystem implements Serializable{
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Cuenta> misCuentas;
 	private ArrayList<PlanAdquirido> misPlanesAd;
+	private int generadorCodigoPlanAd = 1;
 	public static AlticeSystem ALS = null;
 	private int genFac;
 	public static Persona loginUser=null;
@@ -76,6 +77,10 @@ public class AlticeSystem implements Serializable{
 		return validar;
 	}
 
+	public int getGeneradorCodigoPlanAd() {
+		return generadorCodigoPlanAd;
+	}
+
 	public ArrayList<Persona> getMisPersonas() {
 		return misPersonas;
 	}
@@ -92,14 +97,13 @@ public class AlticeSystem implements Serializable{
 		return misFacturas;
 	}
 
-
-
 	public void insertarPlan(Plan auxPlan) {
 		misPlanes.add(auxPlan);
 	}
 
 	public void insertarPlanAd(PlanAdquirido auxPlanAd) {
 		misPlanesAd.add(auxPlanAd);
+		generadorCodigoPlanAd++;
 	}
 
 
@@ -117,12 +121,16 @@ public class AlticeSystem implements Serializable{
 		}
 	}
 
-	public PlanAdquirido buscarPlanEnCliente(Cliente cli,String code) {
-		PlanAdquirido aux = null;
-		int ind;
-		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
-			if(cli.getMisPlanesAd().get(ind).getCodePlad().equalsIgnoreCase(code)) {
-				aux=cli.getMisPlanesAd().get(ind);
+	public PlanAdquirido buscarPlanEnCliente(Persona cli,String code) {
+		PlanAdquirido aux = null; 
+		boolean encontrado = false;
+		int ind = 0;
+		if(cli instanceof Cliente) {
+			while(!encontrado && ind < ((Cliente) cli).getMisPlanesAd().size()) {
+				if(((Cliente) cli).getMisPlanesAd().get(ind).getCodigo().equalsIgnoreCase(code)) {
+					encontrado = true;
+					aux=((Cliente) cli).getMisPlanesAd().get(ind);
+				}
 			}
 		}
 		return aux;
@@ -294,14 +302,19 @@ public class AlticeSystem implements Serializable{
 		return tipo;
 	}
 
-	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
-		if(auxPlanAd != null) {
-			if(!auxPlanAd.isPagoPendiente()) {
+	public void eliminarPlanAd(PlanAdquirido auxPlanAd, Persona auxCliente) {
+		if(auxPlanAd != null && auxCliente != null) {
+			//!auxPlanAd.isPagoPendiente()
+			if(auxCliente instanceof Cliente && ((Cliente) auxCliente).getMisPlanesAd().size() > 1) {
 				misPlanesAd.remove(auxPlanAd); 
+				((Cliente) auxCliente).getMisPlanesAd().remove(auxPlanAd);
+			}
+			else if(auxCliente instanceof Cliente && ((Cliente) auxCliente).getMisPlanesAd().size() == 1) {
+				misPlanesAd.remove(auxPlanAd); 
+				misPersonas.remove(auxCliente);
 			}
 		}
 	}
-
 
 	//Se va a generar las facturas cada 27 de cada mes
 	public void generarFacturaPorFecha() {
@@ -320,7 +333,7 @@ public class AlticeSystem implements Serializable{
 		Date date = (Date) Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
 			Factura fact = new Factura(cli, date,"F"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual());
-			BalancePendiente newBalance= new BalancePendiente("Plan Aquirido",cli.getMisPlanesAd().get(ind).getpagoMensual(),date);
+			BalancePendiente newBalance= new BalancePendiente("Plan Adquirido",cli.getMisPlanesAd().get(ind).getpagoMensual(),date);
 			cli.addFactura(fact);
 			cli.BalancePendienteAd(newBalance);
 		}
@@ -334,6 +347,21 @@ public class AlticeSystem implements Serializable{
 		long dias = diasHasta - diasDesde;
 
 		return dias;
+	}
+	
+	public int[] cantPersonasByTipo(){
+		int[] cant = {0,0,0};
+		
+		for(Persona per : misPersonas)
+		{
+			if(per instanceof Cliente)
+				cant[0]++;
+			if(per instanceof P_Administrador)
+				cant[1]++;
+			if(per instanceof P_Trabajador)
+				cant[2]++;
+		}
+		return cant;
 	}
 }
 
