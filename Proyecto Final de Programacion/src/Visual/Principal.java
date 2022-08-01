@@ -56,6 +56,14 @@ public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	FondoPanel fondo = new FondoPanel();
+	private JMenuItem menuItemControlUsuario;
+	private JMenuItem menuItemRegUsuario;
+	private JMenu menuUsuarios;
+	private JMenu menuPlan;
+	private JMenuItem menuItemRegPlan;
+	private JMenuItem menuItemAdPlan;
+	private JMenuItem menuItemListPlan;
+	private JMenu menuReporte;
 
 	/**
 	 * Launch the application.
@@ -96,15 +104,11 @@ public class Principal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		AlticeSystem.getInstance();
-		if(AlticeSystem.loginUser==null) {
-			menuBar.setVisible(false);
-		}
-		JMenu mnNewMenu_1 = new JMenu("Usuarios");
-		menuBar.add(mnNewMenu_1);
+		menuUsuarios = new JMenu("Usuarios");
+		menuBar.add(menuUsuarios);
 
-		JMenuItem mntmNewMenuItem = new JMenuItem("Control usuario");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
+		menuItemControlUsuario = new JMenuItem("Control usuario");
+		menuItemControlUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControlUsuario vistaU = new ControlUsuario();
 				vistaU.setVisible(true);
@@ -113,46 +117,49 @@ public class Principal extends JFrame {
 
 			}
 		});
-		mnNewMenu_1.add(mntmNewMenuItem);
+		menuUsuarios.add(menuItemControlUsuario);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Registrar usuario");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+		menuItemRegUsuario = new JMenuItem("Registrar usuario");
+		menuItemRegUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarPersona regis = new RegistrarPersona(null);
 				regis.setVisible(true);
 			}
 		});
-		mnNewMenu_1.add(mntmNewMenuItem_1);
+		menuUsuarios.add(menuItemRegUsuario);
 		
-		JMenu mnNewMenu = new JMenu("Plan");
-		menuBar.add(mnNewMenu);
+		menuPlan = new JMenu("Planes");
+		menuBar.add(menuPlan);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Registrar Plan");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+		menuItemRegPlan = new JMenuItem("Registrar Plan");
+		menuItemRegPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarPlan plan = new RegistrarPlan(null);
 				plan.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem_2);
+		menuPlan.add(menuItemRegPlan);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Adquirir Plan");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+		menuItemAdPlan = new JMenuItem("Adquirir Plan");
+		menuItemAdPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AdquirirPlan planAd = new AdquirirPlan();
 				planAd.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem_3);
+		menuPlan.add(menuItemAdPlan);
 		
-		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Listar Planes");
-		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+		menuItemListPlan = new JMenuItem("Listar Planes");
+		menuItemListPlan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarPlanes listPlan = new ListarPlanes();
 				listPlan.setVisible(true);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem_4);
+		menuPlan.add(menuItemListPlan);
+		
+		menuReporte = new JMenu("Reportes");
+		menuBar.add(menuReporte);
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
