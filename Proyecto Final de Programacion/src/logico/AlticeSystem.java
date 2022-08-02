@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
+import Visual.Reportes;
+
 public class AlticeSystem implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -21,6 +23,7 @@ public class AlticeSystem implements Serializable{
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Cuenta> misCuentas;
 	private ArrayList<PlanAdquirido> misPlanesAd;
+	private ArrayList<Reporte> misReportes;
 	private int generadorCodigoPlanAd = 1;
 	public static AlticeSystem ALS = null;
 	private int genFac;
@@ -36,6 +39,7 @@ public class AlticeSystem implements Serializable{
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
 		this.misCuentas = new ArrayList<Cuenta>();
+		this.misReportes = new ArrayList<Reporte>();
 		this.genFac = 1;
 	}
 
@@ -362,6 +366,10 @@ public class AlticeSystem implements Serializable{
 				cant[2]++;
 		}
 		return cant;
+	}
+	
+	public void addReporte(Reporte reporte) {
+		misReportes.add(reporte);
 	}
 }
 
