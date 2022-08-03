@@ -3,17 +3,22 @@ package Visual;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.lang.model.element.Element;
+import javax.print.attribute.standard.NumberOfDocuments;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import logico.AlticeSystem;
 import logico.Persona;
 
 import javax.swing.JCheckBox;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
@@ -26,9 +31,10 @@ public class Reportes extends JDialog {
 	private JTable tablaReportes;
 	private JScrollPane scrollPane;
 	private JPanel panel;
-	private Object[] row, row1, row2;
+	private Object[] row;
 	private DefaultTableModel model1;
-
+	private JCheckBox chbCantVentas;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -54,31 +60,24 @@ public class Reportes extends JDialog {
 		setResizable(false);
 		setModal(true);
 		{
-			JCheckBox checkBox = new JCheckBox("CANTIDAD DE VENTAS POR CADA PLAN");
-			checkBox.setSelected(true);
-			checkBox.setFont(new Font("Sitka Text", Font.PLAIN, 13));
-			checkBox.setBounds(42, 61, 356, 23);
-			contentPanel.add(checkBox);
+			chbCantVentas = new JCheckBox("CANTIDAD DE VENTAS POR CADA PLAN");
+			chbCantVentas.setSelected(true);
+			chbCantVentas.setFont(new Font("Sitka Text", Font.PLAIN, 13));
+			chbCantVentas.setBounds(42, 61, 356, 23);
+			contentPanel.add(chbCantVentas);
 		}
 		{
-			JCheckBox checkBox = new JCheckBox("CANTIDAD DE DINERO GENERADO POR CADA PLAN");
-			checkBox.setSelected(true);
-			checkBox.setFont(new Font("Sitka Text", Font.PLAIN, 13));
-			checkBox.setBounds(425, 61, 356, 23);
-			contentPanel.add(checkBox);
-		}
-		{
-			JCheckBox checkBox = new JCheckBox("CANTIDAD DE CLIENTES");
-			checkBox.setSelected(true);
-			checkBox.setFont(new Font("Sitka Text", Font.PLAIN, 13));
-			checkBox.setBounds(42, 97, 356, 23);
-			contentPanel.add(checkBox);
+			JCheckBox chbCantDineroGenerado = new JCheckBox("CANTIDAD DE DINERO GENERADO POR CADA PLAN");
+			chbCantDineroGenerado.setSelected(true);
+			chbCantDineroGenerado.setFont(new Font("Sitka Text", Font.PLAIN, 13));
+			chbCantDineroGenerado.setBounds(425, 61, 356, 23);
+			contentPanel.add(chbCantDineroGenerado);
 		}
 		{
 			JCheckBox checkBox = new JCheckBox("CANTIDAD DE CLIENTES CON MAS DE 1 PLAN");
 			checkBox.setSelected(true);
 			checkBox.setFont(new Font("Sitka Text", Font.PLAIN, 13));
-			checkBox.setBounds(425, 97, 356, 23);
+			checkBox.setBounds(42, 99, 356, 23);
 			contentPanel.add(checkBox);
 		}
 		
@@ -113,6 +112,9 @@ public class Reportes extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
+						if(chbCantVentas.isSelected()){
+							JOptionPane.showMessageDialog(null, "Cantidad de clientes: "+AlticeSystem.getInstance().cantPersonasByTipo()[0]);
+						}
 					}
 				});
 				
