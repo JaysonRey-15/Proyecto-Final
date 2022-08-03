@@ -2,6 +2,8 @@ package logico;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Cliente extends Persona {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,7 +42,9 @@ public class Cliente extends Persona {
 	public void eliminarPlanAd(PlanAdquirido auxPlanAd) {
 	    if(auxPlanAd != null) {
 	      if(auxPlanAd.isPagoPendiente()) {
-	         misPlanesAd.remove(auxPlanAd); 
+	         JOptionPane.showMessageDialog(null, "Favor completar el pago de su factura.");
+	      }else {
+	    	  misPlanesAd.remove(auxPlanAd); 
 	      }
 	    }
 	}

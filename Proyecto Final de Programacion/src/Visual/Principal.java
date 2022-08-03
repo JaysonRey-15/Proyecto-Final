@@ -116,6 +116,11 @@ public class Principal extends JFrame {
 				Guardar("altice.dat");
 			}
 		});
+		
+		
+		
+		AlticeSystem.getInstance().generarFacturaPorFecha();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 799, 562);
 		contentPane = new JPanel();

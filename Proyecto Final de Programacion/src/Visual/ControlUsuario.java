@@ -41,6 +41,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.text.ParseException;
+import java.time.LocalDate;
+
 import javax.swing.border.LineBorder;
 import javax.swing.JToggleButton;
 
@@ -90,6 +92,7 @@ public class ControlUsuario extends JDialog {
 	private JButton btnCerrar;
 	private JButton btnModificar;
 	private JTextField textBuscar;
+	private Factura auxFac;
 	private Persona persLogueado = AlticeSystem.getLoginUser();
 	private JButton btnQuitar;
 	private JButton btnSusp;
@@ -351,6 +354,7 @@ public class ControlUsuario extends JDialog {
 			String[] header = {"Code","Nombre","Estado"};
 			model2.setColumnIdentifiers(header);
 		}
+		
 
 		tableAdcional.setModel(model2);
 
@@ -366,14 +370,12 @@ public class ControlUsuario extends JDialog {
 				int aux2 = tableInfo.getSelectedRow();
 				if(aux != -1 && aux2 != -1) {
 					String code = (String) tableAdcional.getValueAt(aux, 0);
-					String cedula = (String) tableInfo.getValueAt(aux, 0);
+					String cedula = (String) tableInfo.getValueAt(aux2, 0);
 					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(cedula);
 					auxPlanAd = AlticeSystem.getInstance().buscarPlanEnCliente(auxPersona, code);
 				}
 				AlticeSystem.getInstance().eliminarPlanAd(auxPlanAd, auxPersona);
-				clean();
 				loadPlanAquirido((Cliente)auxPersona);
-				loadPersonasByTipo(cbxTipo.getSelectedIndex());
 			}
 		});
 		btnQuitar.setFont(new Font("Sitka Small", Font.PLAIN, 12));
@@ -395,7 +397,7 @@ public class ControlUsuario extends JDialog {
 		scrollPane_2.setViewportView(tableHPagos);
 		{
 			model1 = new DefaultTableModel();
-			String[] header = {"Cliente","CodFactura","Fecha Facturacion","Total","Fecha Pagada","Estado"};
+			String[] header = {"CodFactura","Fecha Facturacion","Total","Fecha Pagada","Estado"};
 			model1.setColumnIdentifiers(header);
 		}
 
@@ -431,8 +433,13 @@ public class ControlUsuario extends JDialog {
 				txtCargo.setText(AlticeSystem.getInstance().tipoP(auxPersona));
 
 				//				loadFactura((Cliente)auxPersona);
-				if(auxPersona instanceof Cliente)
+
+				
+				if(auxPersona instanceof Cliente) {
 					loadPlanAquirido((Cliente)auxPersona);
+					loadFactura((Cliente)auxPersona);
+				}
+				
 			}
 		});
 		btnVer.setForeground(Color.WHITE);
@@ -510,13 +517,29 @@ public class ControlUsuario extends JDialog {
 				dispose();
 			}
 		});
+		
 		btnCerrar.setForeground(Color.WHITE);
 		btnCerrar.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnCerrar.setBackground(SystemColor.inactiveCaption);
 		btnCerrar.setBounds(871, 12, 112, 37);
 		panelNav.add(btnCerrar);
+		
 
 		JButton btnPagar = new JButton("Pagar");
+		btnPagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (tableHPagos.getSelectedRow() != -1) {
+					String codigo = (String) tableHPagos.getValueAt(tableHPagos.getSelectedRow(),0);
+					auxFac = AlticeSystem.getInstance().buscarFac(codigo);
+				}
+				
+				if(auxFac != null) {
+					AlticeSystem.getInstance().pagarFac((Cliente)auxPersona,auxFac,tableHPagos.getSelectedRow());
+				}
+				
+				loadFactura((Cliente)auxPersona);
+			}
+		});
 		btnPagar.setToolTipText("Agregar Personal");
 		btnPagar.setForeground(Color.WHITE);
 		btnPagar.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -527,6 +550,7 @@ public class ControlUsuario extends JDialog {
 		loadPersonasByTipo(0);
 		if(auxPersona!=null) {
 			loadPlanAquirido((Cliente)auxPersona);
+			loadFactura((Cliente)auxPersona);
 		}
 
 
@@ -595,18 +619,17 @@ public class ControlUsuario extends JDialog {
 	public void loadFactura(Persona cli) {
 		model1.setRowCount(0);
 		row1 = new Object[model1.getColumnCount()];
-		for(PlanAdquirido plan:((Cliente) cli).getMisPlanesAd()) {
-			row[0]=cli.getCedula();
-			row[3]=plan.getpagoMensual();
 
 			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
-				row[1]=fac.getCodigo();
-				row[2]=fac.getFechaGen();
-				row[4]=fac.getFechaPagado();
-				row[5]=fac.isEstado();
+				row1[2]=fac.getMiPlanAd().getpagoMensual();
+				row1[0]=fac.getCodigo();
+				row1[1]=fac.getFechaGen();
+				row1[3]=fac.getFechaGen();
+				row1[4]=fac.isEstado();
 			}
+
+			model1.addRow(row1);
 		}
-	}
 
 	public void loadPlanAquirido(Cliente cli) {
 		model2.setRowCount(0);

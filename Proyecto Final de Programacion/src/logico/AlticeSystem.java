@@ -7,7 +7,10 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
@@ -216,27 +219,42 @@ public class AlticeSystem implements Serializable{
 			((P_Trabajador) Persona).addCuenta(cuenta);
 		}
 	}
+	
+	
+	public void pagarFac(Cliente cli,Factura fac,int ind) {
+		if(fac!=null) {
+				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
+				if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
+					fac.setEstado("Pagada");
+					cli.getMisFacturas().get(ind).setEstado("Pagada");
+					JOptionPane.showMessageDialog(null, "Factura Pagada");
+				}else {
+					JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+				}
+		}
+	}
+	
 
 	public void eliminarPersona(Persona auxPersona) {
 		if(auxPersona != null) {
 			if(auxPersona instanceof Cliente) {
 				if(((Cliente)auxPersona).getMisPlanesAd()!=null) {
-					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "¡Atención!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "ï¿½Atenciï¿½n!", JOptionPane.ERROR_MESSAGE);
 				}else {
-					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseña");
+					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
 					if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 						misPersonas.remove(auxPersona);
 					}else {
-						JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
+						JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
 					}
 				}
 
 			}else {
-				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseña");
+				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
 				if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 					misPersonas.remove(auxPersona);
 				}else {
-					JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
+					JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
 				}
 			}
 		}
@@ -322,7 +340,11 @@ public class AlticeSystem implements Serializable{
 
 	//Se va a generar las facturas cada 27 de cada mes
 	public void generarFacturaPorFecha() {
-		if(LocalDateTime.now().getDayOfMonth()==27) {
+	//	LocalDate hoy = LocalDate.now();
+		Calendar fecha = new GregorianCalendar();
+		
+		//LocalDate ultimoDia = hoy.with(TemporalAdjusters.lastDayOfMonth());
+		if(fecha.get(Calendar.DAY_OF_MONTH)==3) {
 			for(Persona per: misPersonas) {
 				if(per instanceof Cliente) {
 					addFactura((Cliente)per);
@@ -331,15 +353,35 @@ public class AlticeSystem implements Serializable{
 			}
 		}
 	}
+	
+	public Factura buscarFac(String code) {
+		Factura aux = null;
+		int ind=0;
+		boolean encontrado = false;
+		
+		while(ind<misFacturas.size() && !encontrado) {
+			if(misFacturas.get(ind).getCodigo().equalsIgnoreCase(code)) {
+				aux = misFacturas.get(ind);
+				encontrado = true;
+			}
+			ind++;
+		}
+		
+		return aux;
+		
+	}
 	public void addFactura(Cliente cli) {
 		int ind;
 		LocalDate localDate = LocalDate.now();
-		Date date = (Date) Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+
+		
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
-			Factura fact = new Factura(cli, date,"F"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual());
-			BalancePendiente newBalance= new BalancePendiente("Plan Adquirido",cli.getMisPlanesAd().get(ind).getpagoMensual(),date);
+			Factura fact = new Factura(cli, localDate,"F-"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual(),cli.getMisPlanesAd().get(ind));
+		//	BalancePendiente newBalance= new BalancePendiente("Plan Adquirido",cli.getMisPlanesAd().get(ind).getpagoMensual(),date);
 			cli.addFactura(fact);
-			cli.BalancePendienteAd(newBalance);
+			misFacturas.add(fact);
+			//cli.BalancePendienteAd(newBalance);
+			//genFac++;
 		}
 	}
 
@@ -372,5 +414,4 @@ public class AlticeSystem implements Serializable{
 		misReportes.add(reporte);
 	}
 }
-
 
