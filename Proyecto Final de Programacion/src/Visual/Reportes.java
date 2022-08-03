@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.AlticeSystem;
+import logico.Cliente;
 import logico.Persona;
 
 import javax.swing.JCheckBox;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,7 +34,7 @@ public class Reportes extends JDialog {
 	private JScrollPane scrollPane;
 	private JPanel panel;
 	private Object[] row;
-	private DefaultTableModel model1;
+	private DefaultTableModel model;
 	private JCheckBox chbCantVentas;
 	
 	/**
@@ -59,6 +61,7 @@ public class Reportes extends JDialog {
 		contentPanel.setLayout(null);
 		setResizable(false);
 		setModal(true);
+		setLocationRelativeTo(null);
 		{
 			chbCantVentas = new JCheckBox("CANTIDAD DE VENTAS POR CADA PLAN");
 			chbCantVentas.setSelected(true);
@@ -97,11 +100,11 @@ public class Reportes extends JDialog {
 		{
 			tablaReportes = new JTable();
 			scrollPane.setViewportView(tablaReportes);{
-				model1 = new DefaultTableModel();
+				model = new DefaultTableModel();
 				String[] header = {"Fecha", "Cant. Ventas por Plan", "Cant. Clientes", "Cant. Dinero Generado", "Clientes con multiplan"};
-				model1.setColumnIdentifiers(header);
+				model.setColumnIdentifiers(header);
 			}
-				tablaReportes.setModel(model1);
+				tablaReportes.setModel(model);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -113,7 +116,7 @@ public class Reportes extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						
 						if(chbCantVentas.isSelected()){
-							JOptionPane.showMessageDialog(null, "Cantidad de clientes: "+AlticeSystem.getInstance().cantPersonasByTipo()[0]);
+							loadReportes();
 						}
 					}
 				});
@@ -135,5 +138,13 @@ public class Reportes extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	public void loadReportes() {
+		model.setRowCount(0);
+		row = new Object[model.getColumnCount()];
+		
+		row[0] = LocalDate.now();
+		row[2] = AlticeSystem.getInstance().cantPersonasByTipo()[0];
+		model.addRow(row);
 	}
 }
