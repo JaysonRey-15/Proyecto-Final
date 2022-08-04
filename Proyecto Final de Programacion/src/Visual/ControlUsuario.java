@@ -141,6 +141,7 @@ public class ControlUsuario extends JDialog {
 		//panelSystem.setBounds(138, 219, 247, 31);
 		panelSystem.setLayout(null);
 
+
 		panelHead = new JPanel();
 		panelHead.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Filtros", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelHead.setBackground(Color.LIGHT_GRAY);
@@ -356,11 +357,25 @@ public class ControlUsuario extends JDialog {
 			String[] header = {"Code","Nombre","Estado"};
 			model2.setColumnIdentifiers(header);
 		}
-		
+
 
 		tableAdcional.setModel(model2);
 
 		btnSusp = new JButton("Suspender");
+		btnSusp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int aux = tableAdcional.getSelectedRow();
+				int aux2 = tableInfo.getSelectedRow();
+				if(aux != -1 && aux2 != -1) {
+					String code = (String) tableAdcional.getValueAt(aux, 0);
+					String cedula = (String) tableInfo.getValueAt(aux2, 0);
+					auxPersona = AlticeSystem.getInstance().buscarPersonaByCedula(cedula);
+					auxPlanAd = AlticeSystem.getInstance().buscarPlanEnCliente(auxPersona, code);
+				}
+				AlticeSystem.getInstance().supender(auxPlanAd);
+				loadPlanAquirido((Cliente)auxPersona);
+			}
+		});
 		btnSusp.setFont(new Font("Sitka Small", Font.PLAIN, 12));
 		btnSusp.setBounds(38, 142, 104, 34);
 		panel_1.add(btnSusp);
@@ -399,14 +414,14 @@ public class ControlUsuario extends JDialog {
 		scrollPane_2.setViewportView(tableHPagos);
 		{
 			model1 = new DefaultTableModel();
-			String[] header = {"CodFactura","Fecha Facturacion","Total","Fecha Pagada","Estado"};
+			String[] header = {"CodFactura","Nombre pln","Fecha Facturacion","Total","Fecha Pagada","Estado","Cliente"};
 			model1.setColumnIdentifiers(header);
 		}
 
 		tableHPagos.setModel(model1);
-		
 
-		
+
+
 		rbtGeneral = new JRadioButton("General");
 		rbtGeneral.setSelected(true);
 		rbtGeneral.addActionListener(new ActionListener() {
@@ -420,7 +435,7 @@ public class ControlUsuario extends JDialog {
 		rbtGeneral.setBackground(Color.LIGHT_GRAY);
 		rbtGeneral.setBounds(736, 0, 88, 23);
 		panel_2.add(rbtGeneral);
-		
+
 		rbtPersonal = new JRadioButton("Personal");
 		rbtPersonal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -465,12 +480,13 @@ public class ControlUsuario extends JDialog {
 
 				//				loadFactura((Cliente)auxPersona);
 
-				
+
 				if(auxPersona instanceof Cliente) {
 					loadPlanAquirido((Cliente)auxPersona);
 					loadFactura((Cliente)auxPersona);
+					rbtPersonal.setSelected(true);
 				}
-				
+
 			}
 		});
 		btnVer.setForeground(Color.WHITE);
@@ -548,13 +564,13 @@ public class ControlUsuario extends JDialog {
 				dispose();
 			}
 		});
-		
+
 		btnCerrar.setForeground(Color.WHITE);
 		btnCerrar.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnCerrar.setBackground(SystemColor.inactiveCaption);
 		btnCerrar.setBounds(871, 12, 112, 37);
 		panelNav.add(btnCerrar);
-		
+
 
 		JButton btnPagar = new JButton("Pagar");
 		btnPagar.addActionListener(new ActionListener() {
@@ -563,11 +579,11 @@ public class ControlUsuario extends JDialog {
 					String codigo = (String) tableHPagos.getValueAt(tableHPagos.getSelectedRow(),0);
 					auxFac = AlticeSystem.getInstance().buscarFac(codigo);
 				}
-				
-				if(auxFac != null) {
+
+				if(auxFac != null && !auxFac.getEstado().equalsIgnoreCase("Pagada") && auxFac!=null) {
 					AlticeSystem.getInstance().pagarFac((Cliente)auxPersona,auxFac,tableHPagos.getSelectedRow());
 				}
-				
+
 				loadFactura((Cliente)auxPersona);
 			}
 		});
@@ -584,6 +600,7 @@ public class ControlUsuario extends JDialog {
 			loadFactura((Cliente)auxPersona);
 		}
 
+		loadFactura(null);
 
 
 	}
@@ -650,32 +667,42 @@ public class ControlUsuario extends JDialog {
 	public void loadFactura(Persona cli) {
 		model1.setRowCount(0);
 		row1 = new Object[model1.getColumnCount()];
-
-		if(rbtPersonal.isSelected() && cli!=null) {
+		int ind=0;
+		if(rbtPersonal.isSelected() && auxPersona!=null) {
 			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
-				row1[2]=fac.getMiPlanAd().getpagoMensual();
+				row1[2]=fac.getFechaGen();
 				row1[0]=fac.getCodigo();
-				row1[1]=fac.getFechaGen();
-				row1[3]=fac.getFechaGen();
-				row1[4]=fac.isEstado();
+				row1[1]=fac.getMiPlanAd().getMisPlanes().get(ind).getNombre();
+				row1[3]=fac.getMiPlanAd().total();
+				row1[4]=fac.getFechaPagado();
+				row1[5]=fac.isEstado();
+				row1[6]=fac.getCliente().getTelefono();
 				model1.addRow(row1);
 			}
+			
 		}else if(rbtGeneral.isSelected()) {
 			for(Factura fac: AlticeSystem.getInstance().getMisFacturas()) {
-				row1[2]=fac.getMiPlanAd().getpagoMensual();
+				row1[2]=fac.getFechaGen();
 				row1[0]=fac.getCodigo();
-				row1[1]=fac.getFechaGen();
-				row1[3]=fac.getFechaGen();
-				row1[4]=fac.isEstado();
+				row1[1]=fac.getMiPlanAd().getMisPlanes().get(ind).getNombre();
+				row1[3]=fac.getMiPlanAd().total();
+				row1[4]=fac.getFechaPagado();
+				row1[5]=fac.isEstado();
+				row1[6]=fac.getCliente().getTelefono();
 				model1.addRow(row1);
 			}
 		}
+
+		
+		ind++;
 	}
+	
+
 	public void loadPlanAquirido(Cliente cli) {
 		model2.setRowCount(0);
 		int ind;
 		row2 = new Object[model2.getColumnCount()];
-		
+
 		if(cli != null) {
 			for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
 				for(int i=0; i<cli.getMisPlanesAd().get(ind).getMisPlanes().size(); i++) {

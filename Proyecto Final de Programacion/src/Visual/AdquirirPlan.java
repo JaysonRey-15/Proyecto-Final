@@ -346,6 +346,7 @@ public class AdquirirPlan extends JDialog {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+							
 							java.sql.Date date2 = new java.sql.Date(date1.getTime());
 							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText(),false);
 						
