@@ -438,7 +438,6 @@ public class AlticeSystem implements Serializable{
 
 	
 	public void cantDineroPorPlan() {
-
 		float total = 0, total2 = 0, suma =0;
 		for (int i = 0; i < misPlanes.size(); i++) {
 			for(int j = 0; j < misPlanesAd.get(j).getMisPlanes().size(); j++) {
