@@ -205,6 +205,16 @@ public class Principal extends JFrame {
 			}
 		});
 		menuReporte.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Reporte Ingresos");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReporteIngresos reporteIng = new ReporteIngresos();
+				reporteIng.setVisible(true);
+				cantSistema();
+			}
+		});
+		menuReporte.add(mntmNewMenuItem_1);
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		

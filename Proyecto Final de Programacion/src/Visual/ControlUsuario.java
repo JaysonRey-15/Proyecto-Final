@@ -651,7 +651,7 @@ public class ControlUsuario extends JDialog {
 		model1.setRowCount(0);
 		row1 = new Object[model1.getColumnCount()];
 
-		if(rbtPersonal.isSelected()) {
+		if(rbtPersonal.isSelected() && cli != null) {
 			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
 				row1[2]=fac.getMiPlanAd().getpagoMensual();
 				row1[0]=fac.getCodigo();

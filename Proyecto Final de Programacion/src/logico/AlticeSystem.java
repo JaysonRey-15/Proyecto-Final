@@ -26,7 +26,6 @@ public class AlticeSystem implements Serializable{
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Cuenta> misCuentas;
 	private ArrayList<PlanAdquirido> misPlanesAd;
-	private ArrayList<Reporte> misReportes;
 	private int generadorCodigoPlanAd = 1;
 	public static AlticeSystem ALS = null;
 	private int genFac;
@@ -42,7 +41,6 @@ public class AlticeSystem implements Serializable{
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
 		this.misCuentas = new ArrayList<Cuenta>();
-		this.misReportes = new ArrayList<Reporte>();
 		this.genFac = 1;
 	}
 
@@ -223,13 +221,13 @@ public class AlticeSystem implements Serializable{
 
 	public void pagarFac(Cliente cli,Factura fac,int ind) {
 		if(fac!=null) {
-			String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
+			String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su Contraseña");
 			if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 				fac.setEstado("Pagada");
 				cli.getMisFacturas().get(ind).setEstado("Pagada");
 				JOptionPane.showMessageDialog(null, "Factura Pagada");
 			}else {
-				JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+				JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 			}
 		}
 	}
@@ -239,13 +237,13 @@ public class AlticeSystem implements Serializable{
 		if(auxPersona != null) {
 			if(auxPersona instanceof Cliente) {
 				if(((Cliente)auxPersona).getMisPlanesAd()!=null) {
-					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "ï¿½Atenciï¿½n!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "Eroor!", JOptionPane.ERROR_MESSAGE);
 				}else {
-					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
+					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su Contraseña");
 					if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 						misPersonas.remove(auxPersona);
 					}else {
-						JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+						JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 					}
 				}
 
@@ -254,7 +252,7 @@ public class AlticeSystem implements Serializable{
 				if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 					misPersonas.remove(auxPersona);
 				}else {
-					JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+					JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 				}
 			}
 		}
@@ -331,7 +329,7 @@ public class AlticeSystem implements Serializable{
 				misPlanesAd.remove(auxPlanAd); 
 				((Cliente) auxCliente).getMisPlanesAd().remove(auxPlanAd);
 			}
-			else if(auxCliente instanceof Cliente && ((Cliente) auxCliente).getMisPlanesAd().size() == 1) {
+			else if(auxCliente instanceof Cliente && ((Cliente) auxCliente).getMisPlanesAd().size() < 1) {
 				misPlanesAd.remove(auxPlanAd); 
 				misPersonas.remove(auxCliente);
 			}
@@ -407,10 +405,6 @@ public class AlticeSystem implements Serializable{
 		return cant;
 	}
 
-	public void addReporte(Reporte reporte) {
-		misReportes.add(reporte);
-	}
-
 	public float cantDineroEstimado() {
 
 		float suma = 0, total = 0, total2 = 0;
@@ -430,7 +424,9 @@ public class AlticeSystem implements Serializable{
 			total += misPlanesAd.get(i).getPagoInicial();
 		}
 		for(int j = 0; j < misFacturas.size(); j++) {
-			total2 += misFacturas.get(j).getPago();
+			if(misFacturas.get(j).getEstado().equalsIgnoreCase("Pagada")) {
+				total2 += misFacturas.get(j).getPago();
+			}
 		}
 		suma = total + total2;
 		return suma;
