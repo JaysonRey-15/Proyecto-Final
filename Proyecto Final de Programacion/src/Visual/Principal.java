@@ -196,10 +196,10 @@ public class Principal extends JFrame {
 		
 		menuBar.add(menuReporte);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Ver Reportes");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Reporte Planes");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Reportes reporte = new Reportes();
+				ReportePlan reporte = new ReportePlan();
 				reporte.setVisible(true);
 				cantSistema();
 			}
