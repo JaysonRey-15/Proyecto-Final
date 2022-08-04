@@ -45,6 +45,7 @@ import java.time.LocalDate;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JToggleButton;
+import javax.swing.JRadioButton;
 
 public class ControlUsuario extends JDialog {
 
@@ -96,6 +97,8 @@ public class ControlUsuario extends JDialog {
 	private Persona persLogueado = AlticeSystem.getLoginUser();
 	private JButton btnQuitar;
 	private JButton btnSusp;
+	private JRadioButton rbtGeneral;
+	private JRadioButton rbtPersonal;
 	/**
 	 * Launch the application.
 	 */
@@ -402,6 +405,34 @@ public class ControlUsuario extends JDialog {
 		}
 
 		tableHPagos.setModel(model1);
+		
+
+		
+		rbtGeneral = new JRadioButton("General");
+		rbtGeneral.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(rbtGeneral.isSelected()) {
+					rbtPersonal.setSelected(false);
+					loadFactura(null);
+				}
+			}
+		});
+		rbtGeneral.setBackground(Color.LIGHT_GRAY);
+		rbtGeneral.setBounds(736, 0, 88, 23);
+		panel_2.add(rbtGeneral);
+		
+		rbtPersonal = new JRadioButton("Personal");
+		rbtPersonal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(rbtPersonal.isSelected()) {
+					rbtGeneral.setSelected(false);
+					loadFactura((Cliente)auxPersona);
+				}
+			}
+		});
+		rbtPersonal.setBackground(Color.LIGHT_GRAY);
+		rbtPersonal.setBounds(629, 0, 88, 23);
+		panel_2.add(rbtPersonal);
 
 		panelNav = new JPanel();
 		panelNav.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -620,15 +651,25 @@ public class ControlUsuario extends JDialog {
 		model1.setRowCount(0);
 		row1 = new Object[model1.getColumnCount()];
 
+		if(rbtPersonal.isSelected()) {
 			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
 				row1[2]=fac.getMiPlanAd().getpagoMensual();
 				row1[0]=fac.getCodigo();
 				row1[1]=fac.getFechaGen();
 				row1[3]=fac.getFechaGen();
 				row1[4]=fac.isEstado();
+				model1.addRow(row1);
 			}
-
-			model1.addRow(row1);
+		}else if(rbtGeneral.isSelected()) {
+			for(Factura fac: AlticeSystem.getInstance().getMisFacturas()) {
+				row1[2]=fac.getMiPlanAd().getpagoMensual();
+				row1[0]=fac.getCodigo();
+				row1[1]=fac.getFechaGen();
+				row1[3]=fac.getFechaGen();
+				row1[4]=fac.isEstado();
+				model1.addRow(row1);
+			}
+		}
 		}
 
 	public void loadPlanAquirido(Cliente cli) {

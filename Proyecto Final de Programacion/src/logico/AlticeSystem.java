@@ -219,21 +219,21 @@ public class AlticeSystem implements Serializable{
 			((P_Trabajador) Persona).addCuenta(cuenta);
 		}
 	}
-	
-	
+
+
 	public void pagarFac(Cliente cli,Factura fac,int ind) {
 		if(fac!=null) {
-				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contrase�a");
-				if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
-					fac.setEstado("Pagada");
-					cli.getMisFacturas().get(ind).setEstado("Pagada");
-					JOptionPane.showMessageDialog(null, "Factura Pagada");
-				}else {
-					JOptionPane.showMessageDialog(null, "Contrase�a incorrecta, intente de nuevo.");
-				}
+			String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contrase�a");
+			if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
+				fac.setEstado("Pagada");
+				cli.getMisFacturas().get(ind).setEstado("Pagada");
+				JOptionPane.showMessageDialog(null, "Factura Pagada");
+			}else {
+				JOptionPane.showMessageDialog(null, "Contrase�a incorrecta, intente de nuevo.");
+			}
 		}
 	}
-	
+
 
 	public void eliminarPersona(Persona auxPersona) {
 		if(auxPersona != null) {
@@ -340,11 +340,8 @@ public class AlticeSystem implements Serializable{
 
 	//Se va a generar las facturas cada 27 de cada mes
 	public void generarFacturaPorFecha() {
-	//	LocalDate hoy = LocalDate.now();
 		Calendar fecha = new GregorianCalendar();
-		
-		//LocalDate ultimoDia = hoy.with(TemporalAdjusters.lastDayOfMonth());
-		if(fecha.get(Calendar.DAY_OF_MONTH)==3) {
+		if(fecha.get(Calendar.DAY_OF_MONTH)==4) {
 			for(Persona per: misPersonas) {
 				if(per instanceof Cliente) {
 					addFactura((Cliente)per);
@@ -353,12 +350,12 @@ public class AlticeSystem implements Serializable{
 			}
 		}
 	}
-	
+
 	public Factura buscarFac(String code) {
 		Factura aux = null;
 		int ind=0;
 		boolean encontrado = false;
-		
+
 		while(ind<misFacturas.size() && !encontrado) {
 			if(misFacturas.get(ind).getCodigo().equalsIgnoreCase(code)) {
 				aux = misFacturas.get(ind);
@@ -366,25 +363,25 @@ public class AlticeSystem implements Serializable{
 			}
 			ind++;
 		}
-		
+
 		return aux;
-		
+
 	}
 	public void addFactura(Cliente cli) {
 		int ind;
 		LocalDate localDate = LocalDate.now();
 
-		
+
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
-			Factura fact = new Factura(cli, localDate,"F-"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual(),cli.getMisPlanesAd().get(ind));
-		//	BalancePendiente newBalance= new BalancePendiente("Plan Adquirido",cli.getMisPlanesAd().get(ind).getpagoMensual(),date);
-			cli.addFactura(fact);
-			misFacturas.add(fact);
-			//cli.BalancePendienteAd(newBalance);
-			//genFac++;
+			if(!cli.getMisPlanesAd().get(ind).isFacGen()) {
+				Factura fact = new Factura(cli, localDate,"F-"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual(),cli.getMisPlanesAd().get(ind));
+				fact.setEstado("Pendiente");
+				cli.addFactura(fact);
+				misFacturas.add(fact);
+				fact.getMiPlanAd().setFacGen(true);
+			}
 		}
 	}
-
 	public static long diasEntreDosFechas(Date fechaDesde, Date fechaHasta){
 		long startTime = fechaDesde.getTime() ;
 		long endTime = fechaHasta.getTime();
@@ -394,10 +391,10 @@ public class AlticeSystem implements Serializable{
 
 		return dias;
 	}
-	
+
 	public int[] cantPersonasByTipo(){
 		int[] cant = {0,0,0};
-		
+
 		for(Persona per : misPersonas)
 		{
 			if(per instanceof Cliente)
@@ -409,25 +406,25 @@ public class AlticeSystem implements Serializable{
 		}
 		return cant;
 	}
-	
+
 	public void addReporte(Reporte reporte) {
 		misReportes.add(reporte);
 	}
-	
-public float cantDineroEstimado() {
-		
+
+	public float cantDineroEstimado() {
+
 		float suma = 0, total = 0, total2 = 0;
 		for(int i = 0; i < misPlanesAd.size(); i++) {
 			total += misPlanesAd.get(i).getPagoInicial();
 			total2 += misPlanesAd.get(i).getpagoMensual();
-			
+
 		}
 		suma = total + total2;
 		return suma;
 	}
-	
-    public float cantDineroGenerado() {
-		
+
+	public float cantDineroGenerado() {
+
 		float suma = 0, total = 0, total2 = 0;
 		for(int i = 0; i < misPlanesAd.size(); i++) {
 			total += misPlanesAd.get(i).getPagoInicial();
@@ -438,23 +435,24 @@ public float cantDineroEstimado() {
 		suma = total + total2;
 		return suma;
 	}
-    
-    public void cantDineroPorPlan() {
-    	
-    	float total = 0, total2 = 0, suma =0;
-        for (int i = 0; i < misPlanes.size(); i++) {
-        	for(int j = 0; j < misPlanesAd.get(j).getMisPlanes().size(); j++) {
-        		for(int k = 0; k < misFacturas.size(); k++) {
-        			if(misPlanes.get(i).getNombre().equalsIgnoreCase(misPlanesAd.get(j).getMisPlanes().get(j).getNombre()) || 
-        					misPlanes.get(i).getNombre().equalsIgnoreCase(misFacturas.get(k).getMiPlanAd().getMisPlanes().get(j).getNombre())) {
-        				total += misPlanesAd.get(j).getPagoInicial();
-        				total2 += misFacturas.get(k).getPago();
-        				suma = total + total2;
-        				misPlanes.get(i).setDineroGenerado(suma);
-        			}
-        		}
-        	}
-        }
-    }
+
+	
+	public void cantDineroPorPlan() {
+
+		float total = 0, total2 = 0, suma =0;
+		for (int i = 0; i < misPlanes.size(); i++) {
+			for(int j = 0; j < misPlanesAd.get(j).getMisPlanes().size(); j++) {
+				for(int k = 0; k < misFacturas.size(); k++) {
+					if(misPlanes.get(i).getNombre().equalsIgnoreCase(misPlanesAd.get(j).getMisPlanes().get(j).getNombre()) || 
+							misPlanes.get(i).getNombre().equalsIgnoreCase(misFacturas.get(k).getMiPlanAd().getMisPlanes().get(j).getNombre())) {
+						total += misPlanesAd.get(j).getPagoInicial();
+						total2 += misFacturas.get(k).getPago();
+						suma = total + total2;
+						misPlanes.get(i).setDineroGenerado(suma);
+					}
+				}
+			}
+		}
+	}
 }
 

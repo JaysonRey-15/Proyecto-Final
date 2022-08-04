@@ -81,6 +81,7 @@ public class AdquirirPlan extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	
 
 	/**
 	 * Create the dialog.
@@ -308,11 +309,11 @@ public class AdquirirPlan extends JDialog {
 			cbxGenero.setModel(new DefaultComboBoxModel(new String[] {"Hombre", "Mujer"}));
 			cbxGenero.setBounds(463, 83, 80, 23);
 			panel.add(cbxGenero);
-			
+
 			JLabel lblNewLabel_9 = new JLabel("Codigo:");
 			lblNewLabel_9.setBounds(12, 245, 56, 16);
 			panel.add(lblNewLabel_9);
-			
+
 			txtCodigo = new JTextField();
 			txtCodigo.setEditable(false);
 			txtCodigo.setText("P-"+AlticeSystem.getInstance().getGeneradorCodigoPlanAd());
@@ -337,8 +338,8 @@ public class AdquirirPlan extends JDialog {
 								auxPersona = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
 								AlticeSystem.getInstance().insertarPersona(auxPersona);
 							}
-							 SimpleDateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
-						     Date date1 = null;
+							SimpleDateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
+							Date date1 = null;
 							try {
 								date1 = fecha.parse(txtFecha.getText());
 							} catch (ParseException e1) {
@@ -347,9 +348,11 @@ public class AdquirirPlan extends JDialog {
 							}
 							java.sql.Date date2 = new java.sql.Date(date1.getTime());
 							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText(),false);
+						
 							auxPlanAd.insertarPlan(auxPlan);
 							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().insertarPlanAd(auxPlanAd);
+							AlticeSystem.getInstance().addFactura((Cliente)auxPersona);
 							JOptionPane.showMessageDialog(null, "Operacion Exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							clean();
 						}

@@ -1,3 +1,4 @@
+
 package logico;
 
 import java.io.Serializable;
@@ -17,7 +18,8 @@ public class PlanAdquirido implements Serializable{
 	private boolean pagoPendiente;
 	private String switch1;
 	private String codigo;
-	
+	private boolean facGen;
+
 	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual, String codigo,
 			boolean pagoPendiente) {
 		super();
@@ -30,6 +32,7 @@ public class PlanAdquirido implements Serializable{
 		this.misPlanes = new ArrayList<Plan>();
 		this.switch1 = "Activado";
 		this.codigo = codigo;
+		this.facGen = false;
 	}
 
 	public String getCedulaCliente() {
@@ -72,7 +75,7 @@ public class PlanAdquirido implements Serializable{
 	public void setPagoInicial(float pagoInicial) {
 		this.pagoInicial = pagoInicial;
 	}
-	
+
 	public float getpagoMensual() {
 		return pagoMensual;
 	}
@@ -89,13 +92,24 @@ public class PlanAdquirido implements Serializable{
 		this.pagoPendiente = pagoPendiente;
 	}
 
-	
+
 	public String getSwitch1() {
 		return switch1;
 	}
+
 	
 	public String getCodigo() {
 		return codigo;
+	}
+
+
+
+	public boolean isFacGen() {
+		return facGen;
+	}
+
+	public void setFacGen(boolean facGen) {
+		this.facGen = facGen;
 	}
 
 	public void insertarPlan(Plan auxPlan) {
