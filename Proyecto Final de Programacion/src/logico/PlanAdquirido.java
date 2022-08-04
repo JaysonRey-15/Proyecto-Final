@@ -99,6 +99,7 @@ public class PlanAdquirido implements Serializable{
 	}
 
 	public void insertarPlan(Plan auxPlan) {
+		auxPlan.cantVentas = auxPlan.cantVentas + 1;
 		misPlanes.add(auxPlan);
 	}
 }

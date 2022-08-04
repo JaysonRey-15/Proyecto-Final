@@ -15,7 +15,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
-import Visual.Reportes;
+import Visual.ReportePlan;
 
 public class AlticeSystem implements Serializable{
 
@@ -413,5 +413,48 @@ public class AlticeSystem implements Serializable{
 	public void addReporte(Reporte reporte) {
 		misReportes.add(reporte);
 	}
+	
+public float cantDineroEstimado() {
+		
+		float suma = 0, total = 0, total2 = 0;
+		for(int i = 0; i < misPlanesAd.size(); i++) {
+			total += misPlanesAd.get(i).getPagoInicial();
+			total2 += misPlanesAd.get(i).getpagoMensual();
+			
+		}
+		suma = total + total2;
+		return suma;
+	}
+	
+    public float cantDineroGenerado() {
+		
+		float suma = 0, total = 0, total2 = 0;
+		for(int i = 0; i < misPlanesAd.size(); i++) {
+			total += misPlanesAd.get(i).getPagoInicial();
+		}
+		for(int j = 0; j < misFacturas.size(); j++) {
+			total2 += misFacturas.get(j).getPago();
+		}
+		suma = total + total2;
+		return suma;
+	}
+    
+    public void cantDineroPorPlan() {
+    	
+    	float total = 0, total2 = 0, suma =0;
+        for (int i = 0; i < misPlanes.size(); i++) {
+        	for(int j = 0; j < misPlanesAd.get(j).getMisPlanes().size(); j++) {
+        		for(int k = 0; k < misFacturas.size(); k++) {
+        			if(misPlanes.get(i).getNombre().equalsIgnoreCase(misPlanesAd.get(j).getMisPlanes().get(j).getNombre()) || 
+        					misPlanes.get(i).getNombre().equalsIgnoreCase(misFacturas.get(k).getMiPlanAd().getMisPlanes().get(j).getNombre())) {
+        				total += misPlanesAd.get(j).getPagoInicial();
+        				total2 += misFacturas.get(k).getPago();
+        				suma = total + total2;
+        				misPlanes.get(i).setDineroGenerado(suma);
+        			}
+        		}
+        	}
+        }
+    }
 }
 

@@ -12,7 +12,9 @@ public class Plan implements Serializable{
 	private String estado;
 	private float precioInicial;
 	private float precioMensual;
-	
+	private float dineroGenerado;
+    int cantVentas = 0;
+
 	public Plan(String nombre, String cantCanales, String cantMinutos, String cantInternet,
 			float precioInicial, float precioMensual, String estado) {
 		super();
@@ -79,5 +81,17 @@ public class Plan implements Serializable{
 
 	public void setPrecioMensual(float precioMensual) {
 		this.precioMensual = precioMensual;
+	}
+	
+	public int getCantVentas() {
+		return cantVentas;
+	}
+
+	public float getDineroGenerado() {
+		return dineroGenerado;
+	}
+
+	public void setDineroGenerado(float dineroGenerado) {
+		this.dineroGenerado = dineroGenerado;
 	}
 }
