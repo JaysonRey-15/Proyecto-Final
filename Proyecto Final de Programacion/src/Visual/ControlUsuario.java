@@ -271,7 +271,6 @@ public class ControlUsuario extends JDialog {
 		lblNewLabel_5.setBounds(12, 82, 46, 14);
 		panel.add(lblNewLabel_5);
 
-
 		txtDireccion = new JTextField();
 		txtDireccion.setEditable(false);
 		txtDireccion.setBounds(12, 153, 315, 22);
@@ -409,6 +408,7 @@ public class ControlUsuario extends JDialog {
 
 		
 		rbtGeneral = new JRadioButton("General");
+		rbtGeneral.setSelected(true);
 		rbtGeneral.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(rbtGeneral.isSelected()) {
@@ -651,7 +651,7 @@ public class ControlUsuario extends JDialog {
 		model1.setRowCount(0);
 		row1 = new Object[model1.getColumnCount()];
 
-		if(rbtPersonal.isSelected() && cli != null) {
+		if(rbtPersonal.isSelected() && cli!=null) {
 			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
 				row1[2]=fac.getMiPlanAd().getpagoMensual();
 				row1[0]=fac.getCodigo();
@@ -670,8 +670,7 @@ public class ControlUsuario extends JDialog {
 				model1.addRow(row1);
 			}
 		}
-		}
-
+	}
 	public void loadPlanAquirido(Cliente cli) {
 		model2.setRowCount(0);
 		int ind;
