@@ -26,7 +26,6 @@ public class AlticeSystem implements Serializable{
 	private ArrayList<Persona> misPersonas;
 	private ArrayList<Cuenta> misCuentas;
 	private ArrayList<PlanAdquirido> misPlanesAd;
-	private ArrayList<Reporte> misReportes;
 	private int generadorCodigoPlanAd = 1;
 	public static AlticeSystem ALS = null;
 	private int genFac;
@@ -42,7 +41,6 @@ public class AlticeSystem implements Serializable{
 		this.misFacturas = new ArrayList<Factura>();
 		this.misPersonas = new ArrayList<Persona>();
 		this.misCuentas = new ArrayList<Cuenta>();
-		this.misReportes = new ArrayList<Reporte>();
 		this.genFac = 1;
 	}
 
@@ -171,6 +169,20 @@ public class AlticeSystem implements Serializable{
 		return ind;
 	}
 
+	private int buscarIndexFactura(Cliente cli, String codigo) {
+		int ind = -1;
+		int i = 0;
+		boolean encontrado = false;
+		while (i < cli.getMisFacturas().size() && !encontrado) {
+			if (cli.getMisFacturas().get(i).getCodigo().equalsIgnoreCase(codigo)) {
+				encontrado = true;
+				ind = i;
+			}
+			i++;
+		}
+		return ind;
+	}
+	
 	public boolean PersonaExiste(String Persona, Persona aux) {
 		int i = 0;
 		boolean encontrado = false;
@@ -221,9 +233,10 @@ public class AlticeSystem implements Serializable{
 	}
 
 
-	public void pagarFac(Cliente cli,Factura fac,int ind) {
-		if(fac!=null) {
-			String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
+	public void pagarFac(Cliente cli, Factura fac) {
+		int ind = buscarIndexFactura(cli, fac.getCodigo());
+		if(fac!=null) { 
+			String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su Contraseña");
 			if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 				if(fac.getMiPlanAd().isPIniPend()) {
 					fac.getMiPlanAd().setPIniPend(false);
@@ -233,7 +246,7 @@ public class AlticeSystem implements Serializable{
 				fac.getMiPlanAd().setPagoPendiente(false);
 				JOptionPane.showMessageDialog(null, "Factura Pagada");
 			}else {
-				JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+				JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 			}
 		}
 	}
@@ -243,22 +256,22 @@ public class AlticeSystem implements Serializable{
 		if(auxPersona != null) {
 			if(auxPersona instanceof Cliente) {
 				if(((Cliente)auxPersona).getMisPlanesAd().size()>0) {
-					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "ï¿½Atenciï¿½n!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No se puede eliminar clientes con planes activado.", "Error!", JOptionPane.ERROR_MESSAGE);
 				}else {
-					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
+					String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su Contraseña");
 					if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 						misPersonas.remove(auxPersona);
 					}else {
-						JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+						JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 					}
 				}
 
 			}else {
-				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su contraseï¿½a");
+				String contrasenia =JOptionPane.showInputDialog(PasswordProtection,"Favor confirmar su Contraseña");
 				if(((P_Administrador)loginUser).getCuenta().getPassword().equals(contrasenia)) {
 					misPersonas.remove(auxPersona);
 				}else {
-					JOptionPane.showMessageDialog(null, "Contraseï¿½a incorrecta, intente de nuevo.");
+					JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
 				}
 			}
 		}
@@ -333,9 +346,8 @@ public class AlticeSystem implements Serializable{
 
 			if(auxCliente instanceof Cliente && ((Cliente) auxCliente).getMisPlanesAd().size() > 0) {
 				if(!auxPlanAd.isPagoPendiente()) {
-					int resp = JOptionPane.showConfirmDialog(null, "Â¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
-					if(resp!=1) {
-						misPlanesAd.remove(auxPlanAd); 
+					int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!", JOptionPane.YES_NO_OPTION);
+					if(resp!=1) { 
 						((Cliente) auxCliente).getMisPlanesAd().remove(auxPlanAd);
 						JOptionPane.showMessageDialog(null, "Plan "+ auxPlanAd.getCodigo()+ " ha sido eliminado correctamente");
 					}else {
@@ -346,7 +358,6 @@ public class AlticeSystem implements Serializable{
 				}
 			}
 			else if(auxCliente instanceof Cliente && ((Cliente) auxCliente).getMisPlanesAd().size()==1) {
-				misPlanesAd.remove(auxPlanAd); 
 				misPersonas.remove(auxCliente);
 			}
 		}
@@ -355,12 +366,11 @@ public class AlticeSystem implements Serializable{
 	//Se va a generar las facturas cada 27 de cada mes
 	public void generarFacturaPorFecha() {
 		Calendar fecha = new GregorianCalendar();
-		if(fecha.get(Calendar.DAY_OF_MONTH)==4) {
+		if(fecha.get(Calendar.DAY_OF_MONTH)==5) {
 			for(Persona per: misPersonas) {
 				if(per instanceof Cliente) {
 					addFactura((Cliente)per);
 				}
-				genFac++;
 			}
 		}
 	}
@@ -377,26 +387,26 @@ public class AlticeSystem implements Serializable{
 			}
 			ind++;
 		}
-
 		return aux;
-
 	}
+	
 	public void addFactura(Cliente cli) {
 		int ind;
 		LocalDate localDate = LocalDate.now();
 
-
 		for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
 			if(!cli.getMisPlanesAd().get(ind).isFacGen()) {
-				Factura fact = new Factura(cli, localDate,"F-"+genFac,cli.getMisPlanesAd().get(ind).getpagoMensual(),cli.getMisPlanesAd().get(ind));
+				Factura fact = new Factura(cli, localDate,"F-"+genFac,cli.getMisPlanesAd().get(ind).total(),cli.getMisPlanesAd().get(ind));
 				fact.setEstado("Pendiente");
 				cli.addFactura(fact);
 				misFacturas.add(fact);
 				fact.getMiPlanAd().setFacGen(true);
 				fact.getMiPlanAd().setPagoPendiente(true);
+				genFac++;
 			}
 		}
 	}
+	
 	public static long diasEntreDosFechas(Date fechaDesde, Date fechaHasta){
 		long startTime = fechaDesde.getTime() ;
 		long endTime = fechaHasta.getTime();
@@ -422,10 +432,6 @@ public class AlticeSystem implements Serializable{
 		return cant;
 	}
 
-	public void addReporte(Reporte reporte) {
-		misReportes.add(reporte);
-	}
-
 	public float cantDineroEstimado() {
 
 		float suma = 0, total = 0, total2 = 0;
@@ -440,33 +446,28 @@ public class AlticeSystem implements Serializable{
 
 	public float cantDineroGenerado() {
 
-		float suma = 0, total = 0, total2 = 0;
-		for(int i = 0; i < misPlanesAd.size(); i++) {
-			total += misPlanesAd.get(i).getPagoInicial();
-		}
+		float total = 0;
 		for(int j = 0; j < misFacturas.size(); j++) {
-			total2 += misFacturas.get(j).getPago();
+			if(misFacturas.get(j).getEstado().equalsIgnoreCase("Pagada")) {
+				total += misFacturas.get(j).getPago();
+			}
 		}
-		suma = total + total2;
-		return suma;
+		return total;
 	}
 
-
 	public void cantDineroPorPlan() {
-		float total = 0, total2 = 0, suma =0;
-		for (int i = 0; i < misPlanes.size(); i++) {
-			for(int j = 0; j < misPlanesAd.get(j).getMisPlanes().size(); j++) {
-				for(int k = 0; k < misFacturas.size(); k++) {
-					if(misPlanes.get(i).getNombre().equalsIgnoreCase(misPlanesAd.get(j).getMisPlanes().get(j).getNombre()) || 
-							misPlanes.get(i).getNombre().equalsIgnoreCase(misFacturas.get(k).getMiPlanAd().getMisPlanes().get(j).getNombre())) {
-						total += misPlanesAd.get(j).getPagoInicial();
-						total2 += misFacturas.get(k).getPago();
-						suma = total + total2;
-						misPlanes.get(i).setDineroGenerado(suma);
+		float total = 0;
+		for(int i = 0; i < misPlanes.size(); i++) {
+			for(int j = 0; j < misFacturas.size(); j++) {
+				for(int k = 0; k < misFacturas.get(j).getMiPlanAd().getMisPlanes().size(); k++) {
+					if(misPlanes.get(i).getNombre().equalsIgnoreCase(misFacturas.get(j).getMiPlanAd().getMisPlanes().get(k).getNombre())) {
+						total += misFacturas.get(j).getPago();
+						misPlanes.get(i).setDineroGenerado(total);
 					}
 				}
 			}
 		}
+		
 	}
 
 	public void supender(PlanAdquirido pl) {

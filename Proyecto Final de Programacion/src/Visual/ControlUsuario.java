@@ -580,8 +580,8 @@ public class ControlUsuario extends JDialog {
 					auxFac = AlticeSystem.getInstance().buscarFac(codigo);
 				}
 
-				if(auxFac != null && !auxFac.getEstado().equalsIgnoreCase("Pagada") && auxFac!=null) {
-					AlticeSystem.getInstance().pagarFac((Cliente)auxPersona,auxFac,tableHPagos.getSelectedRow());
+				if(auxFac != null && !auxFac.getEstado().equalsIgnoreCase("Pagada")) {
+					AlticeSystem.getInstance().pagarFac((Cliente)auxPersona, auxFac);
 				}
 
 				loadFactura((Cliente)auxPersona);
