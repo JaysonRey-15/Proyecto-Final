@@ -390,6 +390,7 @@ public class AlticeSystem implements Serializable{
 		return aux;
 	}
 	
+	
 	public void addFactura(Cliente cli) {
 		int ind;
 		LocalDate localDate = LocalDate.now();
