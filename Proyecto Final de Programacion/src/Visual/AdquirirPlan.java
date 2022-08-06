@@ -68,6 +68,11 @@ public class AdquirirPlan extends JDialog {
 	private JFormattedTextField txtTelefono;
 	private JComboBox cbxGenero;
 	private JTextField txtCodigo;
+	private JLabel labelNombre;
+	private JLabel labelApellido;
+	private JLabel labelTelefono;
+	private JLabel labelNacionalidad;
+	private JLabel labelDireccion;
 
 	/**
 	 * Launch the application.
@@ -320,6 +325,45 @@ public class AdquirirPlan extends JDialog {
 			txtCodigo.setBounds(63, 242, 87, 22);
 			panel.add(txtCodigo);
 			txtCodigo.setColumns(10);
+			
+			labelNombre = new JLabel("*");
+			labelNombre.setForeground(Color.RED);
+			labelNombre.setFont(new Font("Tahoma", Font.BOLD, 13));
+			labelNombre.setBounds(222, 86, 13, 16);
+			labelNombre.setVisible(false);
+			panel.add(labelNombre);
+			
+			labelApellido = new JLabel("*");
+			labelApellido.setForeground(Color.RED);
+			labelApellido.setFont(new Font("Tahoma", Font.BOLD, 13));
+			labelApellido.setBounds(449, 86, 13, 16);
+			labelApellido.setVisible(false);
+			panel.add(labelApellido);
+			
+			labelTelefono = new JLabel("*");
+			labelTelefono.setFont(new Font("Tahoma", Font.BOLD, 13));
+			labelTelefono.setForeground(Color.RED);
+			labelTelefono.setBounds(222, 141, 13, 16);
+			labelTelefono.setVisible(false);
+			panel.add(labelTelefono);
+			
+			labelNacionalidad = new JLabel("*");
+			labelNacionalidad.setForeground(Color.RED);
+			labelNacionalidad.setFont(new Font("Tahoma", Font.BOLD, 13));
+			labelNacionalidad.setBounds(449, 141, 13, 16);
+			labelNacionalidad.setVisible(false);
+			panel.add(labelNacionalidad);
+			
+			labelDireccion = new JLabel("*");
+			labelDireccion.setForeground(Color.RED);
+			labelDireccion.setFont(new Font("Tahoma", Font.BOLD, 13));
+			labelDireccion.setBounds(545, 198, 13, 16);
+			labelDireccion.setVisible(false);
+			panel.add(labelDireccion);
+			
+			JLabel label = new JLabel("New label");
+			label.setBounds(228, 33, 56, 16);
+			panel.add(label);
 			{
 			}
 		}
@@ -335,8 +379,13 @@ public class AdquirirPlan extends JDialog {
 						int aux = table.getSelectedRow();
 						if(aux != -1) {
 							if(auxPersona == null) {
-								auxPersona = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
-								AlticeSystem.getInstance().insertarPersona(auxPersona);
+								if(validarCampos()) {
+									JOptionPane.showConfirmDialog(null, "Por favor llenar los campos obligatorios", "Error", JOptionPane.WARNING_MESSAGE);
+								}
+								else {
+									auxPersona = new Cliente(txtCedula.getText(), txtNombre.getText(), txtApellido.getText(), cbxGenero.getSelectedItem().toString(), txtNacionalidad.getText(), txtDireccion.getText(), txtTelefono.getText(), "", "");
+									AlticeSystem.getInstance().insertarPersona(auxPersona);
+								}
 							}
 							SimpleDateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
 							Date date1 = null;
@@ -412,5 +461,53 @@ public class AdquirirPlan extends JDialog {
 				model.addRow(rows);
 			}
 		}
+	}
+	
+	private boolean validarCampos(){
+		boolean validar = false;
+		
+		if(auxPersona == null) {
+			if(!txtTelefono.isEditValid()) {
+				labelTelefono.setVisible(true);
+				validar = true;
+			}
+			else {
+				labelTelefono.setVisible(false);
+			}
+			
+			if(txtNombre.getText().trim().isEmpty()) {
+				labelNombre.setVisible(true);
+				validar = true;
+			}
+			else {
+				labelNombre.setVisible(false);
+			}
+			
+			if(txtApellido.getText().trim().isEmpty()) {
+				labelApellido.setVisible(true);
+				validar = true;
+			}
+			else {
+				labelApellido.setVisible(false);
+			}
+			
+			if(txtNacionalidad.getText().trim().isEmpty()) {
+				labelNacionalidad.setVisible(true);
+				validar = true;
+			}
+			else {
+				labelNacionalidad.setVisible(false);
+			}
+			
+			if(txtDireccion.getText().trim().isEmpty()) {
+				labelDireccion.setVisible(true);
+				validar = true;
+			}
+			else {
+				labelDireccion.setVisible(false);
+			}
+			
+		}
+		return validar;
 	}
 }
