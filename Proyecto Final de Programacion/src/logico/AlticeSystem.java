@@ -456,6 +456,7 @@ public class AlticeSystem implements Serializable{
 		return total;
 	}
 
+	/*
 	public void cantDineroPorPlan() {
        float total = 0;
        for(int i = 0; i < misFacturas.size(); i++) {
@@ -469,6 +470,21 @@ public class AlticeSystem implements Serializable{
        }
 		
 	}
+	*/
+	public void cantDineroPorPlan() { 
+	   
+	   float total = 0; 
+	   String code = null;  
+	   
+	   for(Factura fac: misFacturas) { 
+	      code = fac.getCodigo(); 
+		  if(code.equalsIgnoreCase(fac.getCodigo()) && fac.getEstado().equalsIgnoreCase("Pagada")) { 
+		     total = fac.getPago(); 
+		     fac.getMiPlanAd().getPlan().setDineroGenerado(total*fac.getMiPlanAd().getPlan().getCantVentas()); 
+		  } 
+		  total = 0; 
+	   } 
+	} 
 
 	public void supender(PlanAdquirido pl) {
 		pl.setSwitch1("Supendido");
