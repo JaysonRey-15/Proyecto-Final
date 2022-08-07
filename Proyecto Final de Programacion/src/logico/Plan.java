@@ -12,7 +12,7 @@ public class Plan implements Serializable{
 	private String estado;
 	private float precioInicial;
 	private float precioMensual;
-	private float dineroGenerado;
+    private float dineroGenerado;
     int cantVentas = 0;
 
 	public Plan(String nombre, String cantCanales, String cantMinutos, String cantInternet,
@@ -25,6 +25,7 @@ public class Plan implements Serializable{
 		this.precioInicial = precioInicial;
 		this.precioMensual = precioMensual;
 		this.estado = estado;
+		this.dineroGenerado = 0;
 	}
 
 	public String getEstado() {

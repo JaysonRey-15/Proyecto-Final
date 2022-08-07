@@ -397,7 +397,7 @@ public class AdquirirPlan extends JDialog {
 							}
 							
 							java.sql.Date date2 = new java.sql.Date(date1.getTime());
-							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText(),false);
+							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText());
 						
 							auxPlanAd.insertarPlan(auxPlan);
 							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);

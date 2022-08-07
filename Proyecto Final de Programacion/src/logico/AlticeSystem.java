@@ -243,7 +243,7 @@ public class AlticeSystem implements Serializable{
 				}
 				fac.setEstado("Pagada");
 				cli.getMisFacturas().get(ind).setEstado("Pagada");
-				fac.getMiPlanAd().setPagoPendiente(false);
+				fac.getMiPlanAd().setPagoPendiente(true);
 				JOptionPane.showMessageDialog(null, "Factura Pagada");
 			}else {
 				JOptionPane.showMessageDialog(null, "Contraseña incorrecta, intente de nuevo.");
@@ -457,18 +457,19 @@ public class AlticeSystem implements Serializable{
 	}
 
 	public void cantDineroPorPlan() {
+		
 		float total = 0;
-		for(int i = 0; i < misPlanes.size(); i++) {
-			for(int j = 0; j < misFacturas.size(); j++) {
-				for(int k = 0; k < misFacturas.get(j).getMiPlanAd().getMisPlanes().size(); k++) {
-					if(misPlanes.get(i).getNombre().equalsIgnoreCase(misFacturas.get(j).getMiPlanAd().getMisPlanes().get(k).getNombre())) {
-						total += misFacturas.get(j).getPago();
-						misPlanes.get(i).setDineroGenerado(total);
+		for(int i = 0; i < misFacturas.size(); i++) {
+			for(int j = 0; j < misFacturas.get(i).getMiPlanAd().getMisPlanes().size(); j++) {
+				for(int k = 0; k < misPlanes.size(); k++) {
+					if(misPlanes.get(k).getNombre().equalsIgnoreCase(misFacturas.get(i).getMiPlanAd().getMisPlanes().get(j).getNombre()) 
+							&& misFacturas.get(i).getEstado().equalsIgnoreCase("Pagada")) {
+					   total += misFacturas.get(i).getPago();
+					   misPlanes.get(k).setDineroGenerado(total); 
 					}
 				}
 			}
 		}
-		
 	}
 
 	public void supender(PlanAdquirido pl) {

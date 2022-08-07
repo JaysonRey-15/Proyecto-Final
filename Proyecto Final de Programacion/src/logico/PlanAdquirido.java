@@ -22,15 +22,14 @@ public class PlanAdquirido implements Serializable{
 	private boolean PIniPend;
 	private boolean pagoPendiente;
 
-	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual, String codigo,
-			boolean pagoPendiente) {
+	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual, String codigo) {
 		super();
 		this.cedulaCliente = cedulaCliente;
 		this.numCliente = numCliente;
 		this.fecha = fecha;
 		this.pagoInicial = pagoInicial;
 		this.pagoMensual = pagoMensual;
-		this.pagoPendiente = pagoPendiente;
+		this.pagoPendiente = false;
 		this.misPlanes = new ArrayList<Plan>();
 		this.switch1 = "Activado";
 		this.codigo = codigo;
@@ -104,8 +103,6 @@ public class PlanAdquirido implements Serializable{
 	public String getCodigo() {
 		return codigo;
 	}
-
-
 
 	public boolean isFacGen() {
 		return facGen;
