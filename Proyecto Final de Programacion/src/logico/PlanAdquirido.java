@@ -11,7 +11,7 @@ public class PlanAdquirido implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String cedulaCliente;
 	private String numCliente;
-	private ArrayList<Plan> misPlanes;
+	private Plan plan;
 	private Date fecha;
 	private float pagoInicial;
 	private float pagoMensual;
@@ -22,7 +22,7 @@ public class PlanAdquirido implements Serializable{
 	private boolean PIniPend;
 	private boolean pagoPendiente;
 
-	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual, String codigo) {
+	public PlanAdquirido(String cedulaCliente, String numCliente, Date fecha, float pagoInicial, float pagoMensual, String codigo, Plan plan) {
 		super();
 		this.cedulaCliente = cedulaCliente;
 		this.numCliente = numCliente;
@@ -30,7 +30,7 @@ public class PlanAdquirido implements Serializable{
 		this.pagoInicial = pagoInicial;
 		this.pagoMensual = pagoMensual;
 		this.pagoPendiente = false;
-		this.misPlanes = new ArrayList<Plan>();
+		this.plan = plan;
 		this.switch1 = "Activado";
 		this.codigo = codigo;
 		this.facGen = false;
@@ -42,6 +42,18 @@ public class PlanAdquirido implements Serializable{
 	}
 
 
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	public float getPagoMensual() {
+		return pagoMensual;
+	}
+
 	public void setCedulaCliente(String cedulaCliente) {
 		this.cedulaCliente = cedulaCliente;
 	}
@@ -52,14 +64,6 @@ public class PlanAdquirido implements Serializable{
 
 	public void setNumCliente(String numCliente) {
 		this.numCliente = numCliente;
-	}
-
-	public ArrayList<Plan> getMisPlanes() {
-		return misPlanes;
-	}
-
-	public void setMisPlanes(ArrayList<Plan> misPlanes) {
-		this.misPlanes = misPlanes;
 	}
 
 	public Date getFecha() {
@@ -133,10 +137,5 @@ public class PlanAdquirido implements Serializable{
 		}
 		
 		return total;
-	}
-	
-	public void insertarPlan(Plan auxPlan) {
-		auxPlan.cantVentas = auxPlan.cantVentas + 1;
-		misPlanes.add(auxPlan);
 	}
 }

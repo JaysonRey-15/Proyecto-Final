@@ -457,19 +457,17 @@ public class AlticeSystem implements Serializable{
 	}
 
 	public void cantDineroPorPlan() {
+       float total = 0;
+       for(int i = 0; i < misFacturas.size(); i++) {
+    	   for(int j = 0; j < misPlanes.size(); j++) {
+    		   if(misFacturas.get(i).getMiPlanAd().getPlan().getNombre().equalsIgnoreCase(misPlanes.get(j).getNombre()) 
+    				   && misFacturas.get(i).getEstado().equalsIgnoreCase("Pagada")) {
+    			   total += misFacturas.get(i).getPago();
+    	           misPlanes.get(j).setDineroGenerado(total); 
+    		   }
+    	   }
+       }
 		
-		float total = 0;
-		for(int i = 0; i < misFacturas.size(); i++) {
-			for(int j = 0; j < misFacturas.get(i).getMiPlanAd().getMisPlanes().size(); j++) {
-				for(int k = 0; k < misPlanes.size(); k++) {
-					if(misPlanes.get(k).getNombre().equalsIgnoreCase(misFacturas.get(i).getMiPlanAd().getMisPlanes().get(j).getNombre()) 
-							&& misFacturas.get(i).getEstado().equalsIgnoreCase("Pagada")) {
-					   total += misFacturas.get(i).getPago();
-					   misPlanes.get(k).setDineroGenerado(total); 
-					}
-				}
-			}
-		}
 	}
 
 	public void supender(PlanAdquirido pl) {

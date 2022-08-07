@@ -397,10 +397,10 @@ public class AdquirirPlan extends JDialog {
 							}
 							
 							java.sql.Date date2 = new java.sql.Date(date1.getTime());
-							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText());
+							auxPlan.cantVentas = auxPlan.cantVentas + 1;
+							auxPlanAd = new PlanAdquirido(txtCedula.getText(), txtTelefono.getText(), date2, precio, auxPlan.getPrecioMensual(), txtCodigo.getText(), auxPlan);
 						
-							auxPlanAd.insertarPlan(auxPlan);
-							((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
+						    ((Cliente) auxPersona).insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().insertarPlanAd(auxPlanAd);
 							AlticeSystem.getInstance().addFactura((Cliente)auxPersona);
 							JOptionPane.showMessageDialog(null, "Operacion Exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);

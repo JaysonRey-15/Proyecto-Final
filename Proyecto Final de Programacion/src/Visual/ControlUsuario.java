@@ -672,7 +672,7 @@ public class ControlUsuario extends JDialog {
 			for(Factura fac: ((Cliente) cli).getMisFacturas()) {
 				row1[2]=fac.getFechaGen();
 				row1[0]=fac.getCodigo();
-				row1[1]=fac.getMiPlanAd().getMisPlanes().get(ind).getNombre();
+				row1[1]=fac.getMiPlanAd().getPlan().getNombre();
 				row1[3]=fac.getMiPlanAd().total();
 				row1[4]=fac.getFechaPagado();
 				row1[5]=fac.isEstado();
@@ -684,7 +684,7 @@ public class ControlUsuario extends JDialog {
 			for(Factura fac: AlticeSystem.getInstance().getMisFacturas()) {
 				row1[2]=fac.getFechaGen();
 				row1[0]=fac.getCodigo();
-				row1[1]=fac.getMiPlanAd().getMisPlanes().get(ind).getNombre();
+				row1[1]=fac.getMiPlanAd().getPlan().getNombre();
 				row1[3]=fac.getMiPlanAd().total();
 				row1[4]=fac.getFechaPagado();
 				row1[5]=fac.isEstado();
@@ -705,12 +705,11 @@ public class ControlUsuario extends JDialog {
 
 		if(cli != null) {
 			for(ind=0; ind<cli.getMisPlanesAd().size(); ind++) {
-				for(int i=0; i<cli.getMisPlanesAd().get(ind).getMisPlanes().size(); i++) {
-					row2[1] = cli.getMisPlanesAd().get(ind).getMisPlanes().get(i).getNombre();
-				}
-				row2[2]=cli.getMisPlanesAd().get(ind).getSwitch1();
-				row2[0]=cli.getMisPlanesAd().get(ind).getCodigo();
-				model2.addRow(row2);
+			
+			   row2[1] = cli.getMisPlanesAd().get(ind).getPlan().getNombre();
+			   row2[2]=cli.getMisPlanesAd().get(ind).getSwitch1();
+			   row2[0]=cli.getMisPlanesAd().get(ind).getCodigo();
+			   model2.addRow(row2);
 			}
 		}
 		else {

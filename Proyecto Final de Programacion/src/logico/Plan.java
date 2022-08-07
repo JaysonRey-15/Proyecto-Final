@@ -13,7 +13,7 @@ public class Plan implements Serializable{
 	private float precioInicial;
 	private float precioMensual;
     private float dineroGenerado;
-    int cantVentas = 0;
+    public int cantVentas = 0;
 
 	public Plan(String nombre, String cantCanales, String cantMinutos, String cantInternet,
 			float precioInicial, float precioMensual, String estado) {
